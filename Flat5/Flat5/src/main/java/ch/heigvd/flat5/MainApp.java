@@ -1,5 +1,7 @@
 package ch.heigvd.flat5;
 
+import ch.heigvd.flat5.api.sound.GetSoundInfoMP3;
+import ch.heigvd.flat5.api.sound.TrackInfos;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,11 @@ public class MainApp extends Application {
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
+        
+        //TEST API MUSIC
+        TrackInfos t = GetSoundInfoMP3.doIt("music/michaelJackson-beatIt.mp3");
+        System.out.println(t);
+        
     }
 
     /**
