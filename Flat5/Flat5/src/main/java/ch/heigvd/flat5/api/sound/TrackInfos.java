@@ -15,14 +15,16 @@ public class TrackInfos {
     public String title;
     public String album;
     public String cover;
+    public String fileExtension;
 
     public TrackInfos(String genre, String artist, 
-            String title, String album, String image) {
+            String title, String album, String image, String fileExtension) {
         this.genre = genre;
         this.artist = artist;
         this.title = title;
         this.album = album;
         this.cover = image;
+        this.fileExtension = fileExtension;
     } 
     
     public String toString(){

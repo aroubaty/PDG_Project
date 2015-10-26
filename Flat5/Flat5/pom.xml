@@ -111,18 +111,17 @@
             <version>3.9.0</version>
         </dependency>
         
-        <!-- read MP3 metadata -->
-        <dependency>
-            <groupId>com.mpatric</groupId>
-            <artifactId>mp3agic</artifactId>
-            <version>0.8.3</version>
-        </dependency>
         <!-- spotify API -->
         <dependency>
             <groupId>se.michaelthelin.spotify</groupId>
             <artifactId>spotify-web-api-java</artifactId>
             <version>1.5.0</version>
         </dependency>
-        
+        <!-- read file metadata -->
+        <dependency>
+            <groupId>org</groupId>
+            <artifactId>jaudiotagger</artifactId>
+            <version>2.0.3</version>
+        </dependency>
     </dependencies>
 </project>
