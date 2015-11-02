@@ -115,7 +115,8 @@
         <dependency>
             <groupId>se.michaelthelin.spotify</groupId>
             <artifactId>spotify-web-api-java</artifactId>
-            <version>1.5.0</version>
+            <version>1.4.22-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <!-- read file metadata -->
         <dependency>
