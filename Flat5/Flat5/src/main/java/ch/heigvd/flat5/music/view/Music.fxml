@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -7,17 +8,6 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.music.view.MusicController">
-   <bottom>
-      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" text="Previous" />
-            <Button mnemonicParsing="false" onAction="#handlePlayMusic" text="Play" />
-            <Button mnemonicParsing="false" onAction="#handlePauseMusic" text="Pause" />
-            <Button mnemonicParsing="false" text="Next" />
-            <Slider HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
-   </bottom>
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -55,4 +45,18 @@
         </tabs>
       </TabPane>
    </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" text="Previous" />
+            <Button mnemonicParsing="false" onAction="#handlePlayMusic" text="Play" />
+            <Button mnemonicParsing="false" onAction="#handlePauseMusic" text="Pause" />
+            <Button mnemonicParsing="false" text="Next" />
+            <Slider HBox.hgrow="ALWAYS" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
 </BorderPane>

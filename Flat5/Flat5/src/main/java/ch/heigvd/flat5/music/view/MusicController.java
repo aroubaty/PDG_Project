@@ -42,7 +42,7 @@ public class MusicController implements Initializable {
 
     private List<Music> musics = new ArrayList<>();
 
-    private static final String NATIVE_LIBRARY_SEARCH_PATH = "C:/Program Files/VideoLAN/test";
+    private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
 
     private AudioMediaPlayerComponent mediaPlayerComponent;
     private String actualPlayMusicPath = "";
