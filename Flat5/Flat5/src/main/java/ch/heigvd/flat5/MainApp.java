@@ -1,13 +1,14 @@
 package ch.heigvd.flat5;
 
-import ch.heigvd.flat5.api.sound.GetSoundInfoMP3;
-import ch.heigvd.flat5.api.sound.TrackInfos;
+import ch.heigvd.flat5.music.view.MusicController;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 
 public class MainApp extends Application {
@@ -23,9 +24,18 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
         
+        // Music view 
+        Stage musicStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
+        Parent musicPane = loader.load();
+        Scene musicScene = new Scene(musicPane);
+        musicStage.setScene(musicScene);
+        musicStage.show();
+        
         //TEST API MUSIC
-        TrackInfos t = GetSoundInfoMP3.doIt("music/michaelJackson-beatIt.mp3");
-        System.out.println(t);
+        /*TrackInfos t = GetSoundInfoMP3.doIt("music/michaelJackson-beatIt.mp3");
+        System.out.println(t);*/
         
     }
 
