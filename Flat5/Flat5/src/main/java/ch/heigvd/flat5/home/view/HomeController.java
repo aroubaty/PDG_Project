@@ -4,21 +4,29 @@ import ch.heigvd.flat5.root.view.RootController;
 import ch.heigvd.flat5.MainApp2;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Label;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 
 import java.io.File;
 import java.io.IOException;import java.lang.System;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Created by Simon on 09.11.2015.
  */
-public class HomeController {
+public class HomeController implements Initializable {
     // Reference to the main application.
     private MainApp2 mainApp;
     private BorderPane rootLayout;
+
+    @FXML
+    Label CurrentTitle;
 
 
     /**
@@ -37,7 +45,6 @@ public class HomeController {
             System.out.print(loader.getLocation());
             BorderPane personOverview = (BorderPane) loader.load();
             rootLayout.setCenter(personOverview);
-
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
             personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
@@ -94,5 +101,10 @@ public class HomeController {
     public BorderPane getRootLayout()
     {
         return rootLayout;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }
