@@ -10,7 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Anthony on 09.11.2015.
+ * Classe prennant en charge tout la partie TCP de la synchronisation
+ *
+ * @author Anthony
  */
 public class SyncManager {
     private final Logger log = Logger.getLogger(SyncManager.class.getName());
@@ -23,6 +25,13 @@ public class SyncManager {
     private BufferedReader in;
     private Worker worker;
 
+    /**
+     * Constructeur qui va lancer un serveur TCP (non bloquant)
+     * @param p
+     *          Port sur lequel le seveur va écouter
+     * @param handler
+     *          Interface qui va gère le commande sortante
+     */
     public SyncManager(int p, SyncHandler handler){
         this.port = p;
 
@@ -30,8 +39,18 @@ public class SyncManager {
             serverSocket = new ServerSocket(port);
             Socket clientSocket = null;
             log.log(Level.INFO, "[TCP][Server] Server start on " + port + " port");
-            log.log(Level.INFO, "[TCP][Server] Waiting for connection.....");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Permet de recevoir un client (bloquant)
+     */
+    public void accept(){
+        try {
+            log.log(Level.INFO, "[TCP][Server] Waiting for connection.....");
             socket = serverSocket.accept();
 
             log.log(Level.INFO, "[TCP][Server] Client come " + socket.getInetAddress().toString());
@@ -44,6 +63,9 @@ public class SyncManager {
         }
     }
 
+    /**
+     * Termine le processus serveur
+     */
     public void stop(){
         try {
             serverSocket.close();
@@ -53,6 +75,14 @@ public class SyncManager {
     }
 
     ///////////////////////////////// Client part /////////////////////////////////
+
+    /**
+     * Connection à un serveur
+     * @param ip
+     *          IP du serveur
+     * @param port
+     *          Port du serveur
+     */
     public void connect(String ip, int port){
         if(isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] ALREADY CONNECT");
@@ -77,10 +107,20 @@ public class SyncManager {
         }
     }
 
+    /**
+     * Contrôle si on a une connection ouverte
+     * @return
+     *      Si il y a une connection ouverte
+     */
     public boolean isConnected(){
         return (socket != null);
     }
 
+    /**
+     * Envoie au client le nom du média que l'on va lire
+     * @param mediaName
+     *          Nom du média
+     */
     public void begin(String mediaName){
         if(!isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] NOT CONNECTED");
@@ -91,6 +131,9 @@ public class SyncManager {
         out.println("begin-" + mediaName);
     }
 
+    /**
+     * Indique au client que l'on a cliqué sur pause
+     */
     public void pause(){
         if(!isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] NOT CONNECTED");
@@ -101,6 +144,11 @@ public class SyncManager {
         out.println("pause");
     }
 
+    /**
+     * Indique au client que l'on va commencer à lire à partir de N secondes
+     * @param second
+     *          Nombres de seconde
+     */
     public void playAt(int second){
         if(!isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] NOT CONNECTED");
@@ -111,6 +159,11 @@ public class SyncManager {
         out.println("playAt-" + second);
     }
 
+    /**
+     * Indique au client que l'on met le média à N secondes
+     * @param second
+     *          Nombres de seconde
+     */
     public void setAt(int second){
         if(!isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] NOT CONNECTED");
@@ -121,6 +174,9 @@ public class SyncManager {
         out.println("setAt-" + second);
     }
 
+    /**
+     * Termine la connection
+     */
     public void bye(){
         if(!isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] NOT CONNECTED");
@@ -142,12 +198,21 @@ public class SyncManager {
     }
     ///////////////////////////////////////////////////////////////////////////
 
-    //Thread who handle incomming request
+    /**
+     * Thread qui va traiter les commandes entrantes
+     */
     private class Worker implements Runnable {
         private Socket socket;
         private BufferedReader in;
         Thread t;
 
+        /**
+         * Constructeur de la classe
+         * @param socket
+         *          Socket du client
+         * @param in
+         *          Flux entrant (pour lire les commandes)
+         */
         public Worker(Socket socket, BufferedReader in){
             this.socket = socket;
             this.in = in;
