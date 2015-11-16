@@ -34,7 +34,7 @@ public class MainApp extends Application {
         musicStage.show();
         
         //TEST API MUSIC
-        /*TrackInfos t = GetSoundInfoMP3.doIt("music/michaelJackson-beatIt.mp3");
+        /*TrackInfos t = GetSoundInfo.doIt("music/michaelJackson-beatIt.mp3");
         System.out.println(t);*/
         
     }
