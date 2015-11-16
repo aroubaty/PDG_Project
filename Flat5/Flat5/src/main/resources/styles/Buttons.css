@@ -111,3 +111,7 @@
 .table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: -fx-focus-color;
 }
+.slider
+{
+    -fx-text-overrun: word-ellipsis;
+}

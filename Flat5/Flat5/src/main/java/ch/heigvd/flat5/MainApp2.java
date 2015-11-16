@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;import java.lang.Override;import java.lang.String;
 
 import ch.heigvd.flat5.home.view.HomeController;
+import ch.heigvd.flat5.root.view.RootController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ public class MainApp2 extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private FXMLLoader rootloader;
     //combinaison pour quiter (ctrl + Q)
     final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
     //combinaison pour mettre en fulscreen (alt + enter)
@@ -50,6 +52,7 @@ public class MainApp2 extends Application {
             //loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
             //loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
+            rootloader = loader;
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -86,9 +89,13 @@ public class MainApp2 extends Application {
             homeOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
             // Give the controller access to the main app.
-            HomeController controllerRoot = loader.getController();
-            //controllerRoot.setMainApp(this);
-            controllerRoot.setRootLayout(rootLayout);
+            HomeController homeController = loader.getController();
+            RootController rootController = rootloader.getController();
+            System.out.println("loader.getController(); " + rootloader.getController());
+            rootController.setMainApp(this);
+
+            //homeController.setMainApp(this);
+            homeController.setRootLayout(rootLayout);
 
         } catch (IOException e) {
             e.printStackTrace();
