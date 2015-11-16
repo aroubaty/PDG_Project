@@ -36,10 +36,6 @@ public class RootController {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
-
-            System.out.println(rootLayout);
-            System.out.println(loader);
-            System.out.print(loader.getLocation());
             BorderPane personOverview = (BorderPane) loader.load();
             rootLayout.setCenter(personOverview);
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -60,16 +56,26 @@ public class RootController {
             loader.setLocation(MainApp2.class.getResource("view/Home.fxml"));
             System.out.print(loader.getLocation());
             AnchorPane personOverview = (AnchorPane) loader.load();
-
-            System.out.println("Ceci pue la merde mainApp : " + mainApp);
-            System.out.println("Ceci pue la merde : " + rootLayout);
-            System.out.println("Ceci pue la merde v2 : " + personOverview);
             rootLayout.setCenter(personOverview);
-
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
             personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
         }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handlerFilm()
+    {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/Film.fxml").toURI().toURL());
+            BorderPane personOverview = (BorderPane) loader.load();
+            rootLayout.setCenter(personOverview);
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
