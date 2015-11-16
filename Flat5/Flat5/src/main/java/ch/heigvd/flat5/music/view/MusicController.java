@@ -6,6 +6,7 @@
 package ch.heigvd.flat5.music.view;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import ch.heigvd.flat5.music.model.Music;
-import com.sun.javafx.collections.ObservableListWrapper;
 import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,6 +24,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.audio.mp3.MP3File;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.TagException;
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
@@ -41,16 +49,22 @@ public class MusicController implements Initializable {
 
     @FXML
     TableView<Music> musicFiles;
-
     @FXML
     TableColumn<Music, String> title;
-
+    @FXML
+    TableColumn<Music, String> artist;
+    @FXML
+    TableColumn<Music, String> album;
+    @FXML
+    TableColumn<Music, String> genre;
+    @FXML
+    TableColumn<Music, String> year;
+    @FXML
+    TableColumn<Music, String> length;
     @FXML
     Label startTime;
-
     @FXML
     Label endTime;
-
     @FXML
     Slider positionBar;
 
@@ -60,6 +74,7 @@ public class MusicController implements Initializable {
 
     private AudioMediaPlayerComponent mediaPlayerComponent;
     private String actualPlayMusicPath = "";
+    private int actualRowIndex;
     private MediaPlayer player;
     private boolean timeChanging = false;
 
@@ -70,9 +85,32 @@ public class MusicController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         File dir = new File("src/main/resources/mp3");
         for (File file : dir.listFiles()) {
-            musics.add(new Music(file.getName(), file.getPath()));
+            MP3File mp3File = null;
+            try {
+                mp3File = (MP3File) AudioFileIO.read(file);
+            } catch (CannotReadException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TagException e) {
+                e.printStackTrace();
+            } catch (ReadOnlyFileException e) {
+                e.printStackTrace();
+            } catch (InvalidAudioFrameException e) {
+                e.printStackTrace();
+            }
+            Tag tag = mp3File.getTag();
+            musics.add(new Music(tag.getFirst(FieldKey.TITLE), tag.getFirst(FieldKey.ARTIST),
+                    tag.getFirst(FieldKey.ALBUM), tag.getFirst(FieldKey.GENRE), tag.getFirst(FieldKey.YEAR),
+                    mp3File.getMP3AudioHeader().getTrackLengthAsString(), file.getPath()));
         }
         title.setCellValueFactory(new PropertyValueFactory("title"));
+        artist.setCellValueFactory(new PropertyValueFactory("artist"));
+        album.setCellValueFactory(new PropertyValueFactory("album"));
+        genre.setCellValueFactory(new PropertyValueFactory("genre"));
+        year.setCellValueFactory(new PropertyValueFactory("year"));
+        length.setCellValueFactory(new PropertyValueFactory("length"));
+
         ObservableList<Music> test = FXCollections.observableArrayList(musics);
         musicFiles.setItems(test);
         musicFiles.setRowFactory(tv -> {
@@ -132,6 +170,7 @@ public class MusicController implements Initializable {
     }
 
     public void playMusic(String path) {
+        actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
         player.playMedia(path);
         actualPlayMusicPath = path;
     }
@@ -153,5 +192,19 @@ public class MusicController implements Initializable {
     @FXML
     public synchronized void handleStartPositionBar() {
         timeChanging = true;
+    }
+
+    @FXML
+    public void handleNextSong() {
+        musicFiles.getSelectionModel().select(actualRowIndex);
+        musicFiles.getSelectionModel().selectNext();
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
+    }
+
+    @FXML
+    public void handlePreviousSong() {
+        musicFiles.getSelectionModel().select(actualRowIndex);
+        musicFiles.getSelectionModel().selectPrevious();
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
     }
 }
