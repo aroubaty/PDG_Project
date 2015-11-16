@@ -1,0 +1,113 @@
+.root {
+    -fx-font-size: 16px;
+    -fx-background-image:url("../img/BG.png");
+}
+#rich-blue {
+    -fx-background-color: 
+        #000000,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+#rich-blue:hover{
+    -fx-background-color:
+    #000000,
+    linear-gradient(#7ebcea, #2f4b8f),
+    linear-gradient(#426ab7, #263e75),
+    linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: #dfdfdf;
+    -fx-font-size: 12px;
+    -fx-effect : innershadow( gaussian , rgba(0,0,0,255) , 10, 0.3 , 0 , 0);
+}
+#rich-blue Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
+.label {
+    -fx-font-size: 15pt;
+    -fx-font-family: "Arcon-Regular";
+    -fx-text-fill: white;
+    -fx-opacity: 0.6;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+    -fx-tab-min-width:100%;
+    -fx-tab-min-height:100%;
+    -fx-font: 25px Arcon-Regular;
+    -fx-border-style: none;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:100%;
+    -fx-tab-min-height:100%;
+    -fx-font-family: "Arcon-Regular";
+}
+
+.tab{
+
+}
+.tab-pane .tab
+{
+    -fx-background-color: #081828;
+    -fx-border-style: none;
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #0a2b4c;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 25px;
+    -fx-border-style: none;
+    -fx-font-family: "Arcon-Regular";
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #dbdbdb;
+}
+
+.table-view {
+    -fx-base: #1d1d1d;
+    -fx-control-inner-background: #081828;
+    -fx-background-color: #081828;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+    -fx-padding: 5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 35;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: transparent
+
+    -fx-border-insets: 0 10 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 20pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+    -fx-opacity: 1;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: -fx-focus-color;
+}
