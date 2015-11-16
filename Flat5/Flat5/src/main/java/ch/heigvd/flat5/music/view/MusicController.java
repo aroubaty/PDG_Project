@@ -24,6 +24,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
@@ -40,6 +42,8 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 // Problème avec le slider qui chope la mauvaise valeur sur le Slider lorsque la souris est lachée
 // Regarder les évennements .
 
+// ORGANISER LE CODE !!
+
 /**
  * FXML Controller class
  *
@@ -49,24 +53,36 @@ public class MusicController implements Initializable {
 
     @FXML
     TableView<Music> musicFiles;
+
     @FXML
     TableColumn<Music, String> title;
+
     @FXML
     TableColumn<Music, String> artist;
+
     @FXML
     TableColumn<Music, String> album;
+
     @FXML
     TableColumn<Music, String> genre;
+
     @FXML
     TableColumn<Music, String> year;
+
     @FXML
     TableColumn<Music, String> length;
+
     @FXML
     Label startTime;
+
     @FXML
     Label endTime;
+
     @FXML
     Slider positionBar;
+
+    @FXML
+    ImageView playPauseImage;
 
     private List<Music> musics = new ArrayList<>();
 
@@ -77,12 +93,19 @@ public class MusicController implements Initializable {
     private int actualRowIndex;
     private MediaPlayer player;
     private boolean timeChanging = false;
+    private Image playImage;
+    private Image pauseImage;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //System.out.println("Working Directory = " +
+                //System.getProperty("user.dir"));
+        ClassLoader cl = getClass().getClassLoader();
+        playImage = new Image(cl.getResourceAsStream("img/play.png"));
+        pauseImage = new Image(cl.getResourceAsStream("img/pause.png"));
         File dir = new File("src/main/resources/mp3");
         for (File file : dir.listFiles()) {
             MP3File mp3File = null;
@@ -144,9 +167,17 @@ public class MusicController implements Initializable {
             @Override
             public void playing(MediaPlayer mediaPlayer) {
                 Platform.runLater(() -> {
+                    playPauseImage.setImage(pauseImage);
                     DateFormat sdf = new SimpleDateFormat("m:ss");
                     endTime.setText(sdf.format(new Date(mediaPlayer.getLength())));
                     positionBar.setMax(mediaPlayer.getLength());
+                });
+            }
+
+            @Override
+            public void paused(MediaPlayer mediaPlayer) {
+                Platform.runLater(() -> {
+                    playPauseImage.setImage(playImage);
                 });
             }
 

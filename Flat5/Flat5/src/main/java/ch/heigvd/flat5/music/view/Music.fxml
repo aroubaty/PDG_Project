@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -8,62 +10,33 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="/styles/Buttons.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.music.view.MusicController">
-   <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="Genre">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TreeTableView prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TreeTableColumn prefWidth="75.0" text="C1" />
-                            <TreeTableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TreeTableView>
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Artiste">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-            <Tab text="Titre">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="musicFiles" layoutX="68.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn fx:id="title" editable="false" prefWidth="439.0" text="Titre" />
-                              <TableColumn fx:id="artist" prefWidth="75.0" text="Artiste" />
-                              <TableColumn fx:id="album" prefWidth="75.0" text="Album" />
-                              <TableColumn fx:id="genre" prefWidth="75.0" text="Genre" />
-                              <TableColumn fx:id="year" prefWidth="75.0" text="Année" />
-                              <TableColumn fx:id="length" prefWidth="75.0" text="Durée" />
-                          </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="Album">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-   </center>
    <bottom>
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#handlePreviousSong" text="Previous" />
-            <Button mnemonicParsing="false" onAction="#handlePlayPauseMusic" text="Play/Pause" />
-            <Button mnemonicParsing="false" onAction="#handleNextSong" text="Next" />
+            <Button minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handlePreviousSong" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../resources/img/prev.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button minHeight="42.0" minWidth="42.0" mnemonicParsing="false" onAction="#handlePlayPauseMusic" prefHeight="42.0" prefWidth="42.0" style="-fx-background-radius: 80 80 80 80;">
+               <graphic>
+                  <ImageView fx:id="playPauseImage" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../resources/img/play.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleNextSong" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../resources/img/next.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
             <GridPane HBox.hgrow="ALWAYS">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -74,9 +47,19 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Slider fx:id="positionBar" onDragDetected="#handleStartPositionBar" onMouseReleased="#handleMovePositionBar" prefHeight="14.0" prefWidth="166.0" GridPane.columnSpan="2" />
-                  <Label fx:id="startTime" text="0:00" GridPane.rowIndex="1" />
-                  <Label fx:id="endTime" text="0:00" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="2">
+                     <children>
+                        <Slider fx:id="positionBar" onDragDetected="#handleStartPositionBar" onMouseReleased="#handleMovePositionBar" prefHeight="25.0" prefWidth="166.0" />
+                     </children>
+                  </StackPane>
+                  <Label fx:id="startTime" text="0:00" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Label>
+                  <Label fx:id="endTime" text="0:00" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Label>
                </children>
             </GridPane>
          </children>
@@ -85,4 +68,23 @@
          </BorderPane.margin>
       </HBox>
    </bottom>
+   <center>
+    <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="musicFiles" layoutX="68.0" layoutY="14.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TableColumn fx:id="title" editable="false" prefWidth="439.0" text="Titre" />
+                  <TableColumn fx:id="artist" prefWidth="75.0" text="Artiste" />
+                  <TableColumn fx:id="album" prefWidth="75.0" text="Album" />
+                  <TableColumn fx:id="genre" prefWidth="75.0" text="Genre" />
+                  <TableColumn fx:id="year" prefWidth="75.0" text="Année" />
+                  <TableColumn fx:id="length" prefWidth="75.0" text="Durée" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>
