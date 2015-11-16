@@ -61,9 +61,9 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#handlePreviousSong" text="Previous" />
-            <Button mnemonicParsing="false" onAction="#handlePlayPauseMusic" text="Play/Pause" />
-            <Button mnemonicParsing="false" onAction="#handleNextSong" text="Next" />
+            <Button id="rich-blue" mnemonicParsing="false" onAction="#handlePreviousSong" text="Previous" />
+            <Button id="rich-blue" mnemonicParsing="false" onAction="#handlePlayPauseMusic" text="Play/Pause" />
+            <Button id="rich-blue" mnemonicParsing="false" onAction="#handleNextSong" text="Next" />
             <GridPane HBox.hgrow="ALWAYS">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

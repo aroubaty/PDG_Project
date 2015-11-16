@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 
+import java.io.File;
 import java.io.IOException;import java.lang.System;
 
 public class RootController {
@@ -34,14 +35,17 @@ public class RootController {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp2.class.getResource("../music/view/music.fxml"));
-            System.out.print(loader.getLocation());
-            AnchorPane personOverview = (AnchorPane) loader.load();
-            rootLayout.setCenter(personOverview);
+            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
 
+            System.out.println(rootLayout);
+            System.out.println(loader);
+            System.out.print(loader.getLocation());
+            BorderPane personOverview = (BorderPane) loader.load();
+            rootLayout.setCenter(personOverview);
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
-            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
+
+            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +69,6 @@ public class RootController {
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
             personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
-
         }catch (IOException e) {
             e.printStackTrace();
         }
