@@ -26,9 +26,9 @@ import org.jaudiotagger.tag.Tag;
  *
  * @author Anthony
  */
-public class GetSoundInfoMP3 {
+public class GetSoundInfo {
 
-    private GetSoundInfoMP3() {
+    private GetSoundInfo() {
     }
 
     //TODO get genre from API
@@ -70,7 +70,7 @@ public class GetSoundInfoMP3 {
             // ------------------------------------------
 
         } catch (Exception ex) {
-            Logger.getLogger("GetSoundInfoMP3").log(Level.SEVERE, null, ex);
+            Logger.getLogger("GetSoundInfo").log(Level.SEVERE, null, ex);
         }
 
         return null;
