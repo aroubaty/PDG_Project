@@ -69,7 +69,6 @@ public class RootController {
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
             personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
-
         }catch (IOException e) {
             e.printStackTrace();
         }
