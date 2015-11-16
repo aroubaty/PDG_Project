@@ -34,6 +34,7 @@ public class SyncManager {
      */
     public SyncManager(int p, SyncHandler handler){
         this.port = p;
+        this.handler = handler;
 
         try {
             serverSocket = new ServerSocket(port);
@@ -243,6 +244,7 @@ public class SyncManager {
                         handler.setAt(Integer.parseInt(command[1]));
                     } else if (command[0].equals("bye")) {
                         log.log(Level.INFO, "[TCP][Server] bye");
+                        handler.bye();
                         out.close();
                         in.close();
                         socket.close();
