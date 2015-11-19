@@ -29,7 +29,7 @@ public class MainApp2 extends Application {
     final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
     //combinaison pour mettre en fulscreen (alt + enter)
     final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
-    Vector vecPrev = new Vector();
+    Vector<FXMLLoader> vecPrev = new Vector();
     HomeController homeController;
     RootController rootController;
     private Stage primaryStage;
@@ -167,7 +167,7 @@ public class MainApp2 extends Application {
         this.rootLayout = rootLayout;
     }
 
-    public Vector getVecPrev() {
+    public Vector<FXMLLoader> getVecPrev() {
         return vecPrev;
     }
 }
