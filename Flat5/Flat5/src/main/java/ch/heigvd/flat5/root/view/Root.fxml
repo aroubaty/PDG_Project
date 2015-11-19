@@ -10,7 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="/styles/Buttons.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.root.view.RootController">
+<BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.root.view.RootController">
    <top>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
@@ -61,12 +61,21 @@
                           </ImageView>
                       </graphic>
                   </Button>
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerPrev" text="">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../resources/img/home.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
 
               </buttons>
             </ButtonBar>
          </top>
          <left>
-            <Label text="Home" BorderPane.alignment="CENTER" fx:id="CurrentTitle"/>
+            <Label fx:id="CurrentTitle" text="Home" BorderPane.alignment="CENTER" />
          </left>
       </BorderPane>
    </top>

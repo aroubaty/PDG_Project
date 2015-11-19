@@ -39,8 +39,7 @@ public class RootController {
             BorderPane personOverview = (BorderPane) loader.load();
             rootLayout.setCenter(personOverview);
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-
+            mainApp.getVecPrev().add(loader);
             personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
 
         } catch (IOException e) {
@@ -50,16 +49,17 @@ public class RootController {
     @FXML
     private void handleHomer()
     {
-        try{
+        try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp2.class.getResource("view/Home.fxml"));
-            System.out.print(loader.getLocation());
+            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
             AnchorPane personOverview = (AnchorPane) loader.load();
             rootLayout.setCenter(personOverview);
+            mainApp.getVecPrev().add(loader);
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
-        }catch (IOException e) {
+            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -72,6 +72,30 @@ public class RootController {
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/Film.fxml").toURI().toURL());
             BorderPane personOverview = (BorderPane) loader.load();
             rootLayout.setCenter(personOverview);
+            mainApp.getVecPrev().add(loader);
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handlerPrev()
+    {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(((FXMLLoader)mainApp.getVecPrev().lastElement()).getLocation());
+            for(int i = 0 ; i < mainApp.getVecPrev().size(); i++)
+            {
+                System.out.println(((FXMLLoader)mainApp.getVecPrev().get(i)).getLocation());
+            }
+            mainApp.getVecPrev().removeElementAt(mainApp.getVecPrev().size()-1);
+
+            BorderPane personOverview = (BorderPane) loader.load();
+            rootLayout.setCenter(personOverview);
+
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
             personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
 

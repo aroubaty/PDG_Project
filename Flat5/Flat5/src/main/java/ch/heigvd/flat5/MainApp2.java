@@ -1,7 +1,10 @@
 package ch.heigvd.flat5;
 
 import java.io.File;
-import java.io.IOException;import java.lang.Override;import java.lang.String;
+import java.io.IOException;
+import java.lang.Override;
+import java.lang.String;
+import java.util.Vector;
 
 import ch.heigvd.flat5.home.view.HomeController;
 import ch.heigvd.flat5.root.view.RootController;
@@ -22,22 +25,29 @@ import javafx.scene.input.KeyEvent;
 
 public class MainApp2 extends Application {
 
-    private Stage primaryStage;
-    private BorderPane rootLayout;
-    private FXMLLoader rootloader;
     //combinaison pour quiter (ctrl + Q)
     final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
     //combinaison pour mettre en fulscreen (alt + enter)
     final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
+    Vector vecPrev = new Vector();
+    HomeController homeController;
+    RootController rootController;
+    private Stage primaryStage;
+    private BorderPane rootLayout;
+    private FXMLLoader rootloader;
+    private FXMLLoader lastloader;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("AddressApp");
         primaryStage.setFullScreen(true);
+
         initRootLayout();
-
-
         loadRoot();
     }
 
@@ -48,10 +58,7 @@ public class MainApp2 extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            //loader.setLocation(MainApp2.class.getResource("root/view/Root.fxml"));
-            //loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
-            //loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
             rootloader = loader;
             rootLayout = (BorderPane) loader.load();
 
@@ -60,7 +67,7 @@ public class MainApp2 extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
             primaryStage.setFullScreen(true);
-            scene.getStylesheets().add("Buttons.css");
+            scene.getStylesheets().add("Styles.css");
             initKeyPressed(scene);
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,12 +96,17 @@ public class MainApp2 extends Application {
             homeOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
             // Give the controller access to the main app.
-            HomeController homeController = loader.getController();
-            RootController rootController = rootloader.getController();
+            homeController = loader.getController();
+            rootController = rootloader.getController();
+            vecPrev.add(loader);
+            for(int i = 0 ; i < vecPrev.size(); i++)
+            {
+                System.out.println(((FXMLLoader)vecPrev.get(i)).getLocation());
+            }
+
             System.out.println("loader.getController(); " + rootloader.getController());
             rootController.setMainApp(this);
-
-            //homeController.setMainApp(this);
+            homeController.setMainApp(this);
             homeController.setRootLayout(rootLayout);
 
         } catch (IOException e) {
@@ -104,18 +116,18 @@ public class MainApp2 extends Application {
 
     /**
      * Returns the main stage.
+     *
      * @return
      */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
-    public void initKeyPressed(Scene scene)
-    {
+    public void initKeyPressed(Scene scene) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(final KeyEvent keyEvent) {
                 if (quit.match(keyEvent)) {
@@ -129,7 +141,33 @@ public class MainApp2 extends Application {
             }
         });
     }
+
+    public FXMLLoader getLastloader() {
+
+        return lastloader;
+    }
+
+    public void setLastloader(FXMLLoader lastloader) {
+        this.lastloader = lastloader;
+    }
+
+    public FXMLLoader getRootloader() {
+        return rootloader;
+    }
+
+    public void setRootloader(FXMLLoader rootloader) {
+        this.rootloader = rootloader;
+    }
+
     public BorderPane getRootLayout() {
         return rootLayout;
+    }
+
+    public void setRootLayout(BorderPane rootLayout) {
+        this.rootLayout = rootLayout;
+    }
+
+    public Vector getVecPrev() {
+        return vecPrev;
     }
 }

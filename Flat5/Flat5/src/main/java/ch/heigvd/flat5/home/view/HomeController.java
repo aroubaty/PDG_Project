@@ -54,18 +54,13 @@ public class HomeController implements Initializable {
         }
     }
     @FXML
-    private void handleHomer()
+    private void handleHome()
     {
         try{
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp2.class.getResource("view/Home.fxml"));
-            System.out.print(loader.getLocation());
+            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
             AnchorPane personOverview = (AnchorPane) loader.load();
-
-            System.out.println("Ceci pue la merde mainApp : " + mainApp);
-            System.out.println("Ceci pue la merde : " + rootLayout);
-            System.out.println("Ceci pue la merde v2 : " + personOverview);
             rootLayout.setCenter(personOverview);
 
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -89,8 +84,6 @@ public class HomeController implements Initializable {
      */
     public void setMainApp(MainApp2 mainApp) {
         this.mainApp = mainApp;
-        System.out.println("yollloo");
-
         this.rootLayout = mainApp.getRootLayout();
         System.out.println(rootLayout);
     }
