@@ -14,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -82,7 +81,7 @@ public class MainApp2 extends Application {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
-            AnchorPane homeOverview = (AnchorPane) loader.load();
+            BorderPane homeOverview = loader.load();
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(homeOverview);
@@ -101,7 +100,7 @@ public class MainApp2 extends Application {
             vecPrev.add(loader);
             for(int i = 0 ; i < vecPrev.size(); i++)
             {
-                System.out.println(((FXMLLoader)vecPrev.get(i)).getLocation());
+                System.out.println((vecPrev.get(i)).getLocation());
             }
 
             System.out.println("loader.getController(); " + rootloader.getController());
@@ -119,13 +118,7 @@ public class MainApp2 extends Application {
      *
      * @return
      */
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
 
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
 
     public void initKeyPressed(Scene scene) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -140,6 +133,14 @@ public class MainApp2 extends Application {
                 }
             }
         });
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     public FXMLLoader getLastloader() {
@@ -169,5 +170,10 @@ public class MainApp2 extends Application {
 
     public Vector<FXMLLoader> getVecPrev() {
         return vecPrev;
+    }
+
+    public RootController getRootController()
+    {
+        return rootController;
     }
 }

@@ -1,14 +1,11 @@
 package ch.heigvd.flat5.home.view;
 
-import ch.heigvd.flat5.root.view.RootController;
 import ch.heigvd.flat5.MainApp2;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 
@@ -56,20 +53,7 @@ public class HomeController implements Initializable {
     @FXML
     private void handleHome()
     {
-        try{
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
-            AnchorPane personOverview = (AnchorPane) loader.load();
-            rootLayout.setCenter(personOverview);
-
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
-
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        mainApp.getRootController().handleHome();
     }
 
     @FXML

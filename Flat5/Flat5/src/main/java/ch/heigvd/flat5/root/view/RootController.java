@@ -15,6 +15,7 @@ import javafx.stage.Screen;
 import java.io.File;
 import java.io.IOException;
 import java.lang.System;
+import java.net.MalformedURLException;
 import java.util.Objects;
 
 public class RootController {
@@ -22,67 +23,38 @@ public class RootController {
     // Reference to the main application.
     private MainApp2 mainApp;
     private BorderPane rootLayout;
+    
 
-
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
-    public void RootOverviewController() {
-
+    @FXML
+    public void handleMusic() {
+        handlerGeneral("src/main/java/ch/heigvd/flat5/music/view/Music.fxml");
     }
 
     @FXML
-    private void handleMusic() {
+    public void handleHome() {
+        handlerGeneral("src/main/java/ch/heigvd/flat5/home/view/Home.fxml");
+    }
+
+    @FXML
+    public void handlerFilm() {
+        handlerGeneral("src/main/java/ch/heigvd/flat5/film/view/Film.fxml");
+    }
+
+    private void handlerGeneral(String filepath)
+    {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
+            loader.setLocation(new File(filepath).toURI().toURL());
             BorderPane personOverview = loader.load();
             rootLayout.setCenter(personOverview);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
-            if(!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString()))
+            if (!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString()))
                 mainApp.getVecPrev().add(loader);
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
             personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
-
-        } catch (IOException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void handleHomer() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
-            AnchorPane personOverview = loader.load();
-            rootLayout.setCenter(personOverview);
-
-            if(!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString()))
-                mainApp.getVecPrev().add(loader);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void handlerFilm() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/Film.fxml").toURI().toURL());
-            BorderPane personOverview =  loader.load();
-            rootLayout.setCenter(personOverview);
-
-            if(!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString()))
-                mainApp.getVecPrev().add(loader);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,8 +65,8 @@ public class RootController {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            if (!mainApp.getVecPrev().isEmpty()) {
-                loader.setLocation((mainApp.getVecPrev().lastElement()).getLocation());
+            if (mainApp.getVecPrev().size() > 1) {
+                loader.setLocation((mainApp.getVecPrev().get(mainApp.getVecPrev().size()-2)).getLocation());
                 for (int i = 0; i < mainApp.getVecPrev().size(); i++) {
                     System.out.println((mainApp.getVecPrev().get(i)).getLocation());
                 }
