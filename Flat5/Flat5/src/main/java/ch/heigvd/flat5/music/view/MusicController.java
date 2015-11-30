@@ -5,8 +5,6 @@
  */
 package ch.heigvd.flat5.music.view;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import ch.heigvd.flat5.music.model.Music;
+import ch.heigvd.flat5.music.model.util.MusicBrowser;
 import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -26,23 +24,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.audio.mp3.MP3File;
-import org.jaudiotagger.tag.FieldKey;
-import org.jaudiotagger.tag.Tag;
-import org.jaudiotagger.tag.TagException;
+import javafx.scene.layout.BorderPane;
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
-
-// Problème avec le slider qui chope la mauvaise valeur sur le Slider lorsque la souris est lachée
-// Regarder les évennements .
-
-// ORGANISER LE CODE !!
 
 /**
  * FXML Controller class
@@ -84,49 +70,41 @@ public class MusicController implements Initializable {
     @FXML
     ImageView playPauseImage;
 
+    @FXML
+    Label titleDisplay;
+
+    @FXML
+    Label artistDisplay;
+
+    @FXML
+    Label albumDisplay;
+
+    @FXML
+    ImageView coverDisplay;
+
     private List<Music> musics = new ArrayList<>();
-
-    private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
-
-    private AudioMediaPlayerComponent mediaPlayerComponent;
     private String actualPlayMusicPath = "";
     private int actualRowIndex;
+    private AudioMediaPlayerComponent playerComponent;
     private MediaPlayer player;
-    private boolean timeChanging = false;
     private Image playImage;
     private Image pauseImage;
+    private MusicBrowser musicBrowser;
+
+    private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //System.out.println("Working Directory = " +
-                //System.getProperty("user.dir"));
+
+        // Chargement des images pour les boutons
         ClassLoader cl = getClass().getClassLoader();
         playImage = new Image(cl.getResourceAsStream("img/play.png"));
         pauseImage = new Image(cl.getResourceAsStream("img/pause.png"));
-        File dir = new File("src/main/resources/mp3");
-        for (File file : dir.listFiles()) {
-            MP3File mp3File = null;
-            try {
-                mp3File = (MP3File) AudioFileIO.read(file);
-            } catch (CannotReadException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (TagException e) {
-                e.printStackTrace();
-            } catch (ReadOnlyFileException e) {
-                e.printStackTrace();
-            } catch (InvalidAudioFrameException e) {
-                e.printStackTrace();
-            }
-            Tag tag = mp3File.getTag();
-            musics.add(new Music(tag.getFirst(FieldKey.TITLE), tag.getFirst(FieldKey.ARTIST),
-                    tag.getFirst(FieldKey.ALBUM), tag.getFirst(FieldKey.GENRE), tag.getFirst(FieldKey.YEAR),
-                    mp3File.getMP3AudioHeader().getTrackLengthAsString(), file.getPath()));
-        }
+
+        // Configuration du contenu des colonnes de la TableView
         title.setCellValueFactory(new PropertyValueFactory("title"));
         artist.setCellValueFactory(new PropertyValueFactory("artist"));
         album.setCellValueFactory(new PropertyValueFactory("album"));
@@ -134,35 +112,34 @@ public class MusicController implements Initializable {
         year.setCellValueFactory(new PropertyValueFactory("year"));
         length.setCellValueFactory(new PropertyValueFactory("length"));
 
-        ObservableList<Music> test = FXCollections.observableArrayList(musics);
-        musicFiles.setItems(test);
+        // Récupérations des musiques
+        musicBrowser = new MusicBrowser(new String[]{".mp3", ".ogg", ".flac", ".wav"});
+        scanMusicFiles("src/main/resources/audio_files");
+
+        // Configuration de l'action du double-clique sur une musique
         musicFiles.setRowFactory(tv -> {
             TableRow<Music> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    String data = row.getItem().getPath();
+                    Music toPlay = row.getItem();
+                    String data = toPlay.getPath();
+                    titleDisplay.setText(toPlay.getTitle());
+                    artistDisplay.setText(toPlay.getArtist());
+                    albumDisplay.setText(toPlay.getAlbum());
+                    coverDisplay.setImage(toPlay.getCover());
                     playMusic(data);
                 }
             });
             return row;
         });
 
+        // Chargement de la librairie vlcj et création du lecteur vlcj
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), NATIVE_LIBRARY_SEARCH_PATH);
-        mediaPlayerComponent = new AudioMediaPlayerComponent();
-        player = mediaPlayerComponent.getMediaPlayer();
+        playerComponent = new AudioMediaPlayerComponent();
+        player = playerComponent.getMediaPlayer();
+
+        // Définition des actions sur l'interface lors des évènements du lecteur
         player.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
-
-            @Override
-            public void stopped(MediaPlayer mediaPlayer) {
-            }
-
-            @Override
-            public void finished(MediaPlayer mediaPlayer) {
-            }
-
-            @Override
-            public void error(MediaPlayer mediaPlayer) {
-            }
 
             @Override
             public void playing(MediaPlayer mediaPlayer) {
@@ -186,18 +163,19 @@ public class MusicController implements Initializable {
                 Platform.runLater(() -> {
                     DateFormat sdf = new SimpleDateFormat("m:ss");
                     startTime.setText(sdf.format(new Date(newTime)));
-                    synchronized (this) {
-                        if (!timeChanging)
-                            positionBar.setValue(newTime);
-                    }
+                    positionBar.setValue(newTime);
                 });
             }
         });
 
-        // Handle Slider value change events.
-        /*positionBar.valueProperty().addListener((observable, oldValue, newValue) -> {
-             player.setTime(newValue.longValue());
-        });*/
+        // Gestion du changement de valeur du slider
+        positionBar.valueProperty().addListener((observable, oldValue, newValue) -> {
+
+            // Détection d'un déplacement réalisé par un utilisateur et pas par l'avancement automatique
+            if ((double) newValue % 1 != 0) {
+                player.setTime(newValue.longValue());
+            }
+        });
     }
 
     private void playMusic(String path) {
@@ -206,23 +184,24 @@ public class MusicController implements Initializable {
         actualPlayMusicPath = path;
     }
 
+    public void exit() {
+        playerComponent.release();
+    }
+
+    public void scanMusicFiles(String path) {
+        musics = musicBrowser.getMusicsInFolder(path);
+
+        // Chargement des musiques dans la TableView
+        ObservableList<Music> test = FXCollections.observableArrayList(musics);
+        musicFiles.setItems(test);
+    }
+
     @FXML
     public void handlePlayPauseMusic() {
         if (player.isPlaying())
             player.pause();
         else
             player.play();
-    }
-
-    @FXML
-    public synchronized void handleMovePositionBar() {
-        player.setTime((long) positionBar.getValue());
-        timeChanging = false;
-    }
-
-    @FXML
-    public synchronized void handleStartPositionBar() {
-        timeChanging = true;
     }
 
     @FXML

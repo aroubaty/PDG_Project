@@ -3,6 +3,8 @@ package ch.heigvd.flat5;
 import ch.heigvd.flat5.music.view.MusicController;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,6 +33,10 @@ public class MainApp extends Application {
         Parent musicPane = loader.load();
         Scene musicScene = new Scene(musicPane);
         musicStage.setScene(musicScene);
+        musicStage.setMinHeight(350);
+        musicStage.setMinWidth(500);
+        MusicController controller = loader.getController();
+        musicStage.setOnCloseRequest(e -> controller.exit());
         musicStage.show();
         
         //TEST API MUSIC

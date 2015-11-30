@@ -32,10 +32,9 @@ public class GetSoundInfo {
     }
 
     //TODO get genre from API
-    public static TrackInfos doIt(String file) {
-        String songName = "NotFound";
+    public static TrackInfos doIt(File fileIO) {
+        String songName = null;
         try {
-            File fileIO = new File(file);
             //extension
             String ext = fileIO.getName().substring(
                     fileIO.getName().lastIndexOf('.') + 1);
@@ -45,7 +44,7 @@ public class GetSoundInfo {
             songName = tag.getFirst(FieldKey.TITLE);
 
         
-            if ("NotFound".equals(songName)) 
+            if (songName == null)
                 return null;
             
             // ------------------------------------------
