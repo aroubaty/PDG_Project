@@ -60,12 +60,13 @@ public class RootController {
                 loader2.setLocation(new File(filepath).toURI().toURL());
 
                 loader2.HomeLoader(homeController);
-                loader2.load();
+                //loader2.load();
                 loader2.setController(homeController);
                 loader2.setLocation(new File(filepath).toURI().toURL());
                 System.out.println(loader.getLocation());
-
+                loader2.load();
                 BorderPane reloader = loader2.getRoot();
+                homeController.setMainApp(mainApp);
                 rootLayout.setCenter(reloader);
 
             }

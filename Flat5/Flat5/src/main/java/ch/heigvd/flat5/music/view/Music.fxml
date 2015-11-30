@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="/styles/Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.music.view.MusicController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.music.view.MusicController">
    <center>
     <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -44,17 +44,17 @@
                   </ImageView>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="titleDisplay">
+                        <Label id="artiste" fx:id="titleDisplay" styleClass="titre" stylesheets="@../../../../../../resources/styles/Styles.css">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="artistDisplay">
+                        <Label id="text" fx:id="artistDisplay" styleClass="text" stylesheets="@../../../../../../../../../../../../../Documents/3em/PDG_Project/Flat5/Flat5/src/main/resources/styles/Styles.css">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="albumDisplay">
+                        <Label id="text" fx:id="albumDisplay" styleClass="text" stylesheets="@../../../../../../../../../../../../../Documents/3em/PDG_Project/Flat5/Flat5/src/main/resources/styles/Styles.css" textFill="WHITE">
                            <font>
                               <Font size="18.0" />
                            </font>

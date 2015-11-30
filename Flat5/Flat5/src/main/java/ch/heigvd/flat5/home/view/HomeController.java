@@ -2,16 +2,10 @@ package ch.heigvd.flat5.home.view;
 
 import ch.heigvd.flat5.MainApp2;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Screen;
 
-import java.io.File;
-import java.io.IOException;import java.lang.System;
+import java.lang.System;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,7 +27,7 @@ public class HomeController implements Initializable {
     @FXML
     private void handleMusic() {
         System.out.println("musoic : " + mainApp);
-       mainApp.getRootController().handleMusic();
+        mainApp.getRootController().handleMusic();
     }
     @FXML
     private void handleHome()
@@ -45,6 +39,8 @@ public class HomeController implements Initializable {
     private void initialize() {
 
     }
+
+
 
     /**
      * Is called by the main application to give a reference back to itself.
