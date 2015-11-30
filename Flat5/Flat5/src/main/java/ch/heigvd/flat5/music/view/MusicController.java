@@ -200,7 +200,7 @@ public class MusicController implements Initializable {
         });*/
     }
 
-    public void playMusic(String path) {
+    private void playMusic(String path) {
         actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
         player.playMedia(path);
         actualPlayMusicPath = path;

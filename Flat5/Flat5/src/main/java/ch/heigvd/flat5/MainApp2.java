@@ -25,25 +25,31 @@ import javafx.scene.input.KeyEvent;
 public class MainApp2 extends Application {
 
     //combinaison pour quiter (ctrl + Q)
-    final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
+    private final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
     //combinaison pour mettre en fulscreen (alt + enter)
-    final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
-    Vector<FXMLLoader> vecPrev = new Vector();
-    HomeController homeController;
-    RootController rootController;
+    private final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
+    private Vector<FXMLLoader> vecPrev = new Vector();
+    private HomeController homeController;
+    private RootController rootController;
     private Stage primaryStage;
     private BorderPane rootLayout;
     private FXMLLoader rootloader;
     private FXMLLoader lastloader;
 
+    public void MainApp()
+    {
+
+    }
+
     public static void main(String[] args) {
+        System.out.println("Boooooooooooooom");
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AddressApp");
+        this.primaryStage.setTitle("Flat5");
         primaryStage.setFullScreen(true);
 
         initRootLayout();
@@ -53,13 +59,13 @@ public class MainApp2 extends Application {
     /**
      * Initializes the root layout.
      */
-    public void initRootLayout() {
+    private void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
             rootloader = loader;
-            rootLayout = (BorderPane) loader.load();
+            rootLayout = loader.load();
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
@@ -76,7 +82,7 @@ public class MainApp2 extends Application {
     /**
      * Shows the person overview inside the root layout.
      */
-    public void loadRoot() {
+    private void loadRoot() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
@@ -120,7 +126,7 @@ public class MainApp2 extends Application {
      */
 
 
-    public void initKeyPressed(Scene scene) {
+    private void initKeyPressed(Scene scene) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(final KeyEvent keyEvent) {
                 if (quit.match(keyEvent)) {
@@ -175,5 +181,10 @@ public class MainApp2 extends Application {
     public RootController getRootController()
     {
         return rootController;
+    }
+
+    public HomeController getHomeController()
+    {
+        return homeController;
     }
 }
