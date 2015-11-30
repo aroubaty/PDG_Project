@@ -23,9 +23,20 @@ public class RootController {
 
     // Reference to the main application.
     private MainApp2 mainApp;
-    HomeController homeController;
     private BorderPane rootLayout;
+    private FXMLLoader music;
+    private FXMLLoader home;
+    private FXMLLoader film;
 
+    public RootController()
+    {
+        try {
+            music = new FXMLLoader();
+            music.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void handleMusic() {
@@ -52,7 +63,7 @@ public class RootController {
             BorderPane personOverview = loader.load();
 
 
-            if(loader.getController() instanceof HomeController) {
+            /*if(loader.getController() instanceof HomeController) {
                 System.out.println("fuxk my life : " + mainApp);
                 homeController = mainApp.getHomeController();
                 homeController.setMainApp(mainApp);
@@ -72,7 +83,8 @@ public class RootController {
             }
             else {
                 rootLayout.setCenter(personOverview);
-            }
+            }*/
+            rootLayout.setCenter(personOverview);
 
 
 
@@ -112,7 +124,7 @@ public class RootController {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize() throws MalformedURLException {
 
     }
 
