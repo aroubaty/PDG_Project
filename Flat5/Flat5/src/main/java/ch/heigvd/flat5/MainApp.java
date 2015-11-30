@@ -33,8 +33,8 @@ public class MainApp extends Application {
         Parent musicPane = loader.load();
         Scene musicScene = new Scene(musicPane);
         musicStage.setScene(musicScene);
-        musicStage.setMinHeight(350);
-        musicStage.setMinWidth(500);
+        musicStage.setMinHeight(500);
+        musicStage.setMinWidth(700);
         MusicController controller = loader.getController();
         musicStage.setOnCloseRequest(e -> controller.exit());
         musicStage.show();
