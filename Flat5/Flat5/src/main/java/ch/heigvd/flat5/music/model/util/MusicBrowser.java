@@ -51,56 +51,25 @@ public class MusicBrowser {
 
         for (File file : files) {
 
-            AudioFile audioFile = null;
-            try {
-                audioFile = (AudioFile) AudioFileIO.read(file);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Tag tag = audioFile.getTag(); // Récupération des tags ID3
-            TrackInfos trackInfos = GetSoundInfo.doIt(file); // Récupération des informations API Spotify
+            TrackInfos trackInfos = GetSoundInfo.doIt(file);
 
-            String title, artist, album, genre, year, length, pathFile;
-            Image cover = null;
-
-            DateFormat sdf = new SimpleDateFormat("m:ss");
-            length = sdf.format(new Date(audioFile.getAudioHeader().getTrackLength() * 1000));
-
-            if((title = tag.getFirst(FieldKey.TITLE)) == null) {
-                title = file.getName();
-                musics.add(new Music(title, file.getPath(), length));
-                continue;
+            Image imgCover;
+            if(trackInfos.urlCover != null) {
+                imgCover = new Image(trackInfos.urlCover);
+            } else {
+                ClassLoader cl = getClass().getClassLoader();
+                imgCover = new Image(cl.getResourceAsStream("img/no_cover.png"));
             }
-            if((artist = tag.getFirst(FieldKey.ARTIST)) == null) {
-                artist = trackInfos.artist;
-            }
-            if((album = tag.getFirst(FieldKey.ALBUM)) == null) {
-                album = trackInfos.album;
-            }
-            if((genre = tag.getFirst(FieldKey.GENRE)) == null) {
-                genre = trackInfos.genre; //TODO Not found yet dans le code à Anthony ???
-            }
-            if((year = tag.getFirst(FieldKey.YEAR)) == null) {
-                //artist = trackInfos.artist; //TODO Spotify API get year ??
-            }
-
-            if(trackInfos != null && trackInfos.cover != null) {
-                cover = new Image(trackInfos.cover);
-            }
-            //System.out.println("Cover : " + trackInfos.cover);
-
-
-            pathFile = file.getPath();
 
             musics.add(new Music(
-                    title,
-                    artist,
-                    album,
-                    genre,
-                    year,
-                    length,
-                    pathFile,
-                    cover
+                    trackInfos.title,
+                    trackInfos.artist,
+                    trackInfos.album,
+                    trackInfos.genre,
+                    trackInfos.year,
+                    trackInfos.length,
+                    file.getPath(),
+                    imgCover
             ));
         }
 

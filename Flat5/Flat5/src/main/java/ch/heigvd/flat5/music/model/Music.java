@@ -18,14 +18,6 @@ public class Music {
     private StringProperty length;
     private String path;
     private Image cover;
-    private ClassLoader cl = getClass().getClassLoader();
-
-    public Music(String title, String path, String length) {
-        this.title = new SimpleStringProperty(title);
-        this.path = path;
-        this.length = new SimpleStringProperty(length);
-        setNoCover();
-    }
 
     public Music(String title, String artist, String album, String genre, String year, String length, String path, Image cover) {
         this.title = new SimpleStringProperty(title);
@@ -36,14 +28,6 @@ public class Music {
         this.length = new SimpleStringProperty(length);
         this.path = path;
         this.cover = cover;
-        if(cover == null) {
-            setNoCover();
-        }
-    }
-
-    private void setNoCover() {
-        cover = new Image(cl.getResourceAsStream("img/no_cover.png"));
-        System.out.println(cover.getHeight());
     }
 
     public String getArtist() {
