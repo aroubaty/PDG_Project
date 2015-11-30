@@ -70,6 +70,18 @@ public class MusicController implements Initializable {
     @FXML
     ImageView playPauseImage;
 
+    @FXML
+    Label titleDisplay;
+
+    @FXML
+    Label artistDisplay;
+
+    @FXML
+    Label albumDisplay;
+
+    @FXML
+    ImageView coverDisplay;
+
     private List<Music> musics = new ArrayList<>();
     private String actualPlayMusicPath = "";
     private int actualRowIndex;
@@ -109,7 +121,12 @@ public class MusicController implements Initializable {
             TableRow<Music> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    String data = row.getItem().getPath();
+                    Music toPlay = row.getItem();
+                    String data = toPlay.getPath();
+                    titleDisplay.setText(toPlay.getTitle());
+                    artistDisplay.setText(toPlay.getArtist());
+                    albumDisplay.setText(toPlay.getAlbum());
+                    coverDisplay.setImage(toPlay.getCover());
                     playMusic(data);
                 }
             });

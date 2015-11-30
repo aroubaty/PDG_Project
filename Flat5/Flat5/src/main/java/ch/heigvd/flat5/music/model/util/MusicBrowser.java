@@ -1,6 +1,9 @@
 package ch.heigvd.flat5.music.model.util;
 
+import ch.heigvd.flat5.api.sound.GetSoundInfo;
+import ch.heigvd.flat5.api.sound.TrackInfos;
 import ch.heigvd.flat5.music.model.Music;
+import javafx.scene.image.Image;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -15,7 +18,10 @@ import org.jaudiotagger.tag.TagException;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,16 +50,58 @@ public class MusicBrowser {
         });
 
         for (File file : files) {
+
             AudioFile audioFile = null;
             try {
                 audioFile = (AudioFile) AudioFileIO.read(file);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Tag tag = audioFile.getTag();
-            musics.add(new Music(tag.getFirst(FieldKey.TITLE), tag.getFirst(FieldKey.ARTIST),
-                    tag.getFirst(FieldKey.ALBUM), tag.getFirst(FieldKey.GENRE), tag.getFirst(FieldKey.YEAR),
-                    String.valueOf(audioFile.getAudioHeader().getTrackLength()), file.getPath()));
+            Tag tag = audioFile.getTag(); // Récupération des tags ID3
+            TrackInfos trackInfos = GetSoundInfo.doIt(file); // Récupération des informations API Spotify
+
+            String title, artist, album, genre, year, length, pathFile;
+            Image cover = null;
+
+            DateFormat sdf = new SimpleDateFormat("m:ss");
+            length = sdf.format(new Date(audioFile.getAudioHeader().getTrackLength() * 1000));
+
+            if((title = tag.getFirst(FieldKey.TITLE)) == null) {
+                title = file.getName();
+                musics.add(new Music(title, file.getPath(), length));
+                continue;
+            }
+            if((artist = tag.getFirst(FieldKey.ARTIST)) == null) {
+                artist = trackInfos.artist;
+            }
+            if((album = tag.getFirst(FieldKey.ALBUM)) == null) {
+                album = trackInfos.album;
+            }
+            if((genre = tag.getFirst(FieldKey.GENRE)) == null) {
+                genre = trackInfos.genre; //TODO Not found yet dans le code à Anthony ???
+            }
+            if((year = tag.getFirst(FieldKey.YEAR)) == null) {
+                //artist = trackInfos.artist; //TODO Spotify API get year ??
+            }
+
+            if(trackInfos != null && trackInfos.cover != null) {
+                cover = new Image(trackInfos.cover);
+            }
+            //System.out.println("Cover : " + trackInfos.cover);
+
+
+            pathFile = file.getPath();
+
+            musics.add(new Music(
+                    title,
+                    artist,
+                    album,
+                    genre,
+                    year,
+                    length,
+                    pathFile,
+                    cover
+            ));
         }
 
         return musics;
