@@ -29,6 +29,7 @@ public class MainApp2 extends Application {
     //combinaison pour mettre en fulscreen (alt + enter)
     private final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
     private Vector<FXMLLoader> vecPrev = new Vector();
+    private Vector<BorderPane> vecPrevView = new Vector();
     private HomeController homeController;
     private RootController rootController;
     private Stage primaryStage;
@@ -104,6 +105,7 @@ public class MainApp2 extends Application {
             homeController = loader.getController();
             rootController = rootloader.getController();
             vecPrev.add(loader);
+            vecPrevView.add(homeOverview);
             for(int i = 0 ; i < vecPrev.size(); i++)
             {
                 System.out.println((vecPrev.get(i)).getLocation());
@@ -186,5 +188,13 @@ public class MainApp2 extends Application {
     public HomeController getHomeController()
     {
         return homeController;
+    }
+
+    public Vector<BorderPane> getVecPrevView() {
+        return vecPrevView;
+    }
+
+    public void setVecPrevView(Vector<BorderPane> vecPrevView) {
+        this.vecPrevView = vecPrevView;
     }
 }

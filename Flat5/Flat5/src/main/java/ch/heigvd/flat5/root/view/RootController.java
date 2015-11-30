@@ -24,103 +24,88 @@ public class RootController {
     // Reference to the main application.
     private MainApp2 mainApp;
     private BorderPane rootLayout;
-    private FXMLLoader music;
-    private FXMLLoader home;
-    private FXMLLoader film;
+    private static FXMLLoader music;
+    private static FXMLLoader home;
+    private static FXMLLoader film;
+
+    static BorderPane viewMusic;
+    static BorderPane viewHome;
+    static BorderPane viewFilm;
 
     public RootController()
     {
         try {
             music = new FXMLLoader();
             music.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @FXML
-    public void handleMusic() {
-        handlerGeneral("src/main/java/ch/heigvd/flat5/music/view/Music.fxml");
-    }
+            viewMusic = music.load();
 
-    @FXML
-    public void handleHome() {
-        handlerGeneral("src/main/java/ch/heigvd/flat5/home/view/Home.fxml");
-    }
+            home = new FXMLLoader();
+            home.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
+            viewHome = home.load();
 
-    @FXML
-    public void handlerFilm() {
-        handlerGeneral("src/main/java/ch/heigvd/flat5/film/view/Film.fxml");
-    }
-
-    private void handlerGeneral(String filepath)
-    {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File(filepath).toURI().toURL());
-
-            BorderPane personOverview = loader.load();
-
-
-            /*if(loader.getController() instanceof HomeController) {
-                System.out.println("fuxk my life : " + mainApp);
-                homeController = mainApp.getHomeController();
-                homeController.setMainApp(mainApp);
-                HomeLoader loader2 = new HomeLoader();
-                loader2.setLocation(new File(filepath).toURI().toURL());
-
-                loader2.HomeLoader(homeController);
-                //loader2.load();
-                loader2.setController(homeController);
-                loader2.setLocation(new File(filepath).toURI().toURL());
-                System.out.println(loader.getLocation());
-                loader2.load();
-                BorderPane reloader = loader2.getRoot();
-                homeController.setMainApp(mainApp);
-                rootLayout.setCenter(reloader);
-
-            }
-            else {
-                rootLayout.setCenter(personOverview);
-            }*/
-            rootLayout.setCenter(personOverview);
-
-
-
-            if (!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString()))
-                mainApp.getVecPrev().add(loader);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
+            film = new FXMLLoader();
+            film.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/Film.fxml").toURI().toURL());
+            viewFilm = film.load();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleMusic() throws IOException {
+        rootLayout.setCenter(viewMusic);
+        save(music, viewMusic);
+        //handlerGeneral("src/main/java/ch/heigvd/flat5/music/view/Music.fxml");
+    }
+
+    @FXML
+    public void handleHome() throws IOException {
+
+        rootLayout.setCenter(viewHome);
+        save(home, viewHome);
+    }
+
+    @FXML
+    public void handlerFilm()  throws IOException{
+        rootLayout.setCenter(viewFilm);
+        save(film, viewFilm);
+    }
+
+
+    private void save(FXMLLoader loader, BorderPane view)
+    {
+        if (!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString())) {
+            mainApp.getVecPrev().add(loader);
+            mainApp.getVecPrevView().add(view);
+        }
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        view.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
     }
 
     @FXML
     private void handlerPrev() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            if (mainApp.getVecPrev().size() > 1) {
-                loader.setLocation((mainApp.getVecPrev().get(mainApp.getVecPrev().size()-2)).getLocation());
-                for (int i = 0; i < mainApp.getVecPrev().size(); i++) {
-                    System.out.println((mainApp.getVecPrev().get(i)).getLocation());
-                }
-                mainApp.getVecPrev().removeElementAt(mainApp.getVecPrev().size() - 1);
-
-                BorderPane personOverview =  loader.load();
-                rootLayout.setCenter(personOverview);
-
-                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-                personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
+        // Load person overview.
+        FXMLLoader loader = new FXMLLoader();
+        BorderPane view ;
+        if (mainApp.getVecPrev().size() > 1) {
+            loader = mainApp.getVecPrev().get(mainApp.getVecPrev().size()-2);
+            view = mainApp.getVecPrevView().get(mainApp.getVecPrevView().size()-2);
+            //loader.setLocation((mainApp.getVecPrev().get(mainApp.getVecPrev().size()-2)).getLocation());
+            for (int i = 0; i < mainApp.getVecPrev().size(); i++) {
+                System.out.println((mainApp.getVecPrev().get(i)).getLocation());
             }
+            mainApp.getVecPrev().removeElementAt(mainApp.getVecPrev().size() - 1);
+            mainApp.getVecPrevView().removeElementAt(mainApp.getVecPrevView().size() - 1);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            rootLayout.setCenter(view);
+
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            view.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
         }
+
     }
 
     @FXML

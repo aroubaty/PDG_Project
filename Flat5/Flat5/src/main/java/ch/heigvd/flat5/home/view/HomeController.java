@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.lang.System;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,18 +21,17 @@ public class HomeController implements Initializable {
 
 
     @FXML
-    private void handleFilm() {
+    private void handleFilm() throws IOException {
         mainApp.getRootController().handlerFilm();
     }
 
     @FXML
-    private void handleMusic() {
+    private void handleMusic() throws IOException {
         System.out.println("musoic : " + mainApp);
         mainApp.getRootController().handleMusic();
     }
     @FXML
-    private void handleHome()
-    {
+    private void handleHome() throws IOException {
         mainApp.getRootController().handleHome();
     }
 
