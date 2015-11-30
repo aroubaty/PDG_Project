@@ -2,6 +2,7 @@ package ch.heigvd.flat5.root.view;
 
 
 import ch.heigvd.flat5.MainApp2;
+import ch.heigvd.flat5.home.view.HomeController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -22,8 +23,9 @@ public class RootController {
 
     // Reference to the main application.
     private MainApp2 mainApp;
+    HomeController homeController;
     private BorderPane rootLayout;
-    
+
 
     @FXML
     public void handleMusic() {
@@ -46,8 +48,32 @@ public class RootController {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new File(filepath).toURI().toURL());
+
             BorderPane personOverview = loader.load();
-            rootLayout.setCenter(personOverview);
+
+
+            if(loader.getController() instanceof HomeController) {
+                System.out.println("fuxk my life : " + mainApp);
+                homeController = mainApp.getHomeController();
+                homeController.setMainApp(mainApp);
+                HomeLoader loader2 = new HomeLoader();
+                loader2.setLocation(new File(filepath).toURI().toURL());
+
+                loader2.HomeLoader(homeController);
+                loader2.load();
+                loader2.setController(homeController);
+                loader2.setLocation(new File(filepath).toURI().toURL());
+                System.out.println(loader.getLocation());
+
+                BorderPane reloader = loader2.getRoot();
+                rootLayout.setCenter(reloader);
+
+            }
+            else {
+                rootLayout.setCenter(personOverview);
+            }
+
+
 
             if (!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString()))
                 mainApp.getVecPrev().add(loader);

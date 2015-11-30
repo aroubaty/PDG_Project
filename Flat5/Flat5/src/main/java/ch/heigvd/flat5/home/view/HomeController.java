@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
@@ -22,33 +23,17 @@ public class HomeController implements Initializable {
     private MainApp2 mainApp;
     private BorderPane rootLayout;
 
+
+
     @FXML
-    Label CurrentTitle;
-
-
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
-    public void HomeOverviewController() {
-
+    private void handleFilm() {
+        mainApp.getRootController().handlerFilm();
     }
+
     @FXML
     private void handleMusic() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
-            System.out.print(loader.getLocation());
-            BorderPane personOverview = (BorderPane) loader.load();
-            rootLayout.setCenter(personOverview);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-            personOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()-200);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("musoic : " + mainApp);
+       mainApp.getRootController().handleMusic();
     }
     @FXML
     private void handleHome()
@@ -69,7 +54,8 @@ public class HomeController implements Initializable {
     public void setMainApp(MainApp2 mainApp) {
         this.mainApp = mainApp;
         this.rootLayout = mainApp.getRootLayout();
-        System.out.println(rootLayout);
+        System.out.println("inthisshit "+  this.mainApp);
+
     }
     public void setRootLayout(BorderPane rootLayout)
     {
@@ -82,6 +68,6 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        System.out.println("init");;
     }
 }
