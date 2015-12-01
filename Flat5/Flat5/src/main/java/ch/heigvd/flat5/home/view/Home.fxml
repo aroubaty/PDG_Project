@@ -8,7 +8,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-
 <BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.home.view.HomeController">
    <center>
       <AnchorPane fx:id="mainFram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
@@ -26,7 +25,7 @@
                                    </ImageView>
                                </graphic>
                            </Button>
-                           <Button id="rich-blue" mnemonicParsing="false" prefHeight="200.0" prefWidth="222.0" text="">
+                           <Button id="rich-blue" mnemonicParsing="false" onAction="#handleFilm" prefHeight="200.0" prefWidth="222.0" text="">
                                <graphic>
                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                        <image>

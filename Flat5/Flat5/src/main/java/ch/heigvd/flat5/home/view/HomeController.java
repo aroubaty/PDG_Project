@@ -39,9 +39,6 @@ public class HomeController implements Initializable {
     private void initialize() {
 
     }
-
-
-
     /**
      * Is called by the main application to give a reference back to itself.
      *

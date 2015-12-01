@@ -28,9 +28,9 @@ public class RootController {
     private static FXMLLoader home;
     private static FXMLLoader film;
 
-    static BorderPane viewMusic;
-    static BorderPane viewHome;
-    static BorderPane viewFilm;
+    private static BorderPane viewMusic;
+    private static BorderPane viewHome;
+    private static BorderPane viewFilm;
 
     public RootController()
     {
@@ -53,63 +53,65 @@ public class RootController {
             e.printStackTrace();
         }
     }
-
+    /**
+     *
+     * fonction appelé quant nous cliquons sur le bouton "Music"
+     */
     @FXML
-    public void handleMusic() throws IOException {
+    public void handleMusic() {
         rootLayout.setCenter(viewMusic);
-        save(music, viewMusic);
-        //handlerGeneral("src/main/java/ch/heigvd/flat5/music/view/Music.fxml");
+        save(viewMusic);
     }
-
+    /**
+     *
+     * fonction appelé quant nous cliquons sur le bouton "Home"
+     */
     @FXML
-    public void handleHome() throws IOException {
-
+    public void handleHome() {
         rootLayout.setCenter(viewHome);
-        save(home, viewHome);
+        ((HomeController)home.getController()).setMainApp(mainApp);
+        save(viewHome);
     }
 
+    /**
+     *
+     * fonction appelé quant nous cliquons sur le bouton "Film"
+     */
     @FXML
-    public void handlerFilm()  throws IOException{
+    public void handlerFilm() {
         rootLayout.setCenter(viewFilm);
-        save(film, viewFilm);
+        save(viewFilm);
     }
 
-
-    private void save(FXMLLoader loader, BorderPane view)
+    /**
+     *
+     * fonction sauvegardant la dernière vue rendue
+     * @param view
+     */
+    private void save(BorderPane view)
     {
-        if (!Objects.equals(mainApp.getVecPrev().lastElement().getLocation().toString(), loader.getLocation().toString())) {
-            mainApp.getVecPrev().add(loader);
+        if (!Objects.equals(mainApp.getVecPrevView().lastElement(), view)) {
             mainApp.getVecPrevView().add(view);
         }
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         view.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
     }
 
+    /**
+     *
+     * fonction appelé quand nous cliquons sur le bouton précédent
+     * @param
+     */
     @FXML
     private void handlerPrev() {
-        // Load person overview.
-        FXMLLoader loader = new FXMLLoader();
         BorderPane view ;
-        if (mainApp.getVecPrev().size() > 1) {
-            loader = mainApp.getVecPrev().get(mainApp.getVecPrev().size()-2);
+        if (mainApp.getVecPrevView().size() > 1) {
             view = mainApp.getVecPrevView().get(mainApp.getVecPrevView().size()-2);
-            //loader.setLocation((mainApp.getVecPrev().get(mainApp.getVecPrev().size()-2)).getLocation());
-            for (int i = 0; i < mainApp.getVecPrev().size(); i++) {
-                System.out.println((mainApp.getVecPrev().get(i)).getLocation());
-            }
-            mainApp.getVecPrev().removeElementAt(mainApp.getVecPrev().size() - 1);
             mainApp.getVecPrevView().removeElementAt(mainApp.getVecPrevView().size() - 1);
-
             rootLayout.setCenter(view);
-
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
             view.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight() - 200);
         }
-
-    }
-
-    @FXML
-    private void initialize() throws MalformedURLException {
 
     }
 
@@ -124,13 +126,5 @@ public class RootController {
 
         this.rootLayout = mainApp.getRootLayout();
         System.out.println(rootLayout);
-    }
-
-    public BorderPane getRootLayout() {
-        return rootLayout;
-    }
-
-    public void setRootLayout(BorderPane rootLayout) {
-        this.rootLayout = rootLayout;
     }
 }

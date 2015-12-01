@@ -28,22 +28,17 @@ public class MainApp2 extends Application {
     private final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
     //combinaison pour mettre en fulscreen (alt + enter)
     private final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
-    private Vector<FXMLLoader> vecPrev = new Vector();
+
+    //vecteur utilisé pour l'utilisation du bouton prcédent
     private Vector<BorderPane> vecPrevView = new Vector();
     private HomeController homeController;
     private RootController rootController;
     private Stage primaryStage;
     private BorderPane rootLayout;
     private FXMLLoader rootloader;
-    private FXMLLoader lastloader;
 
-    public void MainApp()
-    {
-
-    }
 
     public static void main(String[] args) {
-        System.out.println("Boooooooooooooom");
         launch(args);
     }
 
@@ -82,6 +77,8 @@ public class MainApp2 extends Application {
 
     /**
      * Shows the person overview inside the root layout.
+     * @param
+     *
      */
     private void loadRoot() {
         try {
@@ -104,12 +101,7 @@ public class MainApp2 extends Application {
             // Give the controller access to the main app.
             homeController = loader.getController();
             rootController = rootloader.getController();
-            vecPrev.add(loader);
             vecPrevView.add(homeOverview);
-            for(int i = 0 ; i < vecPrev.size(); i++)
-            {
-                System.out.println((vecPrev.get(i)).getLocation());
-            }
 
             System.out.println("loader.getController(); " + rootloader.getController());
             rootController.setMainApp(this);
@@ -122,79 +114,49 @@ public class MainApp2 extends Application {
     }
 
     /**
-     * Returns the main stage.
      *
-     * @return
+     * Permet de mettre l'application en full screen et de la quitter via raccourcis
+     * @param scene
      */
-
-
     private void initKeyPressed(Scene scene) {
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            public void handle(final KeyEvent keyEvent) {
-                if (quit.match(keyEvent)) {
-                    primaryStage.close();
-                    keyEvent.consume();
-                }
-                if (fullScreen.match(keyEvent)) {
-                    primaryStage.setFullScreen(true);
-                    keyEvent.consume();
-                }
+        scene.setOnKeyPressed(keyEvent -> {
+            if (quit.match(keyEvent)) {
+                primaryStage.close();
+                keyEvent.consume();
+            }
+            if (fullScreen.match(keyEvent)) {
+                primaryStage.setFullScreen(true);
+                keyEvent.consume();
             }
         });
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
-    public FXMLLoader getLastloader() {
-
-        return lastloader;
-    }
-
-    public void setLastloader(FXMLLoader lastloader) {
-        this.lastloader = lastloader;
-    }
-
-    public FXMLLoader getRootloader() {
-        return rootloader;
-    }
-
-    public void setRootloader(FXMLLoader rootloader) {
-        this.rootloader = rootloader;
-    }
-
+    /**
+     *
+     * Recupère le layout de root
+     * @return rootLayout
+     */
     public BorderPane getRootLayout() {
         return rootLayout;
     }
 
-    public void setRootLayout(BorderPane rootLayout) {
-        this.rootLayout = rootLayout;
-    }
-
-    public Vector<FXMLLoader> getVecPrev() {
-        return vecPrev;
-    }
-
+    /**
+     *
+     * Recupère le controlleur du rootlayout
+     * @return rootController
+     */
     public RootController getRootController()
     {
         return rootController;
     }
 
-    public HomeController getHomeController()
-    {
-        return homeController;
-    }
-
+    /**
+     *
+     *  permet de recuprer les vector qui contient les vue precedement ouverte
+     * @return vecPrevView
+     */
     public Vector<BorderPane> getVecPrevView() {
         return vecPrevView;
     }
 
-    public void setVecPrevView(Vector<BorderPane> vecPrevView) {
-        this.vecPrevView = vecPrevView;
-    }
 }
