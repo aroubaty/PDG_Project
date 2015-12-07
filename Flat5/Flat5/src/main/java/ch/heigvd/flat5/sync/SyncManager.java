@@ -160,7 +160,7 @@ public class SyncManager {
         }
 
         log.log(Level.INFO, "[TCP][Client] begin : " + mediaName);
-        out.println("begin-" + mediaName);
+        out.println("begin#@" + mediaName);
     }
 
     /**
@@ -201,7 +201,7 @@ public class SyncManager {
         }
 
         log.log(Level.INFO, "[TCP][Client] setAt : " + second);
-        out.println("setAt-" + second);
+        out.println("setAt#@" + second);
     }
 
     /**
@@ -257,7 +257,7 @@ public class SyncManager {
                 while ((inputLine = in.readLine()) != null) {
                     log.log(Level.INFO, "[TCP][Server] Receives : " + inputLine);
 
-                    String[] command = inputLine.split("-");
+                    String[] command = inputLine.split("#@");
 
                     if (command[0].equals("begin")) {
                         log.log(Level.INFO, "[TCP][Server] begin : " + command[1]);
