@@ -18,7 +18,7 @@ public class MusicSyncHandler implements SyncHandler {
 
     @Override
     public void begin(String mediaName) {
-        controller.playMusic(AppConfig.MUSIC_DIRECTORY + "/" + mediaName, false);
+        controller.playMusic(mediaName, false);
     }
 
     @Override
