@@ -15,6 +15,28 @@ import java.util.logging.Logger;
  * @author Anthony
  */
 public class SyncManager {
+    private static SyncManager instance;
+
+    /**
+     * Création de l'instance du singleton
+     * @param p
+     *          Port sur lequel le seveur va écouter
+     * @param handler
+     *          Interface qui va gère le commande sortante
+     */
+    public static void createInstance(int p, SyncHandler handler){
+        instance = new SyncManager(p, handler);
+    }
+
+    /**
+     * Retourne l'instance du singleton
+     * @return
+     *          instance du singleton
+     */
+    public static SyncManager getInstance(){
+        return instance;
+    }
+
     private final Logger log = Logger.getLogger(SyncManager.class.getName());
     private int port;
     private SyncHandler handler;
@@ -32,7 +54,7 @@ public class SyncManager {
      * @param handler
      *          Interface qui va gère le commande sortante
      */
-    public SyncManager(int p, SyncHandler handler){
+    private SyncManager(int p, SyncHandler handler){
         this.port = p;
         this.handler = handler;
 
@@ -44,6 +66,15 @@ public class SyncManager {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Permet de changer le handler en fonction du lecteur utilisé
+     * @param handler
+     *          Nouveau handler
+     */
+    public void setHandler(SyncHandler handler){
+        this.handler = handler;
     }
 
     /**

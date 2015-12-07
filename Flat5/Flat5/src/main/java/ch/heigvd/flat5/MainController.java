@@ -24,11 +24,7 @@ public class MainController {
 
         //Initialisation de la partie TCP
         //TODO syncHandler
-        syncManager = new SyncManager(AppConfig.DEFAULT_PORT, null);
-
-        //Initialisation de la bibliothèque
-        List<String> allMusics = FileLister.fromDirectory(AppConfig.MUSIC_DIRECTORY);
-        List<String> allFilms = FileLister.fromDirectory(AppConfig.FILM_DIRECTORY);
+        SyncManager.createInstance(AppConfig.DEFAULT_PORT, null);
 
     }
 }

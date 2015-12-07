@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.music.model.util.MusicBrowser;
 import com.sun.jna.NativeLibrary;
@@ -113,8 +115,8 @@ public class MusicController implements Initializable {
         length.setCellValueFactory(new PropertyValueFactory("length"));
 
         // Récupérations des musiques
-        musicBrowser = new MusicBrowser(new String[]{".mp3", ".ogg", ".flac", ".wav"});
-        scanMusicFiles("src/main/resources/audio_files");
+        musicBrowser = new MusicBrowser(AppConfig.EXTS_SUPPORT);
+        scanMusicFiles(AppConfig.MUSIC_DIRECTORY);
 
         // Configuration de l'action du double-clique sur une musique
         musicFiles.setRowFactory(tv -> {
