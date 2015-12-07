@@ -42,8 +42,8 @@
                         <Image url="@../../../../../../resources/img/no_cover.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btnConnect" mnemonicParsing="false" text="Connect" />
-                  <Button fx:id="btnAccept" mnemonicParsing="false" text="Accept" />
+                  <Button fx:id="btnConnect" mnemonicParsing="false" text="Connect" onAction="#handleConnect"/>
+                  <Button fx:id="btnAccept" mnemonicParsing="false" text="Accept" onAction="#handleAccept"/>
                   <Label fx:id="lblDebug" text="Label" />
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>

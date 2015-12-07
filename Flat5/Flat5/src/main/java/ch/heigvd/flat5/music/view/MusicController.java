@@ -223,4 +223,16 @@ public class MusicController implements Initializable {
         musicFiles.getSelectionModel().selectPrevious();
         playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
+
+    @FXML
+    public void handleConnect(){
+        syncManager.connect("10.192.91.71", AppConfig.DEFAULT_PORT);
+        lblDebug.setText("Status : connect");
+    }
+
+    @FXML
+    public void handleAccept(){
+        syncManager.accept();
+        lblDebug.setText("Status : connect");
+    }
 }
