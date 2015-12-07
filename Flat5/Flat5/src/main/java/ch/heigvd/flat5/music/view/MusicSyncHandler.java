@@ -9,31 +9,29 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
  */
 public class MusicSyncHandler implements SyncHandler {
     private MusicController controller;
-    private MediaPlayer player;
 
     public MusicSyncHandler(MusicController controller) {
         this.controller = controller;
-        player = controller.getPlayer();
     }
 
     @Override
     public void begin(String mediaName) {
-        controller.playMusic(AppConfig.MUSIC_DIRECTORY + "/" + mediaName, false);
+        controller.playMusic(mediaName, false);
     }
 
     @Override
     public void pause() {
-        player.pause();
+        controller.getPlayer().pause();
     }
 
     @Override
     public void play() {
-        player.play();
+        controller.getPlayer().play();
     }
 
     @Override
     public void setAt(int second) {
-        player.setTime(second * 1000);
+        controller.getPlayer().setTime(second * 1000);
     }
 
     @Override
