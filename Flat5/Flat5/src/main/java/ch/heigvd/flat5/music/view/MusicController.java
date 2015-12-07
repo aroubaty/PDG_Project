@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.music.model.util.MusicBrowser;
+import ch.heigvd.flat5.sync.SyncHandler;
+import ch.heigvd.flat5.sync.SyncManager;
 import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -67,6 +69,11 @@ public class MusicController implements Initializable {
     private Image pauseImage;
     private MusicBrowser musicBrowser;
 
+    //Sync part
+    private SyncManager syncManager;
+    private SyncHandler handler;
+
+
     private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
 
     /**
@@ -74,6 +81,11 @@ public class MusicController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Sync part
+        handler = new MusicSyncHandler(this);
+        syncManager = SyncManager.getInstance();
+        syncManager.setHandler(handler);
+
 
         // Chargement des images pour les boutons
         ClassLoader cl = getClass().getClassLoader();
@@ -103,7 +115,7 @@ public class MusicController implements Initializable {
                     artistDisplay.setText(toPlay.getArtist());
                     albumDisplay.setText(toPlay.getAlbum());
                     coverDisplay.setImage(toPlay.getCover());
-                    playMusic(data);
+                    playMusic(data, true);
                 }
             });
             return row;
@@ -150,11 +162,17 @@ public class MusicController implements Initializable {
             // Détection d'un déplacement réalisé par un utilisateur et pas par l'avancement automatique
             if ((double) newValue % 1 != 0) {
                 player.setTime(newValue.longValue());
+                syncManager.setAt((int)(newValue.longValue() / 1000.0));
             }
         });
     }
 
-    private void playMusic(String path) {
+    public void playMusic(String path, boolean notifie) {
+        if(notifie){
+            String[] split = path.split("/");
+            syncManager.begin(split[split.length -1]);
+        }
+
         actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
         player.playMedia(path);
         actualPlayMusicPath = path;
@@ -172,25 +190,37 @@ public class MusicController implements Initializable {
         musicFiles.setItems(test);
     }
 
+    public MediaPlayer getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(MediaPlayer player) {
+        this.player = player;
+    }
+
     @FXML
     public void handlePlayPauseMusic() {
-        if (player.isPlaying())
+        if (player.isPlaying()) {
             player.pause();
-        else
+            syncManager.pause();
+        }
+        else {
             player.play();
+            syncManager.play();
+        }
     }
 
     @FXML
     public void handleNextSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectNext();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 
     @FXML
     public void handlePreviousSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectPrevious();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 }

@@ -177,18 +177,16 @@ public class SyncManager {
     }
 
     /**
-     * Indique au client que l'on va commencer à lire à partir de N secondes
-     * @param second
-     *          Nombres de seconde
+     * Indique au client que l'on a cliqué sur play
      */
-    public void playAt(int second){
+    public void play(){
         if(!isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] NOT CONNECTED");
             return ;
         }
 
-        log.log(Level.INFO, "[TCP][Client] playAt : " + second);
-        out.println("playAt-" + second);
+        log.log(Level.INFO, "[TCP][Client] play");
+        out.println("play");
     }
 
     /**
@@ -267,9 +265,9 @@ public class SyncManager {
                     } else if (command[0].equals("pause")) {
                         log.log(Level.INFO, "[TCP][Server] pause");
                         handler.pause();
-                    } else if (command[0].equals("playAt")) {
-                        log.log(Level.INFO, "[TCP][Server] playAt : " + command[1]);
-                        handler.playAt(Integer.parseInt(command[1]));
+                    } else if (command[0].equals("play")) {
+                        log.log(Level.INFO, "[TCP][Server] play");
+                        handler.play();
                     } else if (command[0].equals("setAt")) {
                         log.log(Level.INFO, "[TCP][Server] setAt : " + command[1]);
                         handler.setAt(Integer.parseInt(command[1]));
