@@ -39,50 +39,24 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  */
 public class MusicController implements Initializable {
 
-    @FXML
-    TableView<Music> musicFiles;
-
-    @FXML
-    TableColumn<Music, String> title;
-
-    @FXML
-    TableColumn<Music, String> artist;
-
-    @FXML
-    TableColumn<Music, String> album;
-
-    @FXML
-    TableColumn<Music, String> genre;
-
-    @FXML
-    TableColumn<Music, String> year;
-
-    @FXML
-    TableColumn<Music, String> length;
-
-    @FXML
-    Label startTime;
-
-    @FXML
-    Label endTime;
-
-    @FXML
-    Slider positionBar;
-
-    @FXML
-    ImageView playPauseImage;
-
-    @FXML
-    Label titleDisplay;
-
-    @FXML
-    Label artistDisplay;
-
-    @FXML
-    Label albumDisplay;
-
-    @FXML
-    ImageView coverDisplay;
+    @FXML TableView<Music> musicFiles;
+    @FXML TableColumn<Music, String> title;
+    @FXML TableColumn<Music, String> artist;
+    @FXML TableColumn<Music, String> album;
+    @FXML TableColumn<Music, String> genre;
+    @FXML TableColumn<Music, String> year;
+    @FXML TableColumn<Music, String> length;
+    @FXML Label startTime;
+    @FXML Label endTime;
+    @FXML Slider positionBar;
+    @FXML ImageView playPauseImage;
+    @FXML Label titleDisplay;
+    @FXML Label artistDisplay;
+    @FXML Label albumDisplay;
+    @FXML ImageView coverDisplay;
+    @FXML Button btnConnect;
+    @FXML Button btnAccept;
+    @FXML Label lblDebug;
 
     private List<Music> musics = new ArrayList<>();
     private String actualPlayMusicPath = "";
