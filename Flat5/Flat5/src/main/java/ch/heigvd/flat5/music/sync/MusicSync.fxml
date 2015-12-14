@@ -50,7 +50,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <TextField fx:id="address" />
-                        <Button mnemonicParsing="false" text="Connexion" />
+                        <Button mnemonicParsing="false" onAction="#handleConnectionToAClient" text="Connexion" />
                      </children>
                   </HBox>
                </content>
