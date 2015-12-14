@@ -11,8 +11,10 @@
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn prefWidth="294.0" text="Titre" />
+          <TableColumn prefWidth="279.0" text="Genre" />
+            <TableColumn prefWidth="138.0" text="Année" />
+            <TableColumn prefWidth="87.0" text="Note" />
         </columns>
       </TableView>
    </center>
