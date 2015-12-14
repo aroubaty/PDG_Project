@@ -163,6 +163,14 @@ public class MusicController implements Initializable {
         });
     }
 
+    public Music getMusicFromPath(String path) {
+        for(Music music : musics) {
+            if(music.getPath().equals(path))
+                return music;
+        }
+        return null;
+    }
+
     public void playMusic(String path) {
         if(synch){
             String[] split = path.split("/");
@@ -171,6 +179,11 @@ public class MusicController implements Initializable {
 
         actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
         Music toPlay = musicFiles.getSelectionModel().getSelectedItem();
+        if(toPlay == null) {
+            toPlay = getMusicFromPath(path);
+        }
+
+        System.out.println(toPlay);
         titleDisplay.setText(toPlay.getTitle());
         artistDisplay.setText(toPlay.getArtist());
         albumDisplay.setText(toPlay.getAlbum());
@@ -231,7 +244,7 @@ public class MusicController implements Initializable {
 
     @FXML
     public void handleConnect(){
-        syncManager.connect("127.0.0.1", AppConfig.DEFAULT_PORT);
+        syncManager.connect("10.192.93.212", AppConfig.DEFAULT_PORT);
         lblDebug.setText("Status : connect");
         synch = true;
     }
