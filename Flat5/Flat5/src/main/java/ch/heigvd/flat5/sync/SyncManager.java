@@ -15,6 +15,28 @@ import java.util.logging.Logger;
  * @author Anthony
  */
 public class SyncManager {
+    private static SyncManager instance;
+
+    /**
+     * Création de l'instance du singleton
+     * @param p
+     *          Port sur lequel le seveur va écouter
+     * @param handler
+     *          Interface qui va gère le commande sortante
+     */
+    public static void createInstance(int p, SyncHandler handler){
+        instance = new SyncManager(p, handler);
+    }
+
+    /**
+     * Retourne l'instance du singleton
+     * @return
+     *          instance du singleton
+     */
+    public static SyncManager getInstance(){
+        return instance;
+    }
+
     private final Logger log = Logger.getLogger(SyncManager.class.getName());
     private int port;
     private SyncHandler handler;
@@ -32,7 +54,7 @@ public class SyncManager {
      * @param handler
      *          Interface qui va gère le commande sortante
      */
-    public SyncManager(int p, SyncHandler handler){
+    private SyncManager(int p, SyncHandler handler){
         this.port = p;
         this.handler = handler;
 
@@ -44,6 +66,15 @@ public class SyncManager {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Permet de changer le handler en fonction du lecteur utilisé
+     * @param handler
+     *          Nouveau handler
+     */
+    public void setHandler(SyncHandler handler){
+        this.handler = handler;
     }
 
     /**
@@ -129,7 +160,7 @@ public class SyncManager {
         }
 
         log.log(Level.INFO, "[TCP][Client] begin : " + mediaName);
-        out.println("begin-" + mediaName);
+        out.println("begin#@" + mediaName);
     }
 
     /**
@@ -146,18 +177,16 @@ public class SyncManager {
     }
 
     /**
-     * Indique au client que l'on va commencer à lire à partir de N secondes
-     * @param second
-     *          Nombres de seconde
+     * Indique au client que l'on a cliqué sur play
      */
-    public void playAt(int second){
+    public void play(){
         if(!isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] NOT CONNECTED");
             return ;
         }
 
-        log.log(Level.INFO, "[TCP][Client] playAt : " + second);
-        out.println("playAt-" + second);
+        log.log(Level.INFO, "[TCP][Client] play");
+        out.println("play");
     }
 
     /**
@@ -172,7 +201,7 @@ public class SyncManager {
         }
 
         log.log(Level.INFO, "[TCP][Client] setAt : " + second);
-        out.println("setAt-" + second);
+        out.println("setAt#@" + second);
     }
 
     /**
@@ -228,7 +257,7 @@ public class SyncManager {
                 while ((inputLine = in.readLine()) != null) {
                     log.log(Level.INFO, "[TCP][Server] Receives : " + inputLine);
 
-                    String[] command = inputLine.split("-");
+                    String[] command = inputLine.split("#@");
 
                     if (command[0].equals("begin")) {
                         log.log(Level.INFO, "[TCP][Server] begin : " + command[1]);
@@ -236,9 +265,9 @@ public class SyncManager {
                     } else if (command[0].equals("pause")) {
                         log.log(Level.INFO, "[TCP][Server] pause");
                         handler.pause();
-                    } else if (command[0].equals("playAt")) {
-                        log.log(Level.INFO, "[TCP][Server] playAt : " + command[1]);
-                        handler.playAt(Integer.parseInt(command[1]));
+                    } else if (command[0].equals("play")) {
+                        log.log(Level.INFO, "[TCP][Server] play");
+                        handler.play();
                     } else if (command[0].equals("setAt")) {
                         log.log(Level.INFO, "[TCP][Server] setAt : " + command[1]);
                         handler.setAt(Integer.parseInt(command[1]));

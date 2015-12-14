@@ -1,16 +1,19 @@
 package ch.heigvd.flat5;
 
 import java.io.File;
-import java.io.IOException;import java.lang.Override;import java.lang.String;
+import java.io.IOException;
+import java.lang.Override;
+import java.lang.String;
+import java.util.Vector;
 
 import ch.heigvd.flat5.home.view.HomeController;
+import ch.heigvd.flat5.root.view.RootController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -21,43 +24,51 @@ import javafx.scene.input.KeyEvent;
 
 public class MainApp2 extends Application {
 
+    //combinaison pour quiter (ctrl + Q)
+    private final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
+    //combinaison pour mettre en fulscreen (alt + enter)
+    private final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
+
+    //vecteur utilisé pour l'utilisation du bouton prcédent
+    private Vector<BorderPane> vecPrevView = new Vector();
+    private HomeController homeController;
+    private RootController rootController;
     private Stage primaryStage;
     private BorderPane rootLayout;
-    //combinaison pour quiter (ctrl + Q)
-    final KeyCombination quit = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
-    //combinaison pour mettre en fulscreen (alt + enter)
-    final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
+    private FXMLLoader rootloader;
+
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AddressApp");
+        this.primaryStage.setTitle("Flat5");
         primaryStage.setFullScreen(true);
+
         initRootLayout();
-
-
         loadRoot();
     }
 
     /**
      * Initializes the root layout.
      */
-    public void initRootLayout() {
+    private void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            //loader.setLocation(MainApp2.class.getResource("root/view/Root.fxml"));
-            //loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
-            //loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
-            rootLayout = (BorderPane) loader.load();
+            rootloader = loader;
+            rootLayout = loader.load();
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
             primaryStage.setFullScreen(true);
-            scene.getStylesheets().add("Buttons.css");
+            scene.getStylesheets().add("Styles.css");
             initKeyPressed(scene);
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,13 +77,15 @@ public class MainApp2 extends Application {
 
     /**
      * Shows the person overview inside the root layout.
+     * @param
+     *
      */
-    public void loadRoot() {
+    private void loadRoot() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
-            AnchorPane homeOverview = (AnchorPane) loader.load();
+            BorderPane homeOverview = loader.load();
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(homeOverview);
@@ -86,9 +99,14 @@ public class MainApp2 extends Application {
             homeOverview.setPrefSize(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
             // Give the controller access to the main app.
-            HomeController controllerRoot = loader.getController();
-            //controllerRoot.setMainApp(this);
-            controllerRoot.setRootLayout(rootLayout);
+            homeController = loader.getController();
+            rootController = rootloader.getController();
+            vecPrevView.add(homeOverview);
+
+            System.out.println("loader.getController(); " + rootloader.getController());
+            rootController.setMainApp(this);
+            homeController.setMainApp(this);
+            homeController.setRootLayout(rootLayout);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,33 +114,49 @@ public class MainApp2 extends Application {
     }
 
     /**
-     * Returns the main stage.
-     * @return
+     *
+     * Permet de mettre l'application en full screen et de la quitter via raccourcis
+     * @param scene
      */
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    public void initKeyPressed(Scene scene)
-    {
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            public void handle(final KeyEvent keyEvent) {
-                if (quit.match(keyEvent)) {
-                    primaryStage.close();
-                    keyEvent.consume();
-                }
-                if (fullScreen.match(keyEvent)) {
-                    primaryStage.setFullScreen(true);
-                    keyEvent.consume();
-                }
+    private void initKeyPressed(Scene scene) {
+        scene.setOnKeyPressed(keyEvent -> {
+            if (quit.match(keyEvent)) {
+                primaryStage.close();
+                keyEvent.consume();
+            }
+            if (fullScreen.match(keyEvent)) {
+                primaryStage.setFullScreen(true);
+                keyEvent.consume();
             }
         });
     }
+
+    /**
+     *
+     * Recupère le layout de root
+     * @return rootLayout
+     */
     public BorderPane getRootLayout() {
         return rootLayout;
     }
+
+    /**
+     *
+     * Recupère le controlleur du rootlayout
+     * @return rootController
+     */
+    public RootController getRootController()
+    {
+        return rootController;
+    }
+
+    /**
+     *
+     *  permet de recuprer les vector qui contient les vue precedement ouverte
+     * @return vecPrevView
+     */
+    public Vector<BorderPane> getVecPrevView() {
+        return vecPrevView;
+    }
+
 }

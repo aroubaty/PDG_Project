@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 
 /**
  * Created by jermoret on 02.11.2015.
@@ -16,8 +17,9 @@ public class Music {
     private StringProperty year;
     private StringProperty length;
     private String path;
+    private Image cover;
 
-    public Music(String title, String artist, String album, String genre, String year, String length, String path) {
+    public Music(String title, String artist, String album, String genre, String year, String length, String path, Image cover) {
         this.title = new SimpleStringProperty(title);
         this.artist = new SimpleStringProperty(artist);
         this.album = new SimpleStringProperty(album);
@@ -25,11 +27,7 @@ public class Music {
         this.year = new SimpleStringProperty(year);
         this.length = new SimpleStringProperty(length);
         this.path = path;
-    }
-
-    public Music(String title, String path) {
-        this.title = new SimpleStringProperty(title);
-        this.path = path;
+        this.cover = cover;
     }
 
     public String getArtist() {
@@ -110,5 +108,9 @@ public class Music {
 
     public void setYear(String year) {
         this.year.set(year);
+    }
+
+    public Image getCover() {
+        return cover;
     }
 }

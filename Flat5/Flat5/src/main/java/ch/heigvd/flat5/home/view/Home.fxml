@@ -8,52 +8,56 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<AnchorPane fx:id="mainFram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.home.view.HomeController">
-   <children>
-      <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-             <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                 <buttons>
-                     <Button id="rich-blue" mnemonicParsing="false" text="">
-                         <graphic>
-                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../../../../../../resources/img/param.png" />
-                                 </image>
-                             </ImageView>
-                         </graphic>
-                     </Button>
-                     <Button id="rich-blue" mnemonicParsing="false" text="">
-                         <graphic>
-                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../../../../../../resources/img/film.png" />
-                                 </image>
-                             </ImageView>
-                         </graphic>
-                     </Button>
-                     <Button id="rich-blue" mnemonicParsing="false" onAction="#handleMusic" text="">
-                         <graphic>
-                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../../../../../../resources/img/note.png" />
-                                 </image>
-                             </ImageView>
-                         </graphic>
-                     </Button>
-                     <Button id="rich-blue" mnemonicParsing="false" text="">
-                         <graphic>
-                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../../../../../../resources/img/home.png" />
-                                 </image>
-                             </ImageView>
-                         </graphic>
-                     </Button>
-      
-                 </buttons>
-             </ButtonBar>
-         </center>
-      </BorderPane>
-   </children>
-</AnchorPane>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.home.view.HomeController">
+   <center>
+      <AnchorPane fx:id="mainFram" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                       <buttons>
+                           <Button id="rich-blue" mnemonicParsing="false" prefHeight="200.0" prefWidth="222.0" text="">
+                               <graphic>
+                                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                           <Image url="@../../../../../../resources/img/param.png" />
+                                       </image>
+                                   </ImageView>
+                               </graphic>
+                           </Button>
+                           <Button id="rich-blue" mnemonicParsing="false" onAction="#handleFilm" prefHeight="200.0" prefWidth="222.0" text="">
+                               <graphic>
+                                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                           <Image url="@../../../../../../resources/img/film.png" />
+                                       </image>
+                                   </ImageView>
+                               </graphic>
+                           </Button>
+                           <Button id="rich-blue" mnemonicParsing="false" onAction="#handleMusic" prefHeight="200.0" prefWidth="222.0" text="">
+                               <graphic>
+                                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                           <Image url="@../../../../../../resources/img/note.png" />
+                                       </image>
+                                   </ImageView>
+                               </graphic>
+                           </Button>
+                           <Button id="rich-blue" mnemonicParsing="false" onAction="#handleHome" prefHeight="200.0" prefWidth="222.0" text="">
+                               <graphic>
+                                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                           <Image url="@../../../../../../resources/img/home.png" />
+                                       </image>
+                                   </ImageView>
+                               </graphic>
+                           </Button>
+            
+                       </buttons>
+                   </ButtonBar>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

@@ -20,11 +20,9 @@ public interface SyncHandler {
     public void pause();
 
     /**
-     * Lorsque l'on doit lire la vidéo à partir de N secondes
-     * @param second
-     *          Nombres de seconde
+     * Lorsque l'on reçoit "play"
      */
-    public void playAt(int second);
+    public void play();
 
     /**
      * Lorsque l'on doit mettre le média à N secondes
