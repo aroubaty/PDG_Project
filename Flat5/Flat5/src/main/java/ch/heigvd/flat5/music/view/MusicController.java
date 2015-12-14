@@ -274,11 +274,10 @@ public class MusicController implements Initializable {
     @FXML
     public void handleSync(){
         if(isSynch) {
-            syncImage.setImage(sync);
-            isSynch = false;
-            synch = false;
+            unsyncThePlayer(true);
             return;
         }
+
         // Music view
         FXMLLoader loader = new FXMLLoader();
 
@@ -311,6 +310,16 @@ public class MusicController implements Initializable {
 
         // Show the dialog and wait until the user closes it
         syncStage.showAndWait();
+    }
+
+    public void unsyncThePlayer(boolean notify) {
+        if(notify) {
+            syncManager.bye();
+        }
+
+        syncImage.setImage(sync);
+        isSynch = false;
+        synch = false;
     }
 
     public void syncThePlayer() {

@@ -75,6 +75,7 @@ public class MusicSyncController implements Initializable {
     public void handleConnectionToAClient() {
         if(musicController.getSyncManager().connect(address.getText(), AppConfig.DEFAULT_PORT)) {
             System.out.println("Connecte");
+            musicController.syncThePlayer();
         } else {
             System.out.println("Pas connecte");
         }

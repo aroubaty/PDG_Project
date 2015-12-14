@@ -37,6 +37,6 @@ public class MusicSyncHandler implements SyncHandler {
 
     @Override
     public void bye() {
-        controller.exit();
+        controller.unsyncThePlayer(false);
     }
 }
