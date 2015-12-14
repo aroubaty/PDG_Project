@@ -172,22 +172,21 @@ public class MusicController implements Initializable {
     }
 
     public void playMusic(String path, boolean notify) {
-        if(synch){
+        if(synch && notify){
             String[] split = path.split("/");
             syncManager.begin(split[split.length -1]);
         }
 
         actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
-        Music toPlay = musicFiles.getSelectionModel().getSelectedItem();
-        if(toPlay == null) {
-            toPlay = getMusicFromPath(path);
-        }
+        Music toPlay = getMusicFromPath(path);
 
-        System.out.println(toPlay);
-        titleDisplay.setText(toPlay.getTitle());
-        artistDisplay.setText(toPlay.getArtist());
-        albumDisplay.setText(toPlay.getAlbum());
-        coverDisplay.setImage(toPlay.getCover());
+        Platform.runLater(() -> {
+            titleDisplay.setText(toPlay.getTitle());
+            artistDisplay.setText(toPlay.getArtist());
+            albumDisplay.setText(toPlay.getAlbum());
+            coverDisplay.setImage(toPlay.getCover());
+        });
+
         player.playMedia(path);
         actualPlayMusicPath = path;
     }
