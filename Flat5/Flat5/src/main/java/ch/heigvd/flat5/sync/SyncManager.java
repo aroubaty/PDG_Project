@@ -18,11 +18,11 @@ public class SyncManager {
     private static SyncManager instance;
 
     /**
-     * Création de l'instance du singleton
+     * Crï¿½ation de l'instance du singleton
      * @param p
-     *          Port sur lequel le seveur va écouter
+     *          Port sur lequel le seveur va ï¿½couter
      * @param handler
-     *          Interface qui va gère le commande sortante
+     *          Interface qui va gï¿½re le commande sortante
      */
     public static void createInstance(int p, SyncHandler handler){
         instance = new SyncManager(p, handler);
@@ -50,9 +50,9 @@ public class SyncManager {
     /**
      * Constructeur qui va lancer un serveur TCP (non bloquant)
      * @param p
-     *          Port sur lequel le seveur va écouter
+     *          Port sur lequel le seveur va ï¿½couter
      * @param handler
-     *          Interface qui va gère le commande sortante
+     *          Interface qui va gï¿½re le commande sortante
      */
     private SyncManager(int p, SyncHandler handler){
         this.port = p;
@@ -69,7 +69,7 @@ public class SyncManager {
     }
 
     /**
-     * Permet de changer le handler en fonction du lecteur utilisé
+     * Permet de changer le handler en fonction du lecteur utilisï¿½
      * @param handler
      *          Nouveau handler
      */
@@ -109,16 +109,16 @@ public class SyncManager {
     ///////////////////////////////// Client part /////////////////////////////////
 
     /**
-     * Connection à un serveur
+     * Connection ï¿½ un serveur
      * @param ip
      *          IP du serveur
      * @param port
      *          Port du serveur
      */
-    public void connect(String ip, int port){
+    public boolean connect(String ip, int port){
         if(isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] ALREADY CONNECT");
-            return ;
+            return false;
         }
 
         try {
@@ -132,15 +132,17 @@ public class SyncManager {
 
             worker = new Worker(socket, in);
 
-
         } catch (IOException e) {
             log.log(Level.SEVERE, "[TCP][Client] Can't connect to " + socket.getInetAddress().toString());
             e.printStackTrace();
+            return false;
         }
+
+        return true;
     }
 
     /**
-     * Contrôle si on a une connection ouverte
+     * Contrï¿½le si on a une connection ouverte
      * @return
      *      Si il y a une connection ouverte
      */
@@ -149,9 +151,9 @@ public class SyncManager {
     }
 
     /**
-     * Envoie au client le nom du média que l'on va lire
+     * Envoie au client le nom du mï¿½dia que l'on va lire
      * @param mediaName
-     *          Nom du média
+     *          Nom du mï¿½dia
      */
     public void begin(String mediaName){
         if(!isConnected()){
@@ -164,7 +166,7 @@ public class SyncManager {
     }
 
     /**
-     * Indique au client que l'on a cliqué sur pause
+     * Indique au client que l'on a cliquï¿½ sur pause
      */
     public void pause(){
         if(!isConnected()){
@@ -177,7 +179,7 @@ public class SyncManager {
     }
 
     /**
-     * Indique au client que l'on a cliqué sur play
+     * Indique au client que l'on a cliquï¿½ sur play
      */
     public void play(){
         if(!isConnected()){
@@ -190,7 +192,7 @@ public class SyncManager {
     }
 
     /**
-     * Indique au client que l'on met le média à N secondes
+     * Indique au client que l'on met le mï¿½dia ï¿½ N secondes
      * @param second
      *          Nombres de seconde
      */

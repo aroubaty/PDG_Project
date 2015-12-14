@@ -1,6 +1,7 @@
-package ch.heigvd.flat5.music.view;
+package ch.heigvd.flat5.music.sync;
 
 import ch.heigvd.flat5.AppConfig;
+import ch.heigvd.flat5.music.view.MusicController;
 import ch.heigvd.flat5.sync.SyncHandler;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 
