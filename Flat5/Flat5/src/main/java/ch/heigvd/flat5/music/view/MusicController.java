@@ -111,7 +111,7 @@ public class MusicController implements Initializable {
             TableRow<Music> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    playMusic(row.getItem().getPath());
+                    playMusic(row.getItem().getPath(), true);
                 }
             });
             return row;
@@ -163,18 +163,30 @@ public class MusicController implements Initializable {
         });
     }
 
-    public void playMusic(String path) {
-        if(synch){
+    public Music getMusicFromPath(String path) {
+        for(Music music : musics) {
+            if(music.getPath().equals(path))
+                return music;
+        }
+        return null;
+    }
+
+    public void playMusic(String path, boolean notify) {
+        if(synch && notify){
             String[] split = path.split("/");
             syncManager.begin(split[split.length -1]);
         }
 
         actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
-        Music toPlay = musicFiles.getSelectionModel().getSelectedItem();
-        titleDisplay.setText(toPlay.getTitle());
-        artistDisplay.setText(toPlay.getArtist());
-        albumDisplay.setText(toPlay.getAlbum());
-        coverDisplay.setImage(toPlay.getCover());
+        Music toPlay = getMusicFromPath(path);
+
+        Platform.runLater(() -> {
+            titleDisplay.setText(toPlay.getTitle());
+            artistDisplay.setText(toPlay.getArtist());
+            albumDisplay.setText(toPlay.getAlbum());
+            coverDisplay.setImage(toPlay.getCover());
+        });
+
         player.playMedia(path);
         actualPlayMusicPath = path;
     }
@@ -219,19 +231,19 @@ public class MusicController implements Initializable {
     public void handleNextSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectNext();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 
     @FXML
     public void handlePreviousSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectPrevious();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 
     @FXML
     public void handleConnect(){
-        syncManager.connect("127.0.0.1", AppConfig.DEFAULT_PORT);
+        syncManager.connect("10.192.93.212", AppConfig.DEFAULT_PORT);
         lblDebug.setText("Status : connect");
         synch = true;
     }
