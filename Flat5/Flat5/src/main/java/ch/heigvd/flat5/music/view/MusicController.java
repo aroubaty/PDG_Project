@@ -5,6 +5,9 @@
  */
 package ch.heigvd.flat5.music.view;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,6 +19,8 @@ import java.util.ResourceBundle;
 import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.music.model.util.MusicBrowser;
+import ch.heigvd.flat5.music.sync.MusicSyncController;
+import ch.heigvd.flat5.music.sync.MusicSyncHandler;
 import ch.heigvd.flat5.sync.SyncHandler;
 import ch.heigvd.flat5.sync.SyncManager;
 import com.sun.jna.NativeLibrary;
@@ -23,12 +28,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
@@ -59,6 +68,8 @@ public class MusicController implements Initializable {
     @FXML Button btnConnect;
     @FXML Button btnAccept;
     @FXML Label lblDebug;
+    @FXML Button syncButton;
+    @FXML ImageView syncImage;
 
     private List<Music> musics = new ArrayList<>();
     private String actualPlayMusicPath = "";
@@ -67,12 +78,15 @@ public class MusicController implements Initializable {
     private MediaPlayer player;
     private Image playImage;
     private Image pauseImage;
+    private Image sync;
+    private Image isSync;
     private MusicBrowser musicBrowser;
 
     //Sync part
     private SyncManager syncManager;
     private SyncHandler handler;
     private boolean synch;
+    private boolean isSynch = false;
 
 
     private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
@@ -93,6 +107,8 @@ public class MusicController implements Initializable {
         ClassLoader cl = getClass().getClassLoader();
         playImage = new Image(cl.getResourceAsStream("img/play.png"));
         pauseImage = new Image(cl.getResourceAsStream("img/pause.png"));
+        sync = new Image(cl.getResourceAsStream("img/sync.png"));
+        isSync = new Image(cl.getResourceAsStream("img/isSync.png"));
 
         // Configuration du contenu des colonnes de la TableView
         title.setCellValueFactory(new PropertyValueFactory("title"));
@@ -254,4 +270,71 @@ public class MusicController implements Initializable {
         lblDebug.setText("Status : connect");
         synch = true;
     }
+
+    @FXML
+    public void handleSync(){
+        if(isSynch) {
+            syncImage.setImage(sync);
+            isSynch = false;
+            synch = false;
+            return;
+        }
+        // Music view
+        FXMLLoader loader = new FXMLLoader();
+
+        try {
+            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/sync/MusicSync.fxml").toURI().toURL());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Stage syncStage = new Stage();
+        syncStage.setTitle("Gestion de la synchronisation");
+        syncStage.initModality(Modality.WINDOW_MODAL);
+        //syncStage.initOwner(primaryStage);
+
+        Parent syncPane = null;
+        try {
+            syncPane = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene scene = new Scene(syncPane);
+        syncStage.setScene(scene);
+
+        // Set the person into the controller.
+        MusicSyncController controller = loader.getController();
+        controller.setMusicController(this);
+        /*controller.setDialogStage(dialogStage);
+        controller.setPerson(person);*/
+
+        // Show the dialog and wait until the user closes it
+        syncStage.showAndWait();
+    }
+
+    public void syncThePlayer() {
+        synch = true;
+        isSynch = true;
+        syncImage.setImage(isSync);
+    }
+    /**
+     * Getter for property 'syncManager'.
+     *
+     * @return Value for property 'syncManager'.
+     */
+    public SyncManager getSyncManager() {
+        return syncManager;
+    }
+
+    /**
+     * Setter for property 'isSynch'.
+     *
+     * @param isSynch Value to set for property 'isSynch'.
+     */
+    public void setIsSynch(boolean isSynch) {
+        this.isSynch = isSynch;
+    }
+
+
 }
