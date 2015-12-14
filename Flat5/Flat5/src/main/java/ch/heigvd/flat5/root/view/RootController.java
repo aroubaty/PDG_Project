@@ -28,10 +28,12 @@ public class RootController {
     private static FXMLLoader home;
     private static FXMLLoader film;
     private static FXMLLoader serieInfo;
+    private static FXMLLoader serie;
 
     private static BorderPane viewMusic;
     private static BorderPane viewHome;
     private static BorderPane viewFilm;
+    private static BorderPane viewSerie;
     private static BorderPane viewSerieInfo;
 
     public RootController()
@@ -48,6 +50,10 @@ public class RootController {
             film = new FXMLLoader();
             film.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/Film.fxml").toURI().toURL());
             viewFilm = film.load();
+
+            serie = new FXMLLoader();
+            serie.setLocation(new File("src/main/java/ch/heigvd/flat5/serie/view/Serie.fxml").toURI().toURL());
+            viewSerie = serie.load();
 
             serieInfo = new FXMLLoader();
             serieInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/serie/view/Serieinfo.fxml").toURI().toURL());
@@ -86,6 +92,16 @@ public class RootController {
     public void handlerFilm() {
         rootLayout.setCenter(viewFilm);
         save(viewFilm);
+    }
+
+    /**
+     *
+     * fonction appelé quant nous cliquons sur le bouton "Film"
+     */
+    @FXML
+    public void handlerSerie() {
+        rootLayout.setCenter(viewSerie);
+        save(viewSerie);
     }
 
     /**
