@@ -37,7 +37,6 @@ public class RootController {
         try {
             music = new FXMLLoader();
             music.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
-
             viewMusic = music.load();
 
             home = new FXMLLoader();
