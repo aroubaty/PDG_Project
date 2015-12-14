@@ -111,7 +111,7 @@ public class MusicController implements Initializable {
             TableRow<Music> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    playMusic(row.getItem().getPath());
+                    playMusic(row.getItem().getPath(), true);
                 }
             });
             return row;
@@ -171,7 +171,7 @@ public class MusicController implements Initializable {
         return null;
     }
 
-    public void playMusic(String path) {
+    public void playMusic(String path, boolean notify) {
         if(synch){
             String[] split = path.split("/");
             syncManager.begin(split[split.length -1]);
@@ -232,14 +232,14 @@ public class MusicController implements Initializable {
     public void handleNextSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectNext();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 
     @FXML
     public void handlePreviousSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectPrevious();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 
     @FXML
