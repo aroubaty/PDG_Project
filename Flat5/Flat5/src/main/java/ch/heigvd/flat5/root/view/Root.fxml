@@ -16,7 +16,7 @@
          <top>
             <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
-                  <Button id="rich-blue" mnemonicParsing="false" text="">
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerFilmInfo" text="">
                       <graphic>
                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -25,7 +25,7 @@
                           </ImageView>
                       </graphic>
                   </Button>
-                  <Button id="rich-blue" mnemonicParsing="false" text="">
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerSerie" text="">
                       <graphic>
                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                               <image>
