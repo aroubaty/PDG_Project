@@ -1,3 +1,4 @@
+package ch.heigvd.flat5.sqlite;
 public class Contact
 {
     private int id;

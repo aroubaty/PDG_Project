@@ -1,3 +1,4 @@
+package ch.heigvd.flat5.sqlite;
 import java.sql.*;
 
 public class SQLiteConnector
