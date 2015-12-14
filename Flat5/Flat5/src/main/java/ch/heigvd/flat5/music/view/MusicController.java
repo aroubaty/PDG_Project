@@ -72,6 +72,7 @@ public class MusicController implements Initializable {
     //Sync part
     private SyncManager syncManager;
     private SyncHandler handler;
+    private boolean synch;
 
 
     private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
@@ -81,6 +82,7 @@ public class MusicController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         //Sync part
         handler = new MusicSyncHandler(this);
         syncManager = SyncManager.getInstance();
@@ -109,13 +111,7 @@ public class MusicController implements Initializable {
             TableRow<Music> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Music toPlay = row.getItem();
-                    String data = toPlay.getPath();
-                    titleDisplay.setText(toPlay.getTitle());
-                    artistDisplay.setText(toPlay.getArtist());
-                    albumDisplay.setText(toPlay.getAlbum());
-                    coverDisplay.setImage(toPlay.getCover());
-                    playMusic(data, true);
+                    playMusic(row.getItem().getPath());
                 }
             });
             return row;
@@ -141,9 +137,7 @@ public class MusicController implements Initializable {
 
             @Override
             public void paused(MediaPlayer mediaPlayer) {
-                Platform.runLater(() -> {
-                    playPauseImage.setImage(playImage);
-                });
+                Platform.runLater(() -> playPauseImage.setImage(playImage));
             }
 
             @Override
@@ -162,18 +156,25 @@ public class MusicController implements Initializable {
             // Détection d'un déplacement réalisé par un utilisateur et pas par l'avancement automatique
             if ((double) newValue % 1 != 0) {
                 player.setTime(newValue.longValue());
-                syncManager.setAt((int)(newValue.longValue() / 1000.0));
+
+                if(synch)
+                    syncManager.setAt((int)(newValue.longValue() / 1000.0));
             }
         });
     }
 
-    public void playMusic(String path, boolean notifie) {
-        if(notifie){
+    public void playMusic(String path) {
+        if(synch){
             String[] split = path.split("/");
             syncManager.begin(split[split.length -1]);
         }
 
         actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
+        Music toPlay = musicFiles.getSelectionModel().getSelectedItem();
+        titleDisplay.setText(toPlay.getTitle());
+        artistDisplay.setText(toPlay.getArtist());
+        albumDisplay.setText(toPlay.getAlbum());
+        coverDisplay.setImage(toPlay.getCover());
         player.playMedia(path);
         actualPlayMusicPath = path;
     }
@@ -202,11 +203,15 @@ public class MusicController implements Initializable {
     public void handlePlayPauseMusic() {
         if (player.isPlaying()) {
             player.pause();
-            syncManager.pause();
+
+            if(synch)
+                syncManager.pause();
         }
         else {
             player.play();
-            syncManager.play();
+
+            if(synch)
+                syncManager.play();
         }
     }
 
@@ -214,25 +219,27 @@ public class MusicController implements Initializable {
     public void handleNextSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectNext();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
     }
 
     @FXML
     public void handlePreviousSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
         musicFiles.getSelectionModel().selectPrevious();
-        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
+        playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath());
     }
 
     @FXML
     public void handleConnect(){
-        syncManager.connect("10.192.91.71", AppConfig.DEFAULT_PORT);
+        syncManager.connect("127.0.0.1", AppConfig.DEFAULT_PORT);
         lblDebug.setText("Status : connect");
+        synch = true;
     }
 
     @FXML
     public void handleAccept(){
         syncManager.accept();
         lblDebug.setText("Status : connect");
+        synch = true;
     }
 }
