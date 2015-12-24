@@ -15,6 +15,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -30,7 +31,7 @@ public class MainApp2 extends Application {
     private final KeyCombination fullScreen = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ALT_DOWN);
 
     //vecteur utilisé pour l'utilisation du bouton prcédent
-    private Vector<BorderPane> vecPrevView = new Vector();
+    private Vector<Pane> vecPrevView = new Vector();
     private HomeController homeController;
     private RootController rootController;
     private Stage primaryStage;
@@ -155,7 +156,7 @@ public class MainApp2 extends Application {
      *  permet de recuprer les vector qui contient les vue precedement ouverte
      * @return vecPrevView
      */
-    public Vector<BorderPane> getVecPrevView() {
+    public Vector<Pane> getVecPrevView() {
         return vecPrevView;
     }
 

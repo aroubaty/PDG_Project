@@ -11,6 +11,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 
 import java.io.File;
@@ -30,6 +32,7 @@ public class RootController {
     private static FXMLLoader filmInfo;
     private static FXMLLoader serie;
     private static FXMLLoader serieInfo;
+    private static FXMLLoader settings;
 
     private static BorderPane viewMusic;
     private static BorderPane viewHome;
@@ -37,6 +40,7 @@ public class RootController {
     private static BorderPane viewFilmInfo;
     private static BorderPane viewSerie;
     private static BorderPane viewSerieInfo;
+    private static GridPane viewSettings;
 
     public RootController()
     {
@@ -64,6 +68,10 @@ public class RootController {
             filmInfo = new FXMLLoader();
             filmInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/FilmInfo.fxml").toURI().toURL());
             viewFilmInfo = filmInfo.load();
+
+            settings = new FXMLLoader();
+            settings.setLocation(new File("src/main/java/ch/heigvd/flat5/settings/view/Settings.fxml").toURI().toURL());
+            viewSettings = settings.load();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -126,12 +134,18 @@ public class RootController {
         save(viewSerieInfo);
     }
 
+    @FXML
+    public void handlerSettings() {
+        rootLayout.setCenter(viewSettings);
+        save(viewSettings);
+    }
+
     /**
      *
      * fonction sauvegardant la dernière vue rendue
      * @param view
      */
-    private void save(BorderPane view)
+    private void save(Pane view)
     {
         if (!Objects.equals(mainApp.getVecPrevView().lastElement(), view)) {
             mainApp.getVecPrevView().add(view);
@@ -147,7 +161,7 @@ public class RootController {
      */
     @FXML
     private void handlerPrev() {
-        BorderPane view ;
+        Pane view ;
         if (mainApp.getVecPrevView().size() > 1) {
             view = mainApp.getVecPrevView().get(mainApp.getVecPrevView().size()-2);
             mainApp.getVecPrevView().removeElementAt(mainApp.getVecPrevView().size() - 1);

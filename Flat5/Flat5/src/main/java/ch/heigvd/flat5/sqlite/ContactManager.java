@@ -11,19 +11,27 @@ public class ContactManager
         connection = connector.getConnection();
     }
 
-    public void addContact(Contact contact)
+    public long addContact(Contact contact)
     {
         try
         {
-            PreparedStatement statement = connection.prepareStatement( "INSERT INTO contacts(name, address) VALUES(?, ?)");
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO contacts(name, address) VALUES(?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
             statement.setString(1, contact.getName());
             statement.setString(2, contact.getAddress());
             statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if(resultSet.next()) {
+                return resultSet.getLong(1);
+            }
         }
         catch ( Exception e )
         {
             System.err.println("Error while adding contact " + e.getClass().getName() + ": " + e.getMessage());
         }
+        return -1;
     }
 
     public List<Contact> getContacts()
@@ -52,7 +60,7 @@ public class ContactManager
             PreparedStatement statement = connection.prepareStatement("UPDATE contacts SET name = ?, address = ? WHERE id = ?");
             statement.setString(1, contact.getName());
             statement.setString(2, contact.getAddress());
-            statement.setInt(3, contact.getId());
+            statement.setLong(3, contact.getId());
             statement.executeUpdate();
         }
         catch ( Exception e )
@@ -61,12 +69,12 @@ public class ContactManager
         }
     }
 
-    public void removeContact(int id)
+    public void removeContact(long id)
     {
         try
         {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM contacts WHERE id = ?");
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             statement.executeUpdate();
         }
         catch ( Exception e )

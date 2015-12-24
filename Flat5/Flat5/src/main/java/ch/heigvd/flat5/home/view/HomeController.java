@@ -36,6 +36,11 @@ public class HomeController implements Initializable {
     }
 
     @FXML
+    private void handleSettings() throws IOException {
+        mainApp.getRootController().handlerSettings();
+    }
+
+    @FXML
     private void initialize() {
 
     }
