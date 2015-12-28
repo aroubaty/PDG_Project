@@ -34,6 +34,15 @@ public class ContactManager
         return -1;
     }
 
+    public Contact getContactFromAddress(String address) {
+        for(Contact c : getContacts()) {
+            if(c.getAddress().equals(address)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public List<Contact> getContacts()
     {
         List<Contact> contacts = new LinkedList<>();

@@ -128,3 +128,24 @@
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
+
+.cb {
+    -fx-background-color: #1a1a1a;
+}
+
+.cb .menu-item:focused {
+    -fx-background-color: #071727; /* for example */
+}
+
+.cb .context-menu {
+    -fx-background-color: #1a1a1a;
+}
+
+.cb {
+    -fx-mark-color: white ;
+}
+
+.text-field {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #101010;
+}

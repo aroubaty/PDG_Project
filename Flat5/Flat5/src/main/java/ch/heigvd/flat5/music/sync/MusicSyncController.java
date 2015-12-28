@@ -62,7 +62,7 @@ public class MusicSyncController implements Initializable {
         waitingForConnection.setDisable(true);
         progressIndicator.setVisible(true);
         new Thread(() -> {
-            musicController.getSyncManager().accept();
+            //musicController.getSyncManager().accept();
             Platform.runLater(() -> {
                 progressIndicator.setVisible(false);
                 displaySynched.setText("Connexion établie avec succès.");
@@ -73,12 +73,12 @@ public class MusicSyncController implements Initializable {
 
     @FXML
     public void handleConnectionToAClient() {
-        if(musicController.getSyncManager().connect(address.getText(), AppConfig.DEFAULT_PORT)) {
+        /*if(musicController.getSyncManager().connect(address.getText(), AppConfig.DEFAULT_PORT)) {
             System.out.println("Connecte");
             musicController.syncThePlayer();
         } else {
             System.out.println("Pas connecte");
-        }
+        }*/
     }
 
     /**

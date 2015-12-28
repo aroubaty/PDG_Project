@@ -1,5 +1,7 @@
 package ch.heigvd.flat5.sync;
 
+import ch.heigvd.flat5.music.view.MusicController;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -80,19 +82,46 @@ public class SyncManager {
     /**
      * Permet de recevoir un client (bloquant)
      */
-    public void accept(){
+    public boolean accept(MusicController mc){
         try {
             log.log(Level.INFO, "[TCP][Server] Waiting for connection.....");
             socket = serverSocket.accept();
 
             log.log(Level.INFO, "[TCP][Server] Client come " + socket.getInetAddress().toString());
             out = new PrintWriter(socket.getOutputStream(), true);
+            out.println("OK");
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            while(!in.readLine().equals("OK"));
+            mc.displayStatus(socket.getInetAddress().toString().substring(1), false);
+            while(!in.readLine().equals("Accept"));
+            mc.displayStatus(socket.getInetAddress().toString().substring(1), true);
+
             worker = new Worker(socket, in);
         }
         catch (Exception e){
             e.printStackTrace();
+            return false;
         }
+        return true;
+    }
+
+    public void acceptInvitation() {
+        try {
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        out.println("Accept");
+    }
+
+    public void denyInvitation() {
+        try {
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        out.println("Deny");
     }
 
     /**
@@ -115,7 +144,7 @@ public class SyncManager {
      * @param port
      *          Port du serveur
      */
-    public boolean connect(String ip, int port){
+    public boolean connect(String ip, int port, MusicController mc){
         if(isConnected()){
             log.log(Level.SEVERE, "[TCP][Client] ALREADY CONNECT");
             return false;
@@ -128,17 +157,36 @@ public class SyncManager {
             in = new BufferedReader(new InputStreamReader(
                     socket.getInputStream()));
 
-            log.log(Level.INFO, "[TCP][Client] Connection successful to " + socket.getInetAddress().toString());
+            while(!in.readLine().equals("OK"));
+            out.println("OK");
+            String msg;
+            while(!(msg = in.readLine()).equals("Accept")) {
+                if(msg.equals("Deny")) {
+                    return false;
+                }
+            }
+            out.println("Accept");
 
+            log.log(Level.INFO, "[TCP][Client] Connection successful to " + socket.getInetAddress().toString());
             worker = new Worker(socket, in);
 
         } catch (IOException e) {
-            log.log(Level.SEVERE, "[TCP][Client] Can't connect to " + socket.getInetAddress().toString());
-            e.printStackTrace();
+            log.log(Level.SEVERE, "[TCP][Client] Can't connect to " + ip);
             return false;
         }
 
         return true;
+    }
+
+    public void resetSyncManager() {
+        if(socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            socket = null;
+        }
     }
 
     /**
@@ -162,6 +210,7 @@ public class SyncManager {
         }
 
         log.log(Level.INFO, "[TCP][Client] begin : " + mediaName);
+        System.out.println("out : " + out);
         out.println("begin#@" + mediaName);
     }
 
@@ -188,6 +237,7 @@ public class SyncManager {
         }
 
         log.log(Level.INFO, "[TCP][Client] play");
+        System.out.println("out : " + out);
         out.println("play");
     }
 
@@ -223,7 +273,6 @@ public class SyncManager {
 
         try {
             in.close();
-            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -256,7 +305,9 @@ public class SyncManager {
         public void run() {
             try {
                 String inputLine;
+                System.out.println("entre");
                 while ((inputLine = in.readLine()) != null) {
+                    System.out.println("Voila");
                     log.log(Level.INFO, "[TCP][Server] Receives : " + inputLine);
 
                     String[] command = inputLine.split("#@");
@@ -287,7 +338,6 @@ public class SyncManager {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

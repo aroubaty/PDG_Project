@@ -11,18 +11,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.music.model.util.MusicBrowser;
 import ch.heigvd.flat5.music.sync.MusicSyncController;
 import ch.heigvd.flat5.music.sync.MusicSyncHandler;
+import ch.heigvd.flat5.sqlite.Contact;
+import ch.heigvd.flat5.sqlite.ContactManager;
+import ch.heigvd.flat5.sqlite.SQLiteConnector;
 import ch.heigvd.flat5.sync.SyncHandler;
 import ch.heigvd.flat5.sync.SyncManager;
+import com.google.common.net.InetAddresses;
 import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -36,6 +37,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
@@ -50,26 +52,67 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  */
 public class MusicController implements Initializable {
 
-    @FXML TableView<Music> musicFiles;
-    @FXML TableColumn<Music, String> title;
-    @FXML TableColumn<Music, String> artist;
-    @FXML TableColumn<Music, String> album;
-    @FXML TableColumn<Music, String> genre;
-    @FXML TableColumn<Music, String> year;
-    @FXML TableColumn<Music, String> length;
-    @FXML Label startTime;
-    @FXML Label endTime;
-    @FXML Slider positionBar;
-    @FXML ImageView playPauseImage;
-    @FXML Label titleDisplay;
-    @FXML Label artistDisplay;
-    @FXML Label albumDisplay;
-    @FXML ImageView coverDisplay;
-    @FXML Button btnConnect;
-    @FXML Button btnAccept;
-    @FXML Label lblDebug;
-    @FXML Button syncButton;
-    @FXML ImageView syncImage;
+    @FXML
+    TableView<Music> musicFiles;
+    @FXML
+    TableColumn<Music, String> title;
+    @FXML
+    TableColumn<Music, String> artist;
+    @FXML
+    TableColumn<Music, String> album;
+    @FXML
+    TableColumn<Music, String> genre;
+    @FXML
+    TableColumn<Music, String> year;
+    @FXML
+    TableColumn<Music, String> length;
+    @FXML
+    Label startTime;
+    @FXML
+    Label endTime;
+    @FXML
+    Slider positionBar;
+    @FXML
+    ImageView playPauseImage;
+    @FXML
+    Label titleDisplay;
+    @FXML
+    Label artistDisplay;
+    @FXML
+    Label albumDisplay;
+    @FXML
+    ImageView coverDisplay;
+    @FXML
+    Button syncButton;
+    @FXML
+    ImageView syncImage;
+
+    @FXML
+    HBox connDemand;
+    @FXML
+    Button demandYes;
+    @FXML
+    Button demandNo;
+    @FXML
+    HBox connStatus;
+    @FXML
+    Button statusDisconnect;
+    @FXML
+    Label synchStatus;
+    @FXML
+    ChoiceBox<String> choiceContact;
+    @FXML
+    ProgressIndicator progressIndicator;
+    @FXML
+    Button btnAttente;
+    @FXML
+    Button btnConnection;
+    @FXML
+    Label status;
+    @FXML
+    Button stopSynch;
+    @FXML
+    ProgressIndicator progressIndicator2;
 
     private List<Music> musics = new ArrayList<>();
     private String actualPlayMusicPath = "";
@@ -88,6 +131,10 @@ public class MusicController implements Initializable {
     private boolean synch;
     private boolean isSynch = false;
 
+    //SQLite
+    private ContactManager contactManager;
+    private ArrayList<String> contactNames;
+
 
     private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
 
@@ -96,6 +143,11 @@ public class MusicController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        SQLiteConnector sqLiteConnector = new SQLiteConnector();
+        sqLiteConnector.connectToDB();
+        sqLiteConnector.initDB();
+        contactManager = new ContactManager(sqLiteConnector);
 
         //Sync part
         handler = new MusicSyncHandler(this);
@@ -121,6 +173,12 @@ public class MusicController implements Initializable {
         // Récupérations des musiques
         musicBrowser = new MusicBrowser(AppConfig.EXTS_SUPPORT);
         scanMusicFiles(AppConfig.MUSIC_DIRECTORY);
+
+        contactNames = new ArrayList<>();
+        for (Contact contact : contactManager.getContacts()) {
+            contactNames.add(contact.getName());
+        }
+        choiceContact.setItems(FXCollections.observableArrayList(contactNames));
 
         // Configuration de l'action du double-clique sur une musique
         musicFiles.setRowFactory(tv -> {
@@ -173,24 +231,24 @@ public class MusicController implements Initializable {
             if ((double) newValue % 1 != 0) {
                 player.setTime(newValue.longValue());
 
-                if(synch)
-                    syncManager.setAt((int)(newValue.longValue() / 1000.0));
+                if (synch)
+                    syncManager.setAt((int) (newValue.longValue() / 1000.0));
             }
         });
     }
 
     public Music getMusicFromPath(String path) {
-        for(Music music : musics) {
-            if(music.getPath().equals(path))
+        for (Music music : musics) {
+            if (music.getPath().equals(path))
                 return music;
         }
         return null;
     }
 
     public void playMusic(String path, boolean notify) {
-        if(synch && notify){
+        if (synch && notify) {
             String[] split = path.split("/");
-            syncManager.begin(split[split.length -1]);
+            syncManager.begin(split[split.length - 1]);
         }
 
         actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
@@ -232,13 +290,12 @@ public class MusicController implements Initializable {
         if (player.isPlaying()) {
             player.pause();
 
-            if(synch)
+            if (synch)
                 syncManager.pause();
-        }
-        else {
+        } else {
             player.play();
 
-            if(synch)
+            if (synch)
                 syncManager.play();
         }
     }
@@ -258,22 +315,106 @@ public class MusicController implements Initializable {
     }
 
     @FXML
-    public void handleConnect(){
-        syncManager.connect("10.192.93.212", AppConfig.DEFAULT_PORT);
-        lblDebug.setText("Status : connect");
-        synch = true;
+    private void handleConnectionToFriend() {
+        if (choiceContact.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur connexion ami");
+            alert.setHeaderText("Vous devez selectionner un ami. Si vous en n'avez pas, vous pouvez en créer depuis les paramètres.");
+            alert.showAndWait();
+            return;
+        }
+
+        String ip = contactManager.getContacts().get(choiceContact.getSelectionModel().getSelectedIndex()).getAddress();
+
+        btnConnection.setDisable(true);
+        progressIndicator2.setVisible(true);
+        Thread t = new Thread(() -> {
+            if (!syncManager.connect(ip, AppConfig.DEFAULT_PORT, this)) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur connexion ami");
+                    alert.setHeaderText("Impossible de se connecter à cet ami.");
+                    alert.showAndWait();
+                });
+            } else {
+                Platform.runLater(() -> {
+                    synchStatus.setText("Activée");
+                    btnAttente.setDisable(true);
+                    btnConnection.setDisable(true);
+                    choiceContact.setDisable(true);
+                    synch = true;
+                    displayStatus(ip, true);
+                });
+            }
+            btnConnection.setDisable(false);
+            progressIndicator2.setVisible(false);
+        });
+        t.start();
+
+        new Timer().schedule(
+                new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        if (t.isAlive()) {
+                            t.stop();
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Erreur connexion ami");
+                                alert.setHeaderText("Temps de 30s écoulé.");
+                                alert.showAndWait();
+                                btnConnection.setDisable(false);
+                                progressIndicator2.setVisible(false);
+                            });
+                            syncManager.resetSyncManager();
+                        }
+                    }
+
+                }, 30000);
+
+    }
+
+    private void failWaiting() {
+        btnAttente.setDisable(false);
+        progressIndicator.setVisible(false);
     }
 
     @FXML
-    public void handleAccept(){
-        syncManager.accept();
-        lblDebug.setText("Status : connect");
-        synch = true;
+    private void handleWaitForAFriend() {
+        btnAttente.setDisable(true);
+        progressIndicator.setVisible(true);
+        Thread t = new Thread(() -> {
+            if (!syncManager.accept(MusicController.this)) {
+                failWaiting();
+            } else {
+                Platform.runLater(() -> {
+                    progressIndicator.setVisible(false);
+                    synchStatus.setText("Activée");
+                    btnConnection.setDisable(true);
+                    choiceContact.setDisable(true);
+                    synch = true;
+                });
+            }
+        });
+        t.start();
+        new Timer().schedule(
+                new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        if (t.isAlive()) {
+                            t.stop();
+                            failWaiting();
+                            syncManager.resetSyncManager();
+                        }
+                    }
+
+                }, 30000);
     }
 
     @FXML
-    public void handleSync(){
-        if(isSynch) {
+    public void handleSync() {
+        if (isSynch) {
             unsyncThePlayer(true);
             return;
         }
@@ -313,13 +454,19 @@ public class MusicController implements Initializable {
     }
 
     public void unsyncThePlayer(boolean notify) {
-        if(notify) {
+        if (notify) {
             syncManager.bye();
         }
 
-        syncImage.setImage(sync);
-        isSynch = false;
+        syncManager.resetSyncManager();
         synch = false;
+        Platform.runLater(() -> {
+            synchStatus.setText("Desactivée");
+            choiceContact.setDisable(false);
+            btnConnection.setDisable(false);
+            btnAttente.setDisable(false);
+            connDemand.setVisible(false);
+        });
     }
 
     public void syncThePlayer() {
@@ -327,6 +474,7 @@ public class MusicController implements Initializable {
         isSynch = true;
         syncImage.setImage(isSync);
     }
+
     /**
      * Getter for property 'syncManager'.
      *
@@ -345,5 +493,54 @@ public class MusicController implements Initializable {
         this.isSynch = isSynch;
     }
 
+    public void displayStatus(String address, boolean connected) {
+        final String name;
+        Contact contact = contactManager.getContactFromAddress(address);
+        if (contact == null)
+            name = address;
+        else
+            name = contact.getName();
 
+        connDemand.setVisible(true);
+        if (connected) {
+            Platform.runLater(() -> {
+                demandNo.setVisible(false);
+                demandYes.setVisible(false);
+                status.setText("Connecté avec " + name + "...");
+                stopSynch.setVisible(true);
+            });
+        } else {
+
+            Platform.runLater(() -> {
+                status.setText(name + " désire synchroniser de la musique avec vous.");
+                demandNo.setVisible(true);
+                demandYes.setVisible(true);
+                stopSynch.setVisible(false);
+            });
+        }
+    }
+
+    @FXML
+    private void handleYesDemand() {
+        syncManager.acceptInvitation();
+    }
+
+    @FXML
+    private void handleNoDemand() {
+        syncManager.denyInvitation();
+    }
+
+    @FXML
+    private void handleStopSync() {
+        unsyncThePlayer(true);
+    }
+
+    @FXML
+    private void choiceBoxRequested() {
+        contactNames = new ArrayList<>();
+        for (Contact contact : contactManager.getContacts()) {
+            contactNames.add(contact.getName());
+        }
+        choiceContact.setItems(FXCollections.observableArrayList(contactNames));
+    }
 }

@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="/styles/Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.music.view.MusicController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../../../../../resources/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.music.view.MusicController">
    <center>
     <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -43,10 +43,7 @@
                         <Image url="@../../../../../../resources/img/no_cover.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btnConnect" mnemonicParsing="false" onAction="#handleConnect" text="Connect" />
-                  <Button fx:id="btnAccept" mnemonicParsing="false" onAction="#handleAccept" text="Accept" />
-                  <Label fx:id="lblDebug" text="Label" />
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="NEVER">
                      <children>
                         <Label id="artiste" fx:id="titleDisplay" styleClass="titre" stylesheets="@../../../../../../resources/styles/Styles.css">
                            <font>
@@ -65,6 +62,88 @@
                         </Label>
                      </children>
                   </VBox>
+                  <HBox fx:id="connDemand" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" visible="false" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="status" text="Jérôme désire" />
+                        <Button id="rich-blue" fx:id="stopSynch" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleStopSync" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                           <graphic>
+                              <ImageView fx:id="syncImage21" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../resources/img/disconnect.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button id="rich-blue" fx:id="demandYes" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleYesDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                           <graphic>
+                              <ImageView fx:id="syncImage2" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../resources/img/yes.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button id="rich-blue" fx:id="demandNo" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleNoDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                           <graphic>
+                              <ImageView fx:id="syncImage211" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../resources/img/no.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <GridPane hgap="5.0" HBox.hgrow="NEVER">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="170.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="150.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Synchronisation : " />
+                        <Label fx:id="synchStatus" text="Desactivée" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                        <Label text="Connexion : " GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="choiceContact" accessibleText="Amis" onMouseEntered="#choiceBoxRequested" prefWidth="145.0" styleClass="cb" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
+                        <Label text="Attente : " GridPane.rowIndex="2" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Button id="rich-blue" fx:id="btnAttente" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleWaitForAFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                                 <graphic>
+                                    <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../resources/img/sync.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <ProgressIndicator fx:id="progressIndicator" maxHeight="30.0" maxWidth="25.0" visible="false" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="183.0" layoutY="114.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <Button id="rich-blue" fx:id="btnConnection" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                                 <graphic>
+                                    <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../resources/img/connection.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <ProgressIndicator fx:id="progressIndicator2" maxHeight="30.0" maxWidth="25.0" visible="false" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -132,15 +211,6 @@
                         </Label>
                      </children>
                   </GridPane>
-                  <Button id="rich-blue" fx:id="syncButton" layoutX="15.0" layoutY="20.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleSync" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                     <graphic>
-                        <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/sync.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

@@ -47,10 +47,18 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <TextField fx:id="name" promptText="Nom" visible="false" />
-                  <TextField fx:id="ipAddress" promptText="Adresse IP" visible="false" />
-                  <Button fx:id="validateContact" mnemonicParsing="false" onAction="#handleValidateContact" text="Ok" visible="false" />
-                  <Button id="rich-blue" layoutX="10.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDeleteContact" prefHeight="30.0" prefWidth="30.0">
+                  <TextField fx:id="name" promptText="Nom" styleClass="text-field" visible="false" />
+                  <TextField fx:id="ipAddress" promptText="Adresse IP" styleClass="cb" visible="false" />
+                  <Button id="rich-blue" fx:id="validateContact" layoutX="10.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleValidateContact" prefHeight="30.0" prefWidth="30.0" visible="false">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../resources/img/validate.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button id="rich-blue" layoutX="456.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDeleteContact" prefHeight="30.0" prefWidth="30.0">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
