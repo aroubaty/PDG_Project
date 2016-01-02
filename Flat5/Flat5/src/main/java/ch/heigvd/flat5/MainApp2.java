@@ -39,6 +39,7 @@ public class MainApp2 extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private FXMLLoader rootloader;
+    private String path;
 
 
     public static void main(String[] args) {
@@ -165,4 +166,11 @@ public class MainApp2 extends Application {
         return vecPrevView;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

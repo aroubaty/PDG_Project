@@ -10,13 +10,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.settings.view.SettingsController">
 <center>
       <GridPane alignment="CENTER" hgap="5.0" prefHeight="202.0" prefWidth="771.0" stylesheets="@../../../../../../resources/styles/Styles.css">
          <children>
             <Label text="Chemin des médias : " GridPane.halignment="RIGHT" />
-            <Label fx:id="mediaPath" text="C:\medias" GridPane.columnIndex="1" />
             <Button id="rich-blue" fx:id="browse" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" GridPane.columnIndex="2">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -74,6 +72,7 @@
                   </HBox>
                </children>
             </VBox>
+            <TextArea onKeyTyped="#setPathValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" fx:id="mediaPathValue"/>
          </children>
          <columnConstraints>
             <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="211.0" minWidth="-Infinity" prefWidth="211.0" />
