@@ -2,7 +2,9 @@ package ch.heigvd.flat5.root.view;
 
 
 import ch.heigvd.flat5.MainApp2;
+import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.view.FilmController;
+import ch.heigvd.flat5.film.view.FilmInfoController;
 import ch.heigvd.flat5.home.view.HomeController;
 import ch.heigvd.flat5.settings.view.SettingsController;
 import javafx.fxml.FXML;
@@ -73,9 +75,9 @@ public class RootController {
             viewSerieInfo = serieInfo.load();
 
 
-            /*filmInfo = new FXMLLoader();
+            filmInfo = new FXMLLoader();
             filmInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/FilmInfo.fxml").toURI().toURL());
-            viewFilmInfo = filmInfo.load();*/
+            viewFilmInfo = filmInfo.load();
 
 
 
@@ -123,9 +125,9 @@ public class RootController {
      * fonction appelé quant nous choisisson un film (version detailée)
      */
     @FXML
-    public void handlerFilmInfo() {
+    public void handlerFilmInfo(Movie movie) {
         rootLayout.setCenter(viewFilmInfo);
-        ((FilmController)film.getController()).setRootController(this);
+        ((FilmInfoController)filmInfo.getController()).setMovie(movie);
         save(viewFilmInfo);
     }
 
