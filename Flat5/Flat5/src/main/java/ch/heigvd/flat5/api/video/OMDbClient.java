@@ -1,13 +1,17 @@
 package ch.heigvd.flat5.api.video;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.net.URL;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
+import java.util.LinkedList;
 
 public class OMDbClient
 {
@@ -17,28 +21,20 @@ public class OMDbClient
     public String getQuery (String searchQuery, String charset)
     {
         String responseString = "";
+
         try
         {
-        HttpURLConnection httpConnection = (HttpURLConnection) new URL(baseURL + "?" + searchQuery).openConnection();
+            HttpURLConnection httpConnection = (HttpURLConnection) new URL(baseURL + "?" + searchQuery).openConnection();
 
-        InputStream response = httpConnection.getInputStream();
-        int responseCode = httpConnection.getResponseCode();
-        if (responseCode >= 200 && responseCode < 300)
-        {
-            System.out.println("OK");
-        }
-        else
-        {
-            System.out.println("KO");
-        }
+            InputStream response = httpConnection.getInputStream();
+            int responseCode = httpConnection.getResponseCode();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(response, charset)))
-        {
+            BufferedReader reader = new BufferedReader (new InputStreamReader(response, charset));
             responseString = reader.readLine();
         }
-        }
-        catch(Exception e) {}
 
+        catch(Exception e)
+        {System.err.println("Error while getting query" + e.getClass().getName() + ": " + e.getMessage());}
         return responseString;
     }
 
@@ -70,14 +66,26 @@ public class OMDbClient
     public MovieInfos parseMovieInfos (String result)
     {
 
-        JsonObject parsedResult  = parser.parse(result).getAsJsonObject();
+        JsonObject parsedResult = parser.parse(result).getAsJsonObject();
 
         // We check for errors.
-        if(parsedResult.get("Error") != null)
-        {
+        if (parsedResult.get("Error") != null) {
             return null;
         }
 
-        return new MovieInfos (parsedResult);
+        return new MovieInfos(parsedResult);
+    }
+
+    public Season parseSeasonInfos (String result)
+    {
+
+        JsonObject parsedResult = parser.parse(result).getAsJsonObject();
+
+        // We check for errors.
+        if (parsedResult.get("Error") != null) {
+            return null;
+        }
+
+        return new Season(parsedResult);
     }
 }

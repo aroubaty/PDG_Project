@@ -8,6 +8,8 @@ import java.util.Vector;
 
 import ch.heigvd.flat5.home.view.HomeController;
 import ch.heigvd.flat5.root.view.RootController;
+import ch.heigvd.flat5.sqlite.SQLiteConnector;
+import ch.heigvd.flat5.utils.LibraryManager;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -57,6 +59,8 @@ public class MainApp2 extends Application {
      * Initializes the root layout.
      */
     private void initRootLayout() {
+        // Init library
+        LibraryManager.addFileToDB("/home/franz/essai");
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
@@ -83,6 +87,7 @@ public class MainApp2 extends Application {
      */
     private void loadRoot() {
         try {
+
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());

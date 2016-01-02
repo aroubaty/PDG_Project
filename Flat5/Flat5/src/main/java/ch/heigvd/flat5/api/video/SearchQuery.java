@@ -9,6 +9,7 @@ public class SearchQuery
     private String year = "";
     private String type = "";
     private String imdbID = "";
+    private String season = "";
     private String dataType = "&r=json";
     private String version = "&v=1";
 
@@ -29,7 +30,7 @@ public class SearchQuery
 
     public String getSearchByIdQuery()
     {
-        return String.join("&", imdbID, dataType, version);
+        return String.join("&", imdbID, season, dataType, version);
     }
 
     public String getCharset()
@@ -45,7 +46,7 @@ public class SearchQuery
 
     public void setTitle(String title)
     {
-        try{this.title = "s=" + URLEncoder.encode(title, charset);}
+        try{this.title = "t=" + URLEncoder.encode(title, charset);}
         catch(Exception e){}
     }
 
@@ -57,7 +58,13 @@ public class SearchQuery
 
     public void setType(String type)
     {
-        try{this.type = "t=" + URLEncoder.encode(type,charset);}
+        try{this.type = "type=" + URLEncoder.encode(type,charset);}
+        catch(Exception e){}
+    }
+
+    public void setSeason(String season)
+    {
+        try{this.season = "Season=" + URLEncoder.encode(season,charset);}
         catch(Exception e){}
     }
 }
