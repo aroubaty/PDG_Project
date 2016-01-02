@@ -61,7 +61,7 @@ public class MainApp2 extends Application {
      */
     private void initRootLayout() {
         // Init library
-        LibraryManager.addFileToDB("/home/oem/Téléchargements/movie");
+        LibraryManager.addFileToDB("C:\\Users\\léonard\\Downloads\\Charlotte.S01.VOSTFR.1080p.WEB-DL.AAC.x264-WKN");
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
