@@ -1,16 +1,24 @@
 package ch.heigvd.flat5.film.view;
 
 import ch.heigvd.flat5.film.model.Movie;
+import ch.heigvd.flat5.film.player.Player;
+import com.sun.jna.NativeLibrary;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+
+import javax.swing.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Created by oem on 02/01/16.
  */
-public class FilmInfoController {
+public class FilmInfoController implements Initializable {
     @FXML
     Label infoRuntime;
     @FXML
@@ -27,14 +35,13 @@ public class FilmInfoController {
     Button launchFilm;
     @FXML
     ImageView infoPoster;
-    private Movie movie;
 
-    public Movie getMovie() {
-        return movie;
-    }
+    Movie currentMovie;
+    private static final String LIBVLC_PATH = "src/main/resources/vlc";
 
     public void setMovie(Movie movieToPlay) {
-        this.movie = movie;
+
+        currentMovie = movieToPlay;
 
         infoRuntime.setText(movieToPlay.getRuntime());
         infoGenre.setText(movieToPlay.getGenre());
@@ -71,5 +78,20 @@ public class FilmInfoController {
             infoPoster.setImage(new Image(cl.getResourceAsStream("img/no_found.jpg")));
 
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+
+    }
+
+    @FXML
+    public void launchFilm()
+    {
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
+        SwingUtilities.invokeLater(() -> {
+            Player.getInstance().start("file:///" + currentMovie.getInfos().getPath());
+        });
     }
 }

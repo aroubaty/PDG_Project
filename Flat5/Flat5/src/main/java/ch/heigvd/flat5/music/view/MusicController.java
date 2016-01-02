@@ -270,7 +270,7 @@ public class MusicController implements Initializable {
     }
 
     public void scanMusicFiles(String path) {
-        musics = musicBrowser.getMusicsInFolder(path);
+        musics = musicBrowser.getMusics();
 
         // Chargement des musiques dans la TableView
         ObservableList<Music> test = FXCollections.observableArrayList(musics);

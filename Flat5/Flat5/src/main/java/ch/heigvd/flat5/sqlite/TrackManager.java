@@ -38,7 +38,7 @@ public class TrackManager
         try
         {
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT * FROM tracks WHERE fileName = '" + fileName + "'");
+            ResultSet result = statement.executeQuery("SELECT * FROM tracks WHERE path = '" + fileName + "'");
             while(result.next())
             {
                 return true;
@@ -56,7 +56,7 @@ public class TrackManager
     {
         try
         {
-            PreparedStatement statement = connection.prepareStatement( "INSERT INTO tracks(fileName, title, artist, " +
+            PreparedStatement statement = connection.prepareStatement( "INSERT INTO tracks(path, title, artist, " +
                     "album, genre, year, length, urlCover) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, fileName);
             statement.setString(2, track.title);
@@ -83,10 +83,13 @@ public class TrackManager
             ResultSet result = statement.executeQuery("SELECT * FROM tracks");
             while(result.next())
             {
-                tracks.add(new TrackInfos(result.getString("title"),
+                TrackInfos track = new TrackInfos(result.getString("title"),
                         result.getString("artist"), result.getString("album"),
                         result.getString("genre"), result.getString("year"),
-                        result.getString("length"), result.getString("urlCover")));
+                        result.getString("length"), result.getString("urlCover"));
+                track.path = result.getString("path");
+                tracks.add(track);
+
             }
         }
         catch ( Exception e )
