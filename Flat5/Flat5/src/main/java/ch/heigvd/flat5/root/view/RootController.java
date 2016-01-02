@@ -108,6 +108,10 @@ public class RootController {
         rootLayout.setCenter(viewFilm);
         save(viewFilm);
     }
+    /**
+     *
+     * fonction appelé quant nous choisisson un film (version detailée)
+     */
     @FXML
     public void handlerFilmInfo() {
         rootLayout.setCenter(viewFilmInfo);
@@ -116,7 +120,7 @@ public class RootController {
 
     /**
      *
-     * fonction appelé quant nous cliquons sur le bouton "Film"
+     * fonction appelé quant nous cliquons sur le bouton "Serie"
      */
     @FXML
     public void handlerSerie() {
@@ -126,7 +130,7 @@ public class RootController {
 
     /**
      *
-     * fonction appelé quant nous cliquons sur le bouton "Film"
+     * fonction appelé quant nous choisissons une serie (version detailée)
      */
     @FXML
     public void handlerSerieInfo() {
@@ -179,8 +183,6 @@ public class RootController {
      */
     public void setMainApp(MainApp2 mainApp) {
         this.mainApp = mainApp;
-        System.out.println("yollloo");
-
         this.rootLayout = mainApp.getRootLayout();
         System.out.println(rootLayout);
     }
