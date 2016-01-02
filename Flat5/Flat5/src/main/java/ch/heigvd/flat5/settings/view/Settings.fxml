@@ -11,8 +11,8 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.settings.view.SettingsController">
-   <center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.settings.view.SettingsController">
+<center>
       <GridPane alignment="CENTER" hgap="5.0" prefHeight="202.0" prefWidth="771.0" stylesheets="@../../../../../../resources/styles/Styles.css">
          <children>
             <Label text="Chemin des médias : " GridPane.halignment="RIGHT" />

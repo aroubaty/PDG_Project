@@ -33,7 +33,7 @@ public class RootController {
     private static FXMLLoader filmInfo;
     private static FXMLLoader serie;
     private static FXMLLoader serieInfo;
-    private static FXMLLoader settings;
+    private static FXMLLoader settingsLoader;
 
     private static BorderPane viewMusic;
     private static BorderPane viewHome;
@@ -41,14 +41,19 @@ public class RootController {
     private static BorderPane viewFilmInfo;
     private static BorderPane viewSerie;
     private static BorderPane viewSerieInfo;
-    private static GridPane viewSettings;
+    private static BorderPane viewSettings;
 
     public RootController()
     {
         try {
+
             music = new FXMLLoader();
             music.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
             viewMusic = music.load();
+
+            settingsLoader = new FXMLLoader();
+            settingsLoader.setLocation(new File("src/main/java/ch/heigvd/flat5/settings/view/Settings.fxml").toURI().toURL());
+            viewSettings = settingsLoader.load();
 
             home = new FXMLLoader();
             home.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
@@ -69,11 +74,9 @@ public class RootController {
 
             /*filmInfo = new FXMLLoader();
             filmInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/FilmInfo.fxml").toURI().toURL());
-            viewFilmInfo = filmInfo.load();
+            viewFilmInfo = filmInfo.load();*/
 
-            settings = new FXMLLoader();
-            settings.setLocation(new File("src/main/java/ch/heigvd/flat5/settings/view/Settings.fxml").toURI().toURL());
-            viewSettings = settings.load();*/
+
 
             ((FilmController)film.getController()).setRootController(this);
             System.out.println("loader du filmCrt" + this);
