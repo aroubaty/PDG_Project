@@ -6,6 +6,7 @@
 package ch.heigvd.flat5.settings.view;
 
 import ch.heigvd.flat5.AppConfig;
+import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.music.view.MusicController;
 import ch.heigvd.flat5.sqlite.Contact;
 import ch.heigvd.flat5.sqlite.ContactManager;
@@ -20,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
 import java.net.InetAddress;
@@ -33,6 +35,9 @@ import java.util.ResourceBundle;
  * @author jermoret
  */
 public class SettingsController implements Initializable {
+
+    private MainApp2 mainApp;
+    private BorderPane rootLayout;
 
     @FXML Button friendsManager;
     @FXML Button browse;
@@ -121,5 +126,14 @@ public class SettingsController implements Initializable {
             contactManager.removeContact(toRemove.getId());
             friends.removeAll(contacts.getSelectionModel().getSelectedItem());
         }
+    }
+    /**
+     * Is called by the main application to give a reference back to itself.
+     *
+     * @param mainApp
+     */
+    public void setMainApp(MainApp2 mainApp) {
+        this.mainApp = mainApp;
+        this.rootLayout = mainApp.getRootLayout();
     }
 }
