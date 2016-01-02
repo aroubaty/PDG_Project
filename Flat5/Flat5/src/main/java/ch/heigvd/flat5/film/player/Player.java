@@ -109,4 +109,8 @@ public class Player {
     public boolean isPlaying() {
         return mediaPlayerComponent.getMediaPlayer().isPlaying();
     }
+
+    public void setTime(long time) {
+        mediaPlayerComponent.getMediaPlayer().setTime(time);
+    }
 }
