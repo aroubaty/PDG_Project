@@ -21,6 +21,8 @@ public class LibraryManager
 
     public static void addFileToDB(String directoryPath)
     {
+
+
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
         SQLiteConnector sqLiteConnector = new SQLiteConnector();
@@ -94,7 +96,6 @@ public class LibraryManager
                     {
                         MediaMeta metas = mediaPlayerFactory.getMediaMeta(path, true);
                         String movieTitle = metas.getTitle();
-                        System.out.println(movieTitle);
                         if(movieTitle.contains("."))
                             { movieTitle = movieTitle.substring(0, movieTitle.lastIndexOf('.')); }
                         MovieInfos infos = movieDataGetter.searchFilm(movieTitle);
@@ -109,7 +110,6 @@ public class LibraryManager
                             infos.setReleaseDate(metas.getDate());
                             infos.setType("movie");
                         }
-                        System.out.println(infos.getType());
                         movieManager.addMovie(infos, path);
                         metas.release();
                     }

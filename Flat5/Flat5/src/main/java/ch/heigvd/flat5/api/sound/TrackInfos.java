@@ -13,6 +13,7 @@ package ch.heigvd.flat5.api.sound;
  * @author Anthony & Jérôme
  */
 public class TrackInfos {
+    public String path;
     public String title;
     public String artist;
     public String album;

@@ -8,6 +8,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.internal.Excluder;
+import com.google.gson.stream.MalformedJsonException;
+
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
@@ -28,6 +31,10 @@ public class OMDbClient
 
             InputStream response = httpConnection.getInputStream();
             int responseCode = httpConnection.getResponseCode();
+            if(responseCode < 200 && responseCode >= 300)
+            {
+                return null;
+            }
 
             BufferedReader reader = new BufferedReader (new InputStreamReader(response, charset));
             responseString = reader.readLine();
@@ -40,8 +47,20 @@ public class OMDbClient
 
     public List<SearchResult> parseSearchResult (String result)
     {
+        if (result == null)
+        {
+            return null;
+        }
 
-        JsonObject parsedResult  = parser.parse(result).getAsJsonObject();
+        JsonObject parsedResult;
+        try
+        {
+            parsedResult = parser.parse(result).getAsJsonObject();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
 
         // We check result is a search result containing some movies infos.
         if(parsedResult.get("Error") != null ||
@@ -65,8 +84,20 @@ public class OMDbClient
 
     public MovieInfos parseMovieInfos (String result)
     {
+        if (result == null || result.isEmpty())
+        {
+            return null;
+        }
 
-        JsonObject parsedResult = parser.parse(result).getAsJsonObject();
+        JsonObject parsedResult;
+        try
+        {
+            parsedResult = parser.parse(result).getAsJsonObject();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
 
         // We check for errors.
         if (parsedResult.get("Error") != null) {
@@ -78,10 +109,22 @@ public class OMDbClient
 
     public Season parseSeasonInfos (String result)
     {
+        if (result == null)
+        {
+            return null;
+        }
 
-        JsonObject parsedResult = parser.parse(result).getAsJsonObject();
+        JsonObject parsedResult;
+        try
+        {
+            parsedResult = parser.parse(result).getAsJsonObject();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
 
-        // We check for errors.
+            // We check for errors.
         if (parsedResult.get("Error") != null) {
             return null;
         }

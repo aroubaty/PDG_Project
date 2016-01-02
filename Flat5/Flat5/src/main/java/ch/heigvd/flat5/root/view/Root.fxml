@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-
 <BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.root.view.RootController">
    <top>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -19,55 +12,43 @@
                   <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerSettings" text="">
                       <graphic>
                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../../../../../resources/img/param.png" />
-                              </image>
+                              <Image url="@../../../../../../resources/img/param.png"/>
                           </ImageView>
                       </graphic>
                   </Button>
                   <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerSerie" text="">
                       <graphic>
                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../../../../../resources/img/screen.png" />
-                              </image>
+                              <Image url="@../../../../../../resources/img/screen.png"/>
                           </ImageView>
                       </graphic>
                   </Button>
                   <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerFilm" text="">
                       <graphic>
                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../../../../../resources/img/film.png" />
-                              </image>
+                              <Image url="@../../../../../../resources/img/film.png"/>
                           </ImageView>
                       </graphic>
                   </Button>
                   <Button id="rich-blue" mnemonicParsing="false" onAction="#handleMusic" text="">
                       <graphic>
                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../../../../../resources/img/note.png" />
-                              </image>
+                              <Image url="@../../../../../../resources/img/note.png"/>
                           </ImageView>
                       </graphic>
                   </Button>
                   <Button id="rich-blue" mnemonicParsing="false" onAction="#handleHome" text="">
                       <graphic>
                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../../../../../resources/img/home.png" />
-                              </image>
+                              <Image url="@../../../../../../resources/img/home.png"/>
                           </ImageView>
                       </graphic>
                   </Button>
                   <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerPrev" text="">
                      <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/success-previous-button.png" />
-                           </image>
-                        </ImageView>
+                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                             <Image url="@../../../../../../resources/img/success-previous-button.png"/>
+                         </ImageView>
                      </graphic>
                   </Button>
 

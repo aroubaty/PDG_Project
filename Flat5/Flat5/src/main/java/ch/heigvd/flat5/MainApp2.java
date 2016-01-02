@@ -61,7 +61,7 @@ public class MainApp2 extends Application {
      */
     private void initRootLayout() {
         // Init library
-        LibraryManager.addFileToDB("C:\\Users\\léonard\\Downloads\\Blood-C intégrale NC vostfr mp4[BDRip-1080p][Hestya-LonelyWolf]");
+        LibraryManager.addFileToDB("C:\\Users\\léonard\\Downloads\\Charlotte.S01.VOSTFR.1080p.WEB-DL.AAC.x264-WKN");
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();

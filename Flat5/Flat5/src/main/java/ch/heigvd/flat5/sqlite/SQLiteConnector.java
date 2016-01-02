@@ -53,7 +53,7 @@ public class SQLiteConnector
             statement.executeUpdate(query);
             query = "CREATE TABLE IF NOT EXISTS tracks" +
                     "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "fileName TEXT NOT NULL," +
+                    "path TEXT NOT NULL," +
                     "title VARCHAR (50) NOT NULL," +
                     "artist VARCHAR (50)," +
                     "album VARCHAR (50)," +

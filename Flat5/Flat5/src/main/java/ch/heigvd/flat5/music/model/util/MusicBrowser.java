@@ -3,7 +3,10 @@ package ch.heigvd.flat5.music.model.util;
 import ch.heigvd.flat5.api.sound.GetSoundInfo;
 import ch.heigvd.flat5.api.sound.TrackInfos;
 import ch.heigvd.flat5.music.model.Music;
+import ch.heigvd.flat5.sqlite.SQLiteConnector;
+import ch.heigvd.flat5.sqlite.TrackManager;
 import javafx.scene.image.Image;
+import javafx.scene.media.Track;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -37,38 +40,30 @@ public class MusicBrowser {
         acceptedExts = exts;
     }
 
-    public List<Music> getMusicsInFolder(String path) {
+    public List<Music> getMusics() {
+        SQLiteConnector sqLiteConnector = new SQLiteConnector();
+        sqLiteConnector.connectToDB();
+        TrackManager trackManager = new TrackManager(sqLiteConnector);
         ArrayList<Music> musics = new ArrayList<>();
-        File dir = new File(path);
 
-        File[] files = dir.listFiles((dir1, name) -> {
-            for(String ext : acceptedExts) {
-                if(name.toLowerCase().endsWith(ext))
-                    return true;
-            }
-            return false;
-        });
-
-        for (File file : files) {
-
-            TrackInfos trackInfos = GetSoundInfo.doIt(file);
+        for (TrackInfos infos : trackManager.getTracks()) {
 
             Image imgCover;
-            if(trackInfos.urlCover != null) {
-                imgCover = new Image(trackInfos.urlCover);
+            if(infos.urlCover != null) {
+                imgCover = new Image(infos.urlCover);
             } else {
                 ClassLoader cl = getClass().getClassLoader();
                 imgCover = new Image(cl.getResourceAsStream("img/no_cover.png"));
             }
 
             musics.add(new Music(
-                    trackInfos.title,
-                    trackInfos.artist,
-                    trackInfos.album,
-                    trackInfos.genre,
-                    trackInfos.year,
-                    trackInfos.length,
-                    file.getPath(),
+                    infos.title,
+                    infos.artist,
+                    infos.album,
+                    infos.genre,
+                    infos.year,
+                    infos.length,
+                    infos.path,
                     imgCover
             ));
         }

@@ -39,22 +39,7 @@ public class FilmController  implements Initializable
     TableColumn<Movie, String> movieDate;
     @FXML
     TableColumn<Movie, String> movieRuntime;
-    @FXML
-    Label infoRuntime;
-    @FXML
-    Label infoRelease;
-    @FXML
-    Label infoGenre;
-    @FXML
-    Label infoPlot;
-    @FXML
-    Label infoIMDBScore;
-    @FXML
-    Label infoMetaScore;
-    @FXML
-    Button launchFilm;
-    @FXML
-    ImageView infoPoster;
+
 
     private List<Movie> movies = new ArrayList<>();
     private Movie currentMovie;
@@ -62,7 +47,7 @@ public class FilmController  implements Initializable
     private MainApp2 mainApp;
     private BorderPane rootLayout;
 
-    private static final String LIBVLC_PATH = "src/main/resources/vlc";
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -97,58 +82,28 @@ public class FilmController  implements Initializable
                    {
                        System.out.println("yoooolooosadasd");
                    }
-                   /* rootController.handlerFilmInfo();
-                    // Initialisation des champs de la vue film
-                    currentMovie = row.getItem();
-                    loadInfos(currentMovie);
+                    else {
+                       currentMovie = row.getItem();
+                       rootController.handlerFilmInfo(currentMovie);
+                   }
 
-                    // Afficher autre vue.
-*/
-                    //TODO
+
+                    // Initialisation des champs de la vue film
+
+
+
+                   /* //TODO
                     NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
                     if(row.getItem().getInfos() == null)
                     { System.out.println("fdsafdsa"); }
                     System.out.println(row.getItem().getInfos().getPath());
                     SwingUtilities.invokeLater(() -> {
                         Player.getInstance().start("file:///" + row.getItem().getInfos().getPath());
-                    });
+                    });*/
                 }
             });
             return row;
         });
-    }
-
-    public void loadInfos(Movie movieToPlay)
-    {
-        infoRuntime.setText(movieToPlay.getRuntime());
-        infoGenre.setText(movieToPlay.getGenre());
-        infoRelease.setText(movieToPlay.getDate());
-        String imdbRating = movieToPlay.getInfos().getImdbRating();
-        if (imdbRating != "" && imdbRating != null) {
-            infoIMDBScore.setText(imdbRating + "/10 avec " +
-                    movieToPlay.getInfos().getImdbVotes() + " votes");
-        } else {
-            infoIMDBScore.setText("N/A");
-        }
-
-        String metascore = movieToPlay.getInfos().getMetaScore();
-        if (metascore != "" && metascore != null) {
-            infoMetaScore.setText(metascore + "/10");
-        } else {
-            infoMetaScore.setText("N/A");
-        }
-
-        String plot = movieToPlay.getInfos().getPlot();
-        if (plot != "" && plot != null) {
-            infoPlot.setText(plot);
-        } else {
-            infoPlot.setText("Indisponible");
-        }
-
-        String imageUrl = movieToPlay.getInfos().getPoster();
-        if (imageUrl != "" && imageUrl != null) {
-            infoPoster.setImage(new Image(imageUrl));
-        }
     }
     public void setRootController(RootController rootController)
     {
