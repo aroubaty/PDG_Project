@@ -6,6 +6,8 @@ import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.player.Player;
 import ch.heigvd.flat5.root.view.RootController;
+import ch.heigvd.flat5.sqlite.Contact;
+import ch.heigvd.flat5.sqlite.ContactManager;
 import ch.heigvd.flat5.sqlite.MovieManager;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
 import com.sun.jna.NativeLibrary;
@@ -40,6 +42,8 @@ public class FilmController  implements Initializable
     @FXML
     TableColumn<Movie, String> movieRuntime;
 
+    @FXML
+    ChoiceBox<String> choiceContact;
 
     private List<Movie> movies = new ArrayList<>();
     private Movie currentMovie;
@@ -47,17 +51,33 @@ public class FilmController  implements Initializable
     private MainApp2 mainApp;
     private BorderPane rootLayout;
 
+    private ContactManager contactManager;
+    private ArrayList<String> contactNames;
+
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
 
+        SQLiteConnector sqLiteConnector = new SQLiteConnector();
+        sqLiteConnector.connectToDB();
+        sqLiteConnector.initDB();
+        contactManager = new ContactManager(sqLiteConnector);
+
         // Configuration du contenu des colonnes de la TableView
         movieTitle.setCellValueFactory(new PropertyValueFactory("title"));
         movieGenre.setCellValueFactory(new PropertyValueFactory("genre"));
         movieDate.setCellValueFactory(new PropertyValueFactory("date"));
         movieRuntime.setCellValueFactory(new PropertyValueFactory("runtime"));
+
+
+        contactNames = new ArrayList<>();
+        for (Contact contact : contactManager.getContacts()) {
+            contactNames.add(contact.getName());
+        }
+        choiceContact.setItems(FXCollections.observableArrayList(contactNames));
 
         // Récupération des films
         SQLiteConnector connector = new SQLiteConnector();
@@ -112,5 +132,26 @@ public class FilmController  implements Initializable
     public void setMainApp(MainApp2 mainApp) {
         this.mainApp = mainApp;
         this.rootLayout = mainApp.getRootLayout();
+    }
+
+
+    @FXML
+    private void handleWaitForAFriend()
+    {
+
+    }
+    @FXML
+    private void handleConnectionToFriend()
+    {
+
+    }
+
+    @FXML
+    private void choiceBoxRequested() {
+        contactNames = new ArrayList<>();
+        for (Contact contact : contactManager.getContacts()) {
+            contactNames.add(contact.getName());
+        }
+        choiceContact.setItems(FXCollections.observableArrayList(contactNames));
     }
 }
