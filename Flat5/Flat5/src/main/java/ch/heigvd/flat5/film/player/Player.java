@@ -11,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.embedded.DefaultAdaptiveRuntimeFullScreenStrategy;
 
 public class Player {
@@ -54,6 +56,14 @@ public class Player {
                 future[0] = timer.schedule(() -> {
                     controls.setVisible(false);
                 }, 2000, TimeUnit.MILLISECONDS);
+            }
+        });
+
+        mediaPlayerComponent.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+            @Override
+            public void finished(MediaPlayer mediaPlayer) {
+                mediaPlayerComponent.getMediaPlayer().toggleFullScreen();
+                frame.setVisible(false);
             }
         });
     }

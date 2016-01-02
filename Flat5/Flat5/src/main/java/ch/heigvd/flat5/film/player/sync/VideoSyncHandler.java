@@ -33,7 +33,7 @@ public class VideoSyncHandler {
 
     public void sendPlay(String fileName) {
         try {
-            communication.getOutputStream().write(("PLAY " + fileName).getBytes());
+            communication.getOutputStream().write(("PLAY " + fileName + "\n").getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +41,15 @@ public class VideoSyncHandler {
 
     public void sendPause() {
         try {
-            communication.getOutputStream().write(("PAUSE".getBytes()));
+            communication.getOutputStream().write(("PAUSE\n".getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendSetTime(long time) {
+        try {
+            communication.getOutputStream().write(("SETTIME " + time +"\n").getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,13 +80,13 @@ public class VideoSyncHandler {
                     String message = reader.readLine();
 
                     if (message.startsWith("SETTIME ")) {
-                        player.setTime(Long.parseLong(message.replace("SETTIME ", "")));
+                        player.setTime(Long.parseLong(message.replace("SETTIME ", "").trim()));
                     }
                     if (message.startsWith("PAUSE")) {
                         player.pause();
                     }
                     if (message.startsWith(("PLAY "))) {
-                        player.start(message.replace("PLAY ", ""));
+                        player.start(message.replace("PLAY ", "").trim());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
