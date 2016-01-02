@@ -17,7 +17,7 @@ import java.util.List;
 
 public class LibraryManager
 {
-    private static final String LIBVLC_PATH = "C:/Program Files/VideoLAN/VLC";
+    private static final String LIBVLC_PATH = "src/main/resources/vlc";
 
     public static void addFileToDB(String directoryPath)
     {

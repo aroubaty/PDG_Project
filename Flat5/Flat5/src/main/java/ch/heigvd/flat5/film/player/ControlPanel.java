@@ -27,7 +27,7 @@ public class ControlPanel extends JPanel {
         buttonPanel.setBackground(new Color(162, 212, 247, 255));
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20));
 
-        JLabel previous = new JLabel(new ImageIcon("C:\\Users\\léonard\\Desktop\\previous.png"));
+        JLabel previous = new JLabel(new ImageIcon("src/main/resources/img/VideoPlayer/previous.png"));
         previous.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -38,23 +38,23 @@ public class ControlPanel extends JPanel {
             }
         });
 
-        JLabel play = new JLabel(new ImageIcon("C:\\Users\\léonard\\Desktop\\pause.png"));
+        JLabel play = new JLabel(new ImageIcon("src/main/resources/img/VideoPlayer/pause.png"));
         play.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (Player.getInstance().isPlaying()) {
-                    play.setIcon(new ImageIcon("C:\\Users\\léonard\\Desktop\\play.png"));
+                    play.setIcon(new ImageIcon("src/main/resources/img/VideoPlayer/play.png"));
                 } else {
-                    play.setIcon(new ImageIcon("C:\\Users\\léonard\\Desktop\\pause.png"));
+                    play.setIcon(new ImageIcon("src/main/resources/img/VideoPlayer/pause.png"));
                 }
                 
                 Player.getInstance().pause();
             }
         });
 
-        JLabel next = new JLabel(new ImageIcon("C:\\Users\\léonard\\Desktop\\next.png"));
+        JLabel next = new JLabel(new ImageIcon("src/main/resources/img/VideoPlayer/next.png"));
         next.addMouseListener(new MouseAdapter() {
 
             @Override

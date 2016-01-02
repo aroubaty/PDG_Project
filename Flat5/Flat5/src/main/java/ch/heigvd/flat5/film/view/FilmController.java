@@ -62,7 +62,7 @@ public class FilmController  implements Initializable
     private MainApp2 mainApp;
     private BorderPane rootLayout;
 
-    private static final String LIBVLC_PATH = "C:/Program Files/VideoLAN/VLC";
+    private static final String LIBVLC_PATH = "src/main/resources/vlc";
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
