@@ -31,6 +31,7 @@ public class Movie implements Cloneable
             { date = new SimpleStringProperty("Inconnue"); }
         else
             { date = new SimpleStringProperty(infos.getReleaseDate()); }
+        this.infos = infos;
     }
 
     public String getTitle() {

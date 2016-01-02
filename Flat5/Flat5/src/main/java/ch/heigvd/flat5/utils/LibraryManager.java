@@ -7,17 +7,21 @@ import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.sqlite.MovieManager;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
 import ch.heigvd.flat5.sqlite.TrackManager;
+import com.sun.jna.NativeLibrary;
 import uk.co.caprica.vlcj.player.MediaMeta;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import java.io.File;
 import java.util.List;
 
 public class LibraryManager
 {
+    private static final String LIBVLC_PATH = "C:/Program Files/VideoLAN/VLC";
 
     public static void addFileToDB(String directoryPath)
     {
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
         SQLiteConnector sqLiteConnector = new SQLiteConnector();
         sqLiteConnector.connectToDB();

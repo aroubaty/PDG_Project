@@ -4,9 +4,11 @@ package ch.heigvd.flat5.film.view;
 import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.film.model.Movie;
+import ch.heigvd.flat5.film.player.Player;
 import ch.heigvd.flat5.root.view.RootController;
 import ch.heigvd.flat5.sqlite.MovieManager;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
+import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +19,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +62,7 @@ public class FilmController  implements Initializable
     private MainApp2 mainApp;
     private BorderPane rootLayout;
 
-
+    private static final String LIBVLC_PATH = "C:/Program Files/VideoLAN/VLC";
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -93,13 +97,21 @@ public class FilmController  implements Initializable
                    {
                        System.out.println("yoooolooosadasd");
                    }
-                    rootController.handlerFilmInfo();
+                   /* rootController.handlerFilmInfo();
                     // Initialisation des champs de la vue film
                     currentMovie = row.getItem();
                     loadInfos(currentMovie);
 
                     // Afficher autre vue.
-
+*/
+                    //TODO
+                    NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
+                    if(row.getItem().getInfos() == null)
+                    { System.out.println("fdsafdsa"); }
+                    System.out.println(row.getItem().getInfos().getPath());
+                    SwingUtilities.invokeLater(() -> {
+                        Player.getInstance().start("file:///" + row.getItem().getInfos().getPath());
+                    });
                 }
             });
             return row;
