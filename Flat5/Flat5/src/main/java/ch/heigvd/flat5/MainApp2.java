@@ -60,7 +60,7 @@ public class MainApp2 extends Application {
      */
     private void initRootLayout() {
         // Init library
-        LibraryManager.addFileToDB("/home/franz/essai");
+        LibraryManager.addFileToDB("/home/oem/Téléchargements/movie");
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
@@ -109,7 +109,7 @@ public class MainApp2 extends Application {
             rootController = rootloader.getController();
             vecPrevView.add(homeOverview);
 
-            System.out.println("loader.getController(); " + rootloader.getController());
+            //System.out.println("loader.getController(); " + rootloader.getController());
             rootController.setMainApp(this);
             homeController.setMainApp(this);
             homeController.setRootLayout(rootLayout);

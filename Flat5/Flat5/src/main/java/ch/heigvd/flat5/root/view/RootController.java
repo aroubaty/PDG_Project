@@ -2,6 +2,7 @@ package ch.heigvd.flat5.root.view;
 
 
 import ch.heigvd.flat5.MainApp2;
+import ch.heigvd.flat5.film.view.FilmController;
 import ch.heigvd.flat5.home.view.HomeController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,13 +66,17 @@ public class RootController {
             serieInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/serie/view/Serieinfo.fxml").toURI().toURL());
             viewSerieInfo = serieInfo.load();
 
-            filmInfo = new FXMLLoader();
+
+            /*filmInfo = new FXMLLoader();
             filmInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/FilmInfo.fxml").toURI().toURL());
             viewFilmInfo = filmInfo.load();
 
             settings = new FXMLLoader();
             settings.setLocation(new File("src/main/java/ch/heigvd/flat5/settings/view/Settings.fxml").toURI().toURL());
-            viewSettings = settings.load();
+            viewSettings = settings.load();*/
+
+            ((FilmController)film.getController()).setRootController(this);
+            System.out.println("loader du filmCrt" + this);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -106,6 +111,7 @@ public class RootController {
     @FXML
     public void handlerFilm() {
         rootLayout.setCenter(viewFilm);
+        ((FilmController)film.getController()).setRootController(this);
         save(viewFilm);
     }
     /**
@@ -115,6 +121,7 @@ public class RootController {
     @FXML
     public void handlerFilmInfo() {
         rootLayout.setCenter(viewFilmInfo);
+        ((FilmController)film.getController()).setRootController(this);
         save(viewFilmInfo);
     }
 

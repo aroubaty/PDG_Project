@@ -1,8 +1,10 @@
 package ch.heigvd.flat5.film.view;
 
 
+import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.film.model.Movie;
+import ch.heigvd.flat5.root.view.RootController;
 import ch.heigvd.flat5.sqlite.MovieManager;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
 import javafx.application.Platform;
@@ -14,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,6 +54,10 @@ public class FilmController  implements Initializable
 
     private List<Movie> movies = new ArrayList<>();
     private Movie currentMovie;
+    private RootController rootController;
+    private MainApp2 mainApp;
+    private BorderPane rootLayout;
+
 
 
     @Override
@@ -82,7 +89,11 @@ public class FilmController  implements Initializable
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty()))
                 {
-                    System.out.println("Coucou");
+                   if(rootController == null)
+                   {
+                       System.out.println("yoooolooosadasd");
+                   }
+                    rootController.handlerFilmInfo();
                     // Initialisation des champs de la vue film
                     currentMovie = row.getItem();
                     loadInfos(currentMovie);
@@ -126,5 +137,13 @@ public class FilmController  implements Initializable
         if (imageUrl != "" && imageUrl != null) {
             infoPoster.setImage(new Image(imageUrl));
         }
+    }
+    public void setRootController(RootController rootController)
+    {
+        this.rootController = rootController;
+    }
+    public void setMainApp(MainApp2 mainApp) {
+        this.mainApp = mainApp;
+        this.rootLayout = mainApp.getRootLayout();
     }
 }
