@@ -42,6 +42,7 @@ public class SettingsController implements Initializable {
     @FXML Button friendsManager;
     @FXML Button browse;
     @FXML Label mediaPath;
+    @FXML TextArea mediaPathValue;
     @FXML TextField name;
     @FXML TextField ipAddress;
     @FXML Button validateContact;
@@ -119,6 +120,14 @@ public class SettingsController implements Initializable {
         friends.add(new Contact(id, name.getText(),ipAddress.getText()));
     }
 
+    public ObservableList<Contact> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(ObservableList<Contact> friends) {
+        this.friends = friends;
+    }
+
     @FXML
     private void handleDeleteContact() {
         Contact toRemove = contacts.getSelectionModel().getSelectedItem();
@@ -126,6 +135,7 @@ public class SettingsController implements Initializable {
             contactManager.removeContact(toRemove.getId());
             friends.removeAll(contacts.getSelectionModel().getSelectedItem());
         }
+
     }
     /**
      * Is called by the main application to give a reference back to itself.
@@ -135,5 +145,19 @@ public class SettingsController implements Initializable {
     public void setMainApp(MainApp2 mainApp) {
         this.mainApp = mainApp;
         this.rootLayout = mainApp.getRootLayout();
+    }
+
+    public Label getMediaPath() {
+        return mediaPath;
+    }
+
+    public void setMediaPath(Label mediaPath) {
+        this.mediaPath = mediaPath;
+    }
+
+    @FXML
+    public void setPathValue()
+    {
+        mainApp.setPath(mediaPathValue.getText());
     }
 }

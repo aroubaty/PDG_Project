@@ -4,6 +4,7 @@ package ch.heigvd.flat5.root.view;
 import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.film.view.FilmController;
 import ch.heigvd.flat5.home.view.HomeController;
+import ch.heigvd.flat5.settings.view.SettingsController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -151,6 +152,7 @@ public class RootController {
     @FXML
     public void handlerSettings() {
         rootLayout.setCenter(viewSettings);
+        ((SettingsController)settingsLoader.getController()).setMainApp(mainApp);
         save(viewSettings);
     }
 
