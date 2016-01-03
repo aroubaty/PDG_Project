@@ -49,7 +49,7 @@ public class FilmInfoController implements Initializable {
         infoGenre.setText(movieToPlay.getGenre());
         infoRelease.setText(movieToPlay.getDate());
         String imdbRating = movieToPlay.getInfos().getImdbRating();
-        if (!imdbRating.isEmpty() && imdbRating != null && !imdbRating.equals("N/A"))
+        if (imdbRating != null && !imdbRating.isEmpty() && !imdbRating.equals("N/A"))
         {
             infoIMDBScore.setText(imdbRating + "/10 avec " +
                     movieToPlay.getInfos().getImdbVotes() + " votes");
@@ -61,7 +61,7 @@ public class FilmInfoController implements Initializable {
         }
 
         String metascore = movieToPlay.getInfos().getMetaScore();
-        if (!metascore.isEmpty() && metascore != null && !metascore.equals("N/A"))
+        if (metascore != null && !metascore.isEmpty() && !metascore.equals("N/A"))
         {
             infoMetaScore.setText(metascore + "/10");
         }
@@ -72,7 +72,7 @@ public class FilmInfoController implements Initializable {
         }
 
         String plot = movieToPlay.getInfos().getPlot();
-        if (!plot.isEmpty() && plot != null & !plot.equals("N/A"))
+        if (plot != null && !plot.isEmpty() && !plot.equals("N/A"))
         {
             synop.setText(plot);
         }
@@ -82,8 +82,9 @@ public class FilmInfoController implements Initializable {
         }
 
         String imageUrl = movieToPlay.getInfos().getPoster();
-        if (imageUrl != null && !imageUrl.isEmpty() && imageUrl != null && !imageUrl.equals("N/A"))
+        if (imageUrl != null && !imageUrl.isEmpty() && !imageUrl.equals("N/A"))
         {
+            System.out.println(imageUrl);
             infoPoster.setImage(new Image(imageUrl));
         }
         else

@@ -66,7 +66,7 @@ public class SerieInfoController implements Initializable {
         serieGenre.setText(serieToPlay.getGenre());
         serieRelease.setText(serieToPlay.getDate());
         String imdbRating = serieToPlay.getInfos().getImdbRating();
-        if (!imdbRating.isEmpty() && imdbRating != null && !imdbRating.equals("N/A"))
+        if (imdbRating != null && !imdbRating.isEmpty() && !imdbRating.equals("N/A"))
         {
             serieScore.setText(imdbRating + "/10 avec " +
                     serieToPlay.getInfos().getImdbVotes() + " votes");
@@ -78,7 +78,7 @@ public class SerieInfoController implements Initializable {
         }
 
         String metascore = serieToPlay.getInfos().getMetaScore();
-        if (!metascore.isEmpty() && metascore != null && !metascore.equals("N/A"))
+        if (metascore != null && !metascore.isEmpty() && !metascore.equals("N/A"))
         {
             serieMetaScore.setText(metascore + "/10");
         }
@@ -89,7 +89,7 @@ public class SerieInfoController implements Initializable {
         }
 
         String plot = serieToPlay.getInfos().getPlot();
-        if (!plot.isEmpty() && plot != null & !plot.equals("N/A"))
+        if (plot != null && !plot.isEmpty() && !plot.equals("N/A"))
         {
             seriePlot.setText(plot);
         }

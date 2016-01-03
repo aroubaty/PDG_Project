@@ -3,6 +3,7 @@ package ch.heigvd.flat5.sqlite;
 import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.serie.model.Episode;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +52,7 @@ public class MovieManager
             {
                 return true;
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -77,6 +79,7 @@ public class MovieManager
             {
                 return true;
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -120,6 +123,7 @@ public class MovieManager
             {
                 return resultSet.getInt(1);
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -139,25 +143,46 @@ public class MovieManager
         {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM movies WHERE type = 'movie'");
+            List<Integer> toDelete = new LinkedList<>();
+            File file;
             while(result.next())
             {
-                movies.add(new MovieInfos(
-                        result.getString("title"),
-                        result.getString("year"),
-                        result.getString("releaseDate"),
-                        result.getString("runtime"),
-                        result.getString("genre"),
-                        result.getString("plot"),
-                        result.getString("imdbRating"),
-                        result.getString("imdbVotes"),
-                        result.getString("type"),
-                        result.getString("metaScore"),
-                        result.getString("imdbID"),
-                        result.getString("poster"),
-                        result.getString("path"),
-                        new Integer(result.getInt("id")).toString()
-                        ));
+                /* On vérifie que la vidéo existe encore dans la collection, si ce n'est pas le cas on l'enlève de la
+                    base de données. Sinon on l'ajoute à la liste des vidéos. */
+                file = new File(result.getString("path"));
+                if(file.exists())
+                {
+                    movies.add(new MovieInfos(
+                            result.getString("title"),
+                            result.getString("year"),
+                            result.getString("releaseDate"),
+                            result.getString("runtime"),
+                            result.getString("genre"),
+                            result.getString("plot"),
+                            result.getString("imdbRating"),
+                            result.getString("imdbVotes"),
+                            result.getString("type"),
+                            result.getString("metaScore"),
+                            result.getString("imdbID"),
+                            result.getString("poster"),
+                            result.getString("path"),
+                            new Integer(result.getInt("id")).toString()
+                    ));
+                }
+
+                else
+                {
+                    toDelete.add(result.getInt("id"));
+                }
+
+                //Suppressions de la base de données des infromations dont le fichier n'existe plus.
+                for(Integer i : toDelete)
+                {
+                    String query = "DELETE FROM movies WHERE id = " + i.toString();
+                    statement.executeUpdate(query);
+                }
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -177,25 +202,46 @@ public class MovieManager
         {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM movies WHERE type = 'series'");
+            List<Integer> toDelete = new LinkedList<>();
+            File file;
             while(result.next())
             {
-                movies.add(new MovieInfos(
-                        result.getString("title"),
-                        result.getString("year"),
-                        result.getString("releaseDate"),
-                        result.getString("runtime"),
-                        result.getString("genre"),
-                        result.getString("plot"),
-                        result.getString("imdbRating"),
-                        result.getString("imdbVotes"),
-                        result.getString("type"),
-                        result.getString("metaScore"),
-                        result.getString("imdbID"),
-                        result.getString("poster"),
-                        result.getString("path"),
-                        new Integer(result.getInt("id")).toString()
-                ));
+                /* On vérifie que la série existe encore dans la collection, si ce n'est pas le cas on l'enlève de la
+                    base de données. Sinon on l'ajoute à la liste des séries. */
+                file = new File(result.getString("path"));
+                if(file.exists())
+                {
+                    movies.add(new MovieInfos(
+                            result.getString("title"),
+                            result.getString("year"),
+                            result.getString("releaseDate"),
+                            result.getString("runtime"),
+                            result.getString("genre"),
+                            result.getString("plot"),
+                            result.getString("imdbRating"),
+                            result.getString("imdbVotes"),
+                            result.getString("type"),
+                            result.getString("metaScore"),
+                            result.getString("imdbID"),
+                            result.getString("poster"),
+                            result.getString("path"),
+                            new Integer(result.getInt("id")).toString()
+                    ));
+                }
+
+                else
+                {
+                    toDelete.add(result.getInt("id"));
+                }
+
+                //Suppressions de la base de données des infromations dont le fichier n'existe plus.
+                for(Integer i : toDelete)
+                {
+                    String query = "DELETE FROM movies WHERE id = " + i.toString();
+                    statement.executeUpdate(query);
+                }
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -226,6 +272,7 @@ public class MovieManager
             statement.setString(4, season);
             statement.setString(5, episode);
             statement.executeUpdate();
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -245,16 +292,55 @@ public class MovieManager
         {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM episodes WHERE serieId = "+ new Integer(serieId));
+            File file;
             while(result.next())
             {
-                episodes.add(new Episode(result.getString("title"), result.getString("episode"),
-                        result.getString("season"), result.getString("path")));
+                /* On vérifie que la série existe encore dans la collection, si ce n'est pas le cas on l'enlève de la
+                    base de données. Sinon on l'ajoute à la liste des séries. */
+                file = new File(result.getString("path"));
+                if(file.exists())
+                {
+                    episodes.add(new Episode(result.getString("title"), result.getString("episode"),
+                            result.getString("season"), result.getString("path")));
+                }
+
+                else
+                {
+                    String query = "DELETE FROM episodes WHERE serieId = " + serieId;
+                }
             }
+            statement.close();
         }
         catch ( Exception e )
         {
             System.err.println("Error while getting movies " + e.getClass().getName() + ": " + e.getMessage());
         }
         return episodes;
+    }
+
+    /**
+     * Trouve l'id de la série se trouvant dans au chemin passé en paramètre.
+     * @param path : le chemin où se trouve la série.
+     * @return l'id de la série. En cas d'erreur, retourne -1.
+     */
+    public int findSerieId(String path)
+    {
+        int id = -1;
+        try
+        {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM movies WHERE type = 'series' AND " +
+                    "path = '" + path + "';");
+            while(result.next())
+            {
+                id = result.getInt("id");
+            }
+            statement.close();
+        }
+        catch ( Exception e )
+        {
+            System.err.println("Error while getting movies " + e.getClass().getName() + ": " + e.getMessage());
+        }
+        return id;
     }
 }

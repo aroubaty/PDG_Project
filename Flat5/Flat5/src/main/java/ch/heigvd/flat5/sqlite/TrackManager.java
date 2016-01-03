@@ -1,6 +1,8 @@
 package ch.heigvd.flat5.sqlite;
 
 import ch.heigvd.flat5.api.sound.TrackInfos;
+
+import java.io.File;
 import java.sql.*;
 import java.util.*;
 
@@ -39,6 +41,7 @@ public class TrackManager
             {
                 return true;
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -68,6 +71,7 @@ public class TrackManager
             statement.setString(7, track.length);
             statement.setString(8, track.urlCover);
             statement.executeUpdate();
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -86,16 +90,38 @@ public class TrackManager
         {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM tracks");
+            List<Integer> toDelete = new LinkedList<>();
+            File file;
+
             while(result.next())
             {
-                TrackInfos track = new TrackInfos(result.getString("title"),
-                        result.getString("artist"), result.getString("album"),
-                        result.getString("genre"), result.getString("year"),
-                        result.getString("length"), result.getString("urlCover"));
-                track.path = result.getString("path");
-                tracks.add(track);
+                 /* On vérifie que la série existe encore dans la collection, si ce n'est pas le cas on l'enlève de la
+                    base de données. Sinon on l'ajoute à la liste des séries. */
+                file = new File(result.getString("path"));
+                if(file.exists())
+                {
+                    TrackInfos track = new TrackInfos(result.getString("title"),
+                            result.getString("artist"), result.getString("album"),
+                            result.getString("genre"), result.getString("year"),
+                            result.getString("length"), result.getString("urlCover"));
+                    track.path = result.getString("path");
+                    tracks.add(track);
+                }
+
+                else
+                {
+                    toDelete.add(result.getInt("id"));
+                }
+
+                //Suppressions de la base de données des infromations dont le fichier n'existe plus.
+                for(Integer i : toDelete)
+                {
+                    String query = "DELETE FROM tracks WHERE id = " + i.toString();
+                    statement.executeUpdate(query);
+                }
 
             }
+            statement.close();
         }
         catch ( Exception e )
         {

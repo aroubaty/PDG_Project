@@ -60,6 +60,7 @@ public class LibraryManager
                 /* On vérifie si cette série a déjà été ajouté à la base de donnée. Si ce n'est pas le cas on l'ajoute
                    ainsi que tous les épisodes contenus dans le dossier. */
                 String path = file.getPath();
+                int serieID;
                 if (!movieManager.serieIsKnown(path))
                 {
                     // On récupère les données de la série sur omdb et on l'ajoute à la base de données.
@@ -67,34 +68,37 @@ public class LibraryManager
                     MovieInfos infos = movieDataGetter.searchSerie(serieTitle);
 
                     // Si aucune information n'a pus être retirée, on ajoute les informations basiques.
-                    if(infos == null)
-                    {
+                    if (infos == null) {
                         infos = new MovieInfos();
                         infos.setTitle(serieTitle);
                         infos.setType("series");
                     }
-                    int serieID = movieManager.addMovie(infos, path);
+                    serieID = movieManager.addMovie(infos, path);
+                }
 
+                else
+                {
+                    serieID = movieManager.findSerieId(path);
+                }
 
-                    // On ajoute tous les épisodes à la base de données.
-                    for (File episode : file.listFiles())
+                // On ajoute tous les épisodes à la base de données.
+                for (File episode : file.listFiles())
+                {
+                    if(episode.isFile())
                     {
-                        if(episode.isFile())
+                        String fileName = episode.getPath();
+                        if(isMovie(fileName) && !movieManager.isKnown(fileName))
                         {
-                            String fileName = episode.getPath();
-                            if(isMovie(fileName))
-                            {
-                                MediaMeta metas = mediaPlayerFactory.getMediaMeta(fileName, true);
-                                String episodeName = metas.getTitle();
-                                episodeName = episodeName.substring(0, episodeName.lastIndexOf('.'));
-                                String season = metas.getSeason();
-                                String episodeNumber = metas.getEpisode();
-                                if(season == null) {season = "";}
-                                if(episodeNumber == null) {episodeNumber = "";}
-                                metas.release();
+                            MediaMeta metas = mediaPlayerFactory.getMediaMeta(fileName, true);
+                            String episodeName = metas.getTitle();
+                            episodeName = episodeName.substring(0, episodeName.lastIndexOf('.'));
+                            String season = metas.getSeason();
+                            String episodeNumber = metas.getEpisode();
+                            if(season == null) {season = "";}
+                            if(episodeNumber == null) {episodeNumber = "";}
+                            metas.release();
 
-                                movieManager.addEpisode(episodeName, serieID, season, episodeNumber, fileName);
-                            }
+                            movieManager.addEpisode(episodeName, serieID, season, episodeNumber, fileName);
                         }
                     }
                 }

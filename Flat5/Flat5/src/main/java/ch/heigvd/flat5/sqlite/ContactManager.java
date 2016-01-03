@@ -41,6 +41,7 @@ public class ContactManager
             if(resultSet.next()) {
                 return resultSet.getLong(1);
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -81,6 +82,7 @@ public class ContactManager
             {
                 contacts.add(new Contact(result.getInt("id"), result.getString("name"), result.getString("address")));
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -102,7 +104,9 @@ public class ContactManager
             statement.setString(2, contact.getAddress());
             statement.setLong(3, contact.getId());
             statement.executeUpdate();
+            statement.close();
         }
+
         catch ( Exception e )
         {
             System.err.println("Error while updating contact " + e.getClass().getName() + ": " + e.getMessage());
@@ -120,6 +124,7 @@ public class ContactManager
             PreparedStatement statement = connection.prepareStatement("DELETE FROM contacts WHERE id = ?");
             statement.setLong(1, id);
             statement.executeUpdate();
+            statement.close();
         }
         catch ( Exception e )
         {

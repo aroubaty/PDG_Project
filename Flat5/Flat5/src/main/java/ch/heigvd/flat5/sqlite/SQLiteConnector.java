@@ -42,7 +42,7 @@ public class SQLiteConnector
                     "title VARCHAR(50) NOT NULL," +
                     "runtime VARCHAR(15) NOT NULL," +
                     "year VARCHAR(4)," +
-                    "type VARCHAR(10)," +
+                    "type VARCHAR(10) NOT NULL," +
                     "releaseDate VARCHAR(25)," +
                     "genre TEXT," +
                     "plot TEXT," +
@@ -57,7 +57,7 @@ public class SQLiteConnector
                     "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "path TEXT NOT NULL," +
                     "title VARCHAR(50) NOT NULL," +
-                    "serieID INTEGER," +
+                    "serieID INTEGER NOT NULL," +
                     "season TINYTEXT," +
                     "episode TINYTEXT," +
                     " FOREIGN KEY (serieID) REFERENCES movies(id)" +
@@ -86,6 +86,29 @@ public class SQLiteConnector
         {
             System.err.println("Error while creating DB " + e.getClass().getName() + ": " + e.getMessage());
         }
+    }
+
+    /**
+     * Les tables contenant les informations concernant les fichiers sont droppées. La collection est réinitialisée.
+     */
+    public void dropCollection()
+    {
+        try
+        {
+            Statement statement = connection.createStatement();
+            String query = "DROP TABLE episodes;";
+            statement.executeUpdate(query);
+            query = "DROP TABLE tracks;";
+            statement.executeUpdate(query);
+            query =  "DROP TABLE movies;";
+            statement.executeUpdate(query);
+            statement.close();
+        }
+        catch ( Exception e )
+        {
+            System.err.println("Error while creating DB " + e.getClass().getName() + ": " + e.getMessage());
+        }
+        initDB();
     }
 
     /**
