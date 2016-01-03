@@ -45,7 +45,6 @@
                                                <Label fx:id="serieScore" prefHeight="41.0" prefWidth="204.0" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                                <Label text="Meta Score" GridPane.rowIndex="4" />
                                                <Label fx:id="serieMetaScore" prefHeight="37.0" prefWidth="267.0" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                               <Button id="rich-blue" fx:id="launchFilm" mnemonicParsing="false" onAction="#launchFilm" stylesheets="@../../../../../../resources/styles/Styles.css" text="Lancer le film" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                                <ScrollPane styleClass="synop" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                                    <content>
                                                        <TextFlow prefHeight="837.0" prefWidth="480.0">
