@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../../../../../resources/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.film.view.FilmController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../../../../../resources/styles/Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.film.view.FilmController">
     <center>
       <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -45,15 +45,17 @@
                   <ChoiceBox fx:id="choiceContact" prefWidth="150.0" styleClass="cb" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                    <Button id="rich-blue" fx:id="btnConnection" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                        <graphic>
-                           <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                               <Image url="@../../../../../../resources/img/connection.png" />
+                           <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" onMouseClicked="#connectButtonClicked" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                  <Image url="@../../../../../../resources/img/connection.png" />
+                              </image>
                            </ImageView>
                        </graphic>
                    </Button>
                   <Label text="Attente : " GridPane.rowIndex="2" />
                   <Button id="rich-blue" fx:id="btnConnection1" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <graphic>
-                        <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" onMouseClicked="#acceptConnectionButtonClicked" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../../resources/img/sync.png" />
                            </image>

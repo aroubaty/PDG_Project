@@ -16,10 +16,14 @@ public class VideoSyncHandler {
 
     private Socket communication;
 
-    private Player player;
+    private VideoSyncHandler() {}
 
-    public VideoSyncHandler(Player player) {
-        this.player = player;
+    private static class Holder {
+        private static final VideoSyncHandler instance = new VideoSyncHandler();
+    }
+
+    public static VideoSyncHandler getInstance() {
+        return Holder.instance;
     }
 
     public void connect(String ip) {
@@ -80,13 +84,13 @@ public class VideoSyncHandler {
                     String message = reader.readLine();
 
                     if (message.startsWith("SETTIME ")) {
-                        player.setTime(Long.parseLong(message.replace("SETTIME ", "").trim()));
+                        Player.getInstance().setTime(Long.parseLong(message.replace("SETTIME ", "").trim()));
                     }
                     if (message.startsWith("PAUSE")) {
-                        player.pause();
+                        Player.getInstance().pause();
                     }
                     if (message.startsWith(("PLAY "))) {
-                        player.start(message.replace("PLAY ", "").trim());
+                        Player.getInstance().start(message.replace("PLAY ", "").trim());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

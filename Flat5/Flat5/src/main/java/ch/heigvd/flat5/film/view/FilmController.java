@@ -5,6 +5,7 @@ import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.player.Player;
+import ch.heigvd.flat5.film.player.sync.VideoSyncHandler;
 import ch.heigvd.flat5.root.view.RootController;
 import ch.heigvd.flat5.sqlite.Contact;
 import ch.heigvd.flat5.sqlite.ContactManager;
@@ -53,7 +54,6 @@ public class FilmController  implements Initializable
 
     private ContactManager contactManager;
     private ArrayList<String> contactNames;
-
 
 
 
@@ -153,5 +153,21 @@ public class FilmController  implements Initializable
             contactNames.add(contact.getName());
         }
         choiceContact.setItems(FXCollections.observableArrayList(contactNames));
+    }
+
+    @FXML
+    private void connectButtonClicked() {
+        for (Contact c: contactManager.getContacts()) {
+            if (c.getName().equals(choiceContact.getValue())) {
+                System.out.println("connected to " + c.getAddress());
+                VideoSyncHandler.getInstance().connect(c.getAddress());
+            }
+        }
+    }
+
+    @FXML
+    private void acceptConnectionButtonClicked() {
+        System.out.println("waiting for connection");
+        VideoSyncHandler.getInstance().waitForConnection();
     }
 }
