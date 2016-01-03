@@ -43,9 +43,9 @@
                <children>
                   <Label text="Connexion" GridPane.rowIndex="1" />
                   <ChoiceBox fx:id="choiceContact" prefWidth="150.0" styleClass="cb" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                   <Button id="rich-blue" fx:id="btnConnection" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                   <Button id="rich-blue" fx:id="btnConnection" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#connectButtonClicked" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                        <graphic>
-                           <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" onMouseClicked="#connectButtonClicked" pickOnBounds="true" preserveRatio="true">
+                           <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                   <Image url="@../../../../../../resources/img/connection.png" />
                               </image>
@@ -53,9 +53,9 @@
                        </graphic>
                    </Button>
                   <Label text="Attente : " GridPane.rowIndex="2" />
-                  <Button id="rich-blue" fx:id="btnConnection1" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button id="rich-blue" fx:id="btnConnection1" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#acceptConnectionButtonClicked" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <graphic>
-                        <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" onMouseClicked="#acceptConnectionButtonClicked" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../../resources/img/sync.png" />
                            </image>

@@ -28,8 +28,10 @@ public class VideoSyncHandler {
 
     public void connect(String ip) {
         try {
-            communication = new Socket();
-            communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT), 10000);
+            if (communication == null) {
+                communication = new Socket();
+                communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT), 10000);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,6 +71,10 @@ public class VideoSyncHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isConnected() {
+        return communication != null && communication.isConnected();
     }
 
     private void startMessageThread() {
