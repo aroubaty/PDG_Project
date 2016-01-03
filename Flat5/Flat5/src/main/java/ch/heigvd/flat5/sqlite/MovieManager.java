@@ -1,7 +1,7 @@
 package ch.heigvd.flat5.sqlite;
 
-import ch.heigvd.flat5.api.video.Episode;
 import ch.heigvd.flat5.api.video.MovieInfos;
+import ch.heigvd.flat5.serie.model.Episode;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -155,7 +155,7 @@ public class MovieManager
                         result.getString("imdbID"),
                         result.getString("poster"),
                         result.getString("path"),
-                        result.getInt("id")
+                        new Integer(result.getInt("id")).toString()
                         ));
             }
         }
@@ -193,7 +193,7 @@ public class MovieManager
                         result.getString("imdbID"),
                         result.getString("poster"),
                         result.getString("path"),
-                        result.getInt("id")
+                        new Integer(result.getInt("id")).toString()
                 ));
             }
         }
@@ -238,16 +238,17 @@ public class MovieManager
      * @param serieId L'id de la série dont les épisodes sont recherchés.
      * @return La liste des épisodes de la série contenus dans la base de données.
      */
-    public List<String> getSerieEpisodes(String serieId)
+    public List<Episode> getSerieEpisodes(String serieId)
     {
-        List<String> episodes = new LinkedList<>();
+        List<Episode> episodes = new LinkedList<>();
         try
         {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM episodes WHERE serieId = "+ new Integer(serieId));
             while(result.next())
             {
-                episodes.add(result.getString("title"));
+                episodes.add(new Episode(result.getString("title"), result.getString("episode"),
+                        result.getString("season"), result.getString("path")));
             }
         }
         catch ( Exception e )

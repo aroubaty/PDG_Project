@@ -5,7 +5,7 @@ import ch.heigvd.flat5.api.video.MovieInfos;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Movie implements Cloneable
+public class Movie
 {
     private StringProperty title;
     private StringProperty genre;
@@ -14,20 +14,18 @@ public class Movie implements Cloneable
 
     private MovieInfos infos;
 
-    public Movie clone()
-    {
-        return new Movie(infos);
-    }
-
     public Movie (MovieInfos infos)
     {
         title = new SimpleStringProperty(infos.getTitle());
-        runtime = new SimpleStringProperty(infos.getRuntime());
-        if(infos.getGenre() == null || infos.getGenre() == "")
+        if(infos.getRuntime() == null || infos.getRuntime().isEmpty())
+            { runtime = new SimpleStringProperty("Inconnu"); }
+        else
+            { runtime = new SimpleStringProperty(infos.getRuntime()); }
+        if(infos.getGenre() == null || infos.getGenre().isEmpty())
             { genre = new SimpleStringProperty("Inconnu"); }
         else
             { genre = new SimpleStringProperty(infos.getGenre()); }
-        if(infos.getReleaseDate() == null || infos.getReleaseDate() == "")
+        if(infos.getReleaseDate() == null || infos.getReleaseDate().isEmpty())
             { date = new SimpleStringProperty("Inconnue"); }
         else
             { date = new SimpleStringProperty(infos.getReleaseDate()); }

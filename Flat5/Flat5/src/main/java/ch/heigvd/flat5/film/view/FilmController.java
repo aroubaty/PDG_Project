@@ -67,6 +67,7 @@ public class FilmController  implements Initializable
         sqLiteConnector.connectToDB();
         sqLiteConnector.initDB();
         contactManager = new ContactManager(sqLiteConnector);
+        MovieManager manager = new MovieManager(sqLiteConnector);
 
         // Configuration du contenu des colonnes de la TableView
         movieTitle.setCellValueFactory(new PropertyValueFactory("title"));
@@ -82,10 +83,6 @@ public class FilmController  implements Initializable
         choiceContact.setItems(FXCollections.observableArrayList(contactNames));
 
         // Récupération des films
-        SQLiteConnector connector = new SQLiteConnector();
-        connector.connectToDB();
-        MovieManager manager = new MovieManager(connector);
-
         for(MovieInfos infos : manager.getMovies())
         {
             movies.add(new Movie(infos));
@@ -100,38 +97,21 @@ public class FilmController  implements Initializable
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty()))
                 {
-                   if(rootController == null)
-                   {
-                       System.out.println("yoooolooosadasd");
-                   }
-                    else {
-                       currentMovie = row.getItem();
-                       rootController.handlerFilmInfo(currentMovie);
-                   }
-
-
-                    // Initialisation des champs de la vue film
-
-
-
-                   /* //TODO
-                    NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
-                    if(row.getItem().getInfos() == null)
-                    { System.out.println("fdsafdsa"); }
-                    System.out.println(row.getItem().getInfos().getPath());
-                    SwingUtilities.invokeLater(() -> {
-                        Player.getInstance().start("file:///" + row.getItem().getInfos().getPath());
-                    });*/
+                    currentMovie = row.getItem();
+                    rootController.handlerFilmInfo(currentMovie);
                 }
             });
             return row;
         });
     }
+
     public void setRootController(RootController rootController)
     {
         this.rootController = rootController;
     }
-    public void setMainApp(MainApp2 mainApp) {
+
+    public void setMainApp(MainApp2 mainApp)
+    {
         this.mainApp = mainApp;
         this.rootLayout = mainApp.getRootLayout();
     }

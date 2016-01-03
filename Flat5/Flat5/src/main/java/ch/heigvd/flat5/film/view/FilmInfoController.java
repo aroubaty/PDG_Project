@@ -27,8 +27,6 @@ public class FilmInfoController implements Initializable {
     @FXML
     Label infoGenre;
     @FXML
-    Label infoPlot;
-    @FXML
     Label infoIMDBScore;
     @FXML
     Label infoMetaScore;
@@ -51,29 +49,41 @@ public class FilmInfoController implements Initializable {
         infoGenre.setText(movieToPlay.getGenre());
         infoRelease.setText(movieToPlay.getDate());
         String imdbRating = movieToPlay.getInfos().getImdbRating();
-        if (imdbRating != "" && imdbRating != null) {
+        if (!imdbRating.isEmpty() && imdbRating != null && !imdbRating.equals("N/A"))
+        {
             infoIMDBScore.setText(imdbRating + "/10 avec " +
                     movieToPlay.getInfos().getImdbVotes() + " votes");
-        } else {
+        }
+
+        else
+        {
             infoIMDBScore.setText("N/A");
         }
 
         String metascore = movieToPlay.getInfos().getMetaScore();
-        if (metascore != "" && metascore != null) {
+        if (!metascore.isEmpty() && metascore != null && !metascore.equals("N/A"))
+        {
             infoMetaScore.setText(metascore + "/10");
-        } else {
+        }
+
+        else
+        {
             infoMetaScore.setText("N/A");
         }
 
         String plot = movieToPlay.getInfos().getPlot();
-        if (plot != "" && plot != null) {
+        if (!plot.isEmpty() && plot != null & !plot.equals("N/A"))
+        {
             synop.setText(plot);
-        } else {
-            synop.setText(plot);
+        }
+        else
+        {
+            synop.setText("Pas de résumé disponible");
         }
 
         String imageUrl = movieToPlay.getInfos().getPoster();
-        if (imageUrl != "" && imageUrl != null) {
+        if (imageUrl != null && !imageUrl.isEmpty() && imageUrl != null && !imageUrl.equals("N/A"))
+        {
             infoPoster.setImage(new Image(imageUrl));
         }
         else

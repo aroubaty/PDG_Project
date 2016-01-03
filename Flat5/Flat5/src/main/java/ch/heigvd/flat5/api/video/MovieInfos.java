@@ -29,10 +29,10 @@ public class MovieInfos
     /* Contient l'id, dans la base de données de l'application, du film ou de ls série. Ce champ sert à effectuer la
        recherche des épisodes correspondant à une série à l'intérieur de la base de données.
      */
-    private int dbID = -1;
+    private String dbID = "";
 
     /**
-     * Contrstucteur vide. Tout les champs seront vides, excepété le champ dbID, qui contiendra '-1'.
+     * Contrstucteur vide. Tout les champs seront vides, excepété le champ dbID, qui sera vide.
      */
     public MovieInfos() {}
 
@@ -55,7 +55,7 @@ public class MovieInfos
      */
     public MovieInfos(String title, String year, String releaseDate, String runtime, String genre, String plot,
                       String imdbRating, String imdbVotes, String type, String metaScore, String imdbID, String poster,
-                      String path, int dbID)
+                      String path, String dbID)
     {
         this.title = title;
         this.year = year;
@@ -201,11 +201,11 @@ public class MovieInfos
         this.path = path;
     }
 
-    public int getDbID() {
+    public String getDbID() {
         return dbID;
     }
 
-    public void setDbID(int dbID) {
+    public void setDbID(String dbID) {
         this.dbID = dbID;
     }
 }

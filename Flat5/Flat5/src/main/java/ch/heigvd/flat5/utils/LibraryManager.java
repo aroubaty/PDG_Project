@@ -94,7 +94,7 @@ public class LibraryManager
                                 if(episodeNumber == null) {episodeNumber = "";}
                                 metas.release();
 
-                                movieManager.addEpisode(episodeName, serieID,fileName, season, episodeNumber);
+                                movieManager.addEpisode(episodeName, serieID, season, episodeNumber, fileName);
                             }
                         }
                     }
