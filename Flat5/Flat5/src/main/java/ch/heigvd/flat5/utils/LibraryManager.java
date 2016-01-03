@@ -21,8 +21,6 @@ public class LibraryManager
 
     public static void addFileToDB(String directoryPath)
     {
-
-
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
         SQLiteConnector sqLiteConnector = new SQLiteConnector();
