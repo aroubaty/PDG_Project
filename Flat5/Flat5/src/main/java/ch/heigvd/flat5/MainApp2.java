@@ -1,12 +1,13 @@
 package ch.heigvd.flat5;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.Override;
 import java.lang.String;
+import java.net.MalformedURLException;
 import java.util.Vector;
 
 import ch.heigvd.flat5.home.view.HomeController;
+import ch.heigvd.flat5.music.view.MusicController;
 import ch.heigvd.flat5.root.view.RootController;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
 import ch.heigvd.flat5.utils.LibraryManager;
@@ -60,8 +61,24 @@ public class MainApp2 extends Application {
      * Initializes the root layout.
      */
     private void initRootLayout() {
-        // Init library
-        LibraryManager.addFileToDB("/home/franz/essai");
+
+        String filename = "mediaPath.conf";
+        try
+        {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            if ((line = reader.readLine()) != null)
+            {
+                path = line;
+                // Init library
+                LibraryManager.addFileToDB(path);
+            }
+            reader.close();
+        }
+        catch (Exception e)
+        {
+            path = "-";
+        }
 
         try {
             // Load root layout from fxml file.
@@ -173,5 +190,14 @@ public class MainApp2 extends Application {
 
     public void setPath(String path) {
         this.path = path;
+        LibraryManager.addFileToDB(path);
+        try {
+            PrintWriter pw =  new PrintWriter(new BufferedWriter(new FileWriter("mediaPath.conf", false)));
+            System.out.println("Path " + path);
+            pw.println(path);
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -27,7 +27,6 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleMusic() throws IOException {
-        System.out.println("musoic : " + mainApp);
         mainApp.getRootController().handleMusic();
     }
     @FXML

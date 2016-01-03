@@ -1,44 +1,35 @@
 package ch.heigvd.flat5.music.view;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import ch.heigvd.flat5.AppConfig;
+import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.music.model.util.MusicBrowser;
-import ch.heigvd.flat5.music.sync.MusicSyncController;
 import ch.heigvd.flat5.music.sync.MusicSyncHandler;
 import ch.heigvd.flat5.sqlite.Contact;
 import ch.heigvd.flat5.sqlite.ContactManager;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
 import ch.heigvd.flat5.sync.SyncHandler;
 import ch.heigvd.flat5.sync.SyncManager;
-import com.google.common.net.InetAddresses;
 import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Classe contrôleur FXML pour la vue Music.fxml
@@ -112,6 +103,8 @@ public class MusicController implements Initializable {
     private Image pauseImage;
     private Image sync;
     private MusicBrowser musicBrowser;
+    private MainApp2 mainApp;
+    private String lastPath;
 
     // Partie synchronisation
     private SyncManager syncManager;
@@ -159,7 +152,7 @@ public class MusicController implements Initializable {
 
         // Récupérations des musiques
         musicBrowser = new MusicBrowser(AppConfig.EXTS_SUPPORT);
-        scanMusicFiles(AppConfig.MUSIC_DIRECTORY);
+        scanMusicFiles();
 
         contactNames = new ArrayList<>();
         for (Contact contact : contactManager.getContacts()) {
@@ -280,16 +273,26 @@ public class MusicController implements Initializable {
     }
 
     /**
-     * Récupération des musiques présentes dans le répertoire path
-     *
-     * @param path répertoire
+     * Récupération des musiques présentes dans la db
      */
-    public void scanMusicFiles(String path) {
-        musics = musicBrowser.getMusics();
+    public void scanMusicFiles() {
+        boolean scan = false;
+        if(mainApp != null) {
+            if(mainApp.getPath() != lastPath) {
+                lastPath = mainApp.getPath();
+                scan = true;
+            }
+        } else {
+            scan = true;
+        }
 
-        // Chargement des musiques dans la TableView
-        ObservableList<Music> test = FXCollections.observableArrayList(musics);
-        musicFiles.setItems(test);
+        if(scan) {
+            musics = musicBrowser.getMusics();
+
+            // Chargement des musiques dans la TableView
+            ObservableList<Music> test = FXCollections.observableArrayList(musics);
+            musicFiles.setItems(test);
+        }
     }
 
     /**
@@ -379,6 +382,15 @@ public class MusicController implements Initializable {
      */
     public SyncManager getSyncManager() {
         return syncManager;
+    }
+
+    /**
+     * Setter for property 'mainApp'.
+     *
+     * @param mainApp Value to set for property 'mainApp'.
+     */
+    public void setMainApp(MainApp2 mainApp) {
+        this.mainApp = mainApp;
     }
 
     /**

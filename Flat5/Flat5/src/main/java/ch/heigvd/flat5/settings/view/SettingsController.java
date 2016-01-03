@@ -32,19 +32,16 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 /**
- * FXML Controller class
+ * Classe contrôleur FXML pour la vue Settings.fxml
  *
- * @author jermoret
+ * @author Jérôme
  */
 public class SettingsController implements Initializable {
 
-    private MainApp2 mainApp;
-    private BorderPane rootLayout;
-
+    // Composants JavaFX
     @FXML Button friendsManager;
     @FXML Button browse;
     @FXML Label mediaPath;
-    @FXML TextArea mediaPathValue;
     @FXML TextField name;
     @FXML TextField ipAddress;
     @FXML Button validateContact;
@@ -52,17 +49,22 @@ public class SettingsController implements Initializable {
     @FXML TableColumn<Contact, String> contName;
     @FXML TableColumn<Contact, String> contIP;
 
-    ObservableList<Contact> friends = FXCollections.observableArrayList();
-    ContactManager contactManager;
+    private MainApp2 mainApp;
+    private BorderPane rootLayout;
+    private ObservableList<Contact> friends = FXCollections.observableArrayList();
+    private ContactManager contactManager;
 
     /**
-     * Initializes the controller class.
+     * Initialisation de la classe contrôleur
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        // Configurations des colonnes de la table
         contName.setCellValueFactory(new PropertyValueFactory("name"));
         contIP.setCellValueFactory(new PropertyValueFactory("address"));
 
+        // Configuration des cases éditables
         contName.setCellFactory(TextFieldTableCell.forTableColumn());
         contName.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Contact, String>>() {
             @Override
@@ -86,15 +88,75 @@ public class SettingsController implements Initializable {
             }
         });
 
+        // Ouverture de la connexion Sqlite
         SQLiteConnector sqLiteConnector = new SQLiteConnector();
         sqLiteConnector.connectToDB();
         sqLiteConnector.initDB();
         contactManager = new ContactManager(sqLiteConnector);
 
+        // Récupération des contacts depuis la DB
         friends = FXCollections.observableArrayList(contactManager.getContacts());
         contacts.setItems(friends);
     }
 
+    /**
+     * Getter for property 'friends'.
+     *
+     * @return Value for property 'friends'.
+     */
+    public ObservableList<Contact> getFriends() {
+        return friends;
+    }
+
+    /**
+     * Setter for property 'friends'.
+     *
+     * @param friends Value to set for property 'friends'.
+     */
+    public void setFriends(ObservableList<Contact> friends) {
+        this.friends = friends;
+    }
+
+    /**
+     * Is called by the main application to give a reference back to itself.
+     *
+     * @param mainApp
+     */
+    public void setMainApp(MainApp2 mainApp) {
+        this.mainApp = mainApp;
+        this.rootLayout = mainApp.getRootLayout();
+    }
+
+    /**
+     * Getter for property 'mediaPath'.
+     *
+     * @return Value for property 'mediaPath'.
+     */
+    public Label getMediaPath() {
+        return mediaPath;
+    }
+
+    /**
+     * Setter for property 'mediaPath'.
+     *
+     * @param mediaPath Value to set for property 'mediaPath'.
+     */
+    public void setMediaPath(Label mediaPath) {
+        this.mediaPath = mediaPath;
+    }
+
+    /**
+     * Setter for property 'path'.
+     *
+     * @param path Value to set for property 'path'.
+     */
+    public void setPath(String path) {
+        mediaPath.setText(path);
+    }
+
+    /**
+     * Action sur l'ajout d'un contact
+     */
     @FXML
     private void handleAddContact() {
         name.setText("");
@@ -104,12 +166,16 @@ public class SettingsController implements Initializable {
         validateContact.setVisible(true);
     }
 
+    /**
+     * Action sur la validation d'ajout d'un contact
+     */
     @FXML
     private void handleValidateContact() {
         name.setVisible(false);
         ipAddress.setVisible(false);
         validateContact.setVisible(false);
 
+        // Si l'addresse n'est pas un format IP standard
         if(!InetAddresses.isInetAddress(ipAddress.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur ajout d'un ami");
@@ -122,14 +188,9 @@ public class SettingsController implements Initializable {
         friends.add(new Contact(id, name.getText(),ipAddress.getText()));
     }
 
-    public ObservableList<Contact> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(ObservableList<Contact> friends) {
-        this.friends = friends;
-    }
-
+    /**
+     * Action sur la suppression d'un contact
+     */
     @FXML
     private void handleDeleteContact() {
         Contact toRemove = contacts.getSelectionModel().getSelectedItem();
@@ -139,32 +200,19 @@ public class SettingsController implements Initializable {
         }
 
     }
+
     /**
-     * Is called by the main application to give a reference back to itself.
-     *
-     * @param mainApp
+     * Ouverture du dialogue permettant la sélection du chemin vers les médias
      */
-    public void setMainApp(MainApp2 mainApp) {
-        this.mainApp = mainApp;
-        this.rootLayout = mainApp.getRootLayout();
-    }
-
-    public Label getMediaPath() {
-        return mediaPath;
-    }
-
-    public void setMediaPath(Label mediaPath) {
-        this.mediaPath = mediaPath;
-    }
-
     @FXML
     public void setPathValue()
     {
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         final File selectedDirectory = directoryChooser.showDialog(null);
         if (selectedDirectory != null) {
-            mediaPath.setText(selectedDirectory.getAbsolutePath());
+            String dir = selectedDirectory.getAbsolutePath();
+            mediaPath.setText(dir);
+            mainApp.setPath(dir);
         }
-        //mainApp.setPath(mediaPathValue.getText());
     }
 }

@@ -6,6 +6,7 @@ import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.view.FilmController;
 import ch.heigvd.flat5.film.view.FilmInfoController;
 import ch.heigvd.flat5.home.view.HomeController;
+import ch.heigvd.flat5.music.view.MusicController;
 import ch.heigvd.flat5.serie.view.SerieController;
 import ch.heigvd.flat5.serie.view.SerieInfoController;
 import ch.heigvd.flat5.settings.view.SettingsController;
@@ -99,6 +100,8 @@ public class RootController {
     @FXML
     public void handleMusic() {
         rootLayout.setCenter(viewMusic);
+        ((MusicController)music.getController()).setMainApp(mainApp);
+        ((MusicController)music.getController()).scanMusicFiles();
         save(viewMusic);
     }
     /**
@@ -159,6 +162,7 @@ public class RootController {
     public void handlerSettings() {
         rootLayout.setCenter(viewSettings);
         ((SettingsController)settingsLoader.getController()).setMainApp(mainApp);
+        ((SettingsController)settingsLoader.getController()).setPath(mainApp.getPath());
         save(viewSettings);
     }
 

@@ -28,7 +28,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Classe facilitant la récupérations des musiques
+ * Classe pour la récupérations des musiques à partir de la base de données
+ * Le constructeur demande le passage d'un tableau d'extension accepté
+ *
  * @author Jérôme
  */
 public class MusicBrowser {
@@ -40,11 +42,14 @@ public class MusicBrowser {
     }
 
     public List<Music> getMusics() {
+
+        // Connexion à la db sqlite
         SQLiteConnector sqLiteConnector = new SQLiteConnector();
         sqLiteConnector.connectToDB();
         TrackManager trackManager = new TrackManager(sqLiteConnector);
         ArrayList<Music> musics = new ArrayList<>();
 
+        // Récupération des infos récupérés de la base
         for (TrackInfos infos : trackManager.getTracks()) {
 
             Image imgCover;
