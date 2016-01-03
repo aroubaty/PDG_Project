@@ -22,8 +22,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -158,6 +160,11 @@ public class SettingsController implements Initializable {
     @FXML
     public void setPathValue()
     {
-        mainApp.setPath(mediaPathValue.getText());
+        final DirectoryChooser directoryChooser = new DirectoryChooser();
+        final File selectedDirectory = directoryChooser.showDialog(null);
+        if (selectedDirectory != null) {
+            mediaPath.setText(selectedDirectory.getAbsolutePath());
+        }
+        //mainApp.setPath(mediaPathValue.getText());
     }
 }

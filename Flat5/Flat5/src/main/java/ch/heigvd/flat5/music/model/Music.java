@@ -7,7 +7,8 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
 /**
- * Created by jermoret on 02.11.2015.
+ * Classe modèle pour la musique
+ * @author Jérôme
  */
 public class Music {
     private StringProperty title;
@@ -30,6 +31,11 @@ public class Music {
         this.cover = cover;
     }
 
+    /**
+     * Getter for property 'artist'.
+     *
+     * @return Value for property 'artist'.
+     */
     public String getArtist() {
         return artist.get();
     }
@@ -38,10 +44,20 @@ public class Music {
         return artist;
     }
 
+    /**
+     * Setter for property 'artist'.
+     *
+     * @param artist Value to set for property 'artist'.
+     */
     public void setArtist(String artist) {
         this.artist.set(artist);
     }
 
+    /**
+     * Getter for property 'title'.
+     *
+     * @return Value for property 'title'.
+     */
     public String getTitle() {
         return title.get();
     }
@@ -50,18 +66,38 @@ public class Music {
         return title;
     }
 
+    /**
+     * Setter for property 'title'.
+     *
+     * @param title Value to set for property 'title'.
+     */
     public void setTitle(String title) {
         this.title.set(title);
     }
 
+    /**
+     * Getter for property 'path'.
+     *
+     * @return Value for property 'path'.
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Setter for property 'path'.
+     *
+     * @param path Value to set for property 'path'.
+     */
     public void setPath(String path) {
         this.path = path;
     }
 
+    /**
+     * Getter for property 'album'.
+     *
+     * @return Value for property 'album'.
+     */
     public String getAlbum() {
         return album.get();
     }
@@ -70,10 +106,20 @@ public class Music {
         return album;
     }
 
+    /**
+     * Setter for property 'album'.
+     *
+     * @param album Value to set for property 'album'.
+     */
     public void setAlbum(String album) {
         this.album.set(album);
     }
 
+    /**
+     * Getter for property 'genre'.
+     *
+     * @return Value for property 'genre'.
+     */
     public String getGenre() {
         return genre.get();
     }
@@ -82,10 +128,20 @@ public class Music {
         return genre;
     }
 
+    /**
+     * Setter for property 'genre'.
+     *
+     * @param genre Value to set for property 'genre'.
+     */
     public void setGenre(String genre) {
         this.genre.set(genre);
     }
 
+    /**
+     * Getter for property 'length'.
+     *
+     * @return Value for property 'length'.
+     */
     public String getLength() {
         return length.get();
     }
@@ -94,10 +150,20 @@ public class Music {
         return length;
     }
 
+    /**
+     * Setter for property 'length'.
+     *
+     * @param length Value to set for property 'length'.
+     */
     public void setLength(String length) {
         this.length.set(length);
     }
 
+    /**
+     * Getter for property 'year'.
+     *
+     * @return Value for property 'year'.
+     */
     public String getYear() {
         return year.get();
     }
@@ -106,10 +172,20 @@ public class Music {
         return year;
     }
 
+    /**
+     * Setter for property 'year'.
+     *
+     * @param year Value to set for property 'year'.
+     */
     public void setYear(String year) {
         this.year.set(year);
     }
 
+    /**
+     * Getter for property 'cover'.
+     *
+     * @return Value for property 'cover'.
+     */
     public Image getCover() {
         return cover;
     }

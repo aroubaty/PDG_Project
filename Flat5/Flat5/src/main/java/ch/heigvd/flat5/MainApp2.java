@@ -62,6 +62,7 @@ public class MainApp2 extends Application {
     private void initRootLayout() {
         // Init library
         LibraryManager.addFileToDB("/home/franz/essai");
+
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();

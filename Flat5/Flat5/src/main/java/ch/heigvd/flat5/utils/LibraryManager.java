@@ -35,7 +35,6 @@ public class LibraryManager
      */
     public static void addFileToDB(String directoryPath)
     {
-
         // Initialisation du mediaPlayerFactory qui permet de retirer les méta-données des fichiers vidéos.
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
