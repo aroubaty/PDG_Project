@@ -47,7 +47,7 @@
                                  <content>
                                     <TextFlow prefHeight="837.0" prefWidth="480.0">
                                        <children>
-                                          <Text fx:id="synop" blendMode="SRC_ATOP" fill="#434242" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="asdsadasd" />
+                                          <Text fx:id="synop" blendMode="SRC_ATOP" fill="#dad9d9" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="asdsadasd" />
                                        </children>
                                     </TextFlow>
                                  </content>
