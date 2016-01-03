@@ -15,16 +15,31 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Classe permettant de rechercher les médias de la collection de l'utilisateur.
+ *
+ * @author Jan Purro
+ */
 public class LibraryManager
 {
     private static final String LIBVLC_PATH = "src/main/resources/vlc";
 
+
+    /**
+     * Ajoute les fichiers du dossier passé en paramètre dans la base de données. Les fichiers déjà connus sont ignorés
+     * Les informations (meta-données) des nouveaux fichiers sont extraites et recherchées.
+     *
+     * @param directoryPath Le dossier contenant la collection. Les fichiers audios et les films doivent se trouver à la
+     *                      racine. Les séries doivent être contenues dans des dossiers et leur épisodes se trouvé à
+     *                      l'intérieur des dossiers.
+     */
     public static void addFileToDB(String directoryPath)
     {
 
-
+        // Initialisation du mediaPlayerFactory qui permet de retirer les méta-données des fichiers vidéos.
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+        // Connection à la base de données.
         SQLiteConnector sqLiteConnector = new SQLiteConnector();
         sqLiteConnector.connectToDB();
         sqLiteConnector.initDB();
@@ -33,8 +48,6 @@ public class LibraryManager
         MovieDataGetter movieDataGetter = new MovieDataGetter();
 
         File root = new File(directoryPath);
-
-
         try {
         /* On parcourt tous les fichiers et souds-dossiers contenus dans la racine.
            Les sous-dossier contiennent les épisodes d'une série, et le nom du sous-dossier doit correspondre au
@@ -53,6 +66,8 @@ public class LibraryManager
                     // On récupère les données de la série sur omdb et on l'ajoute à la base de données.
                     String serieTitle = path.substring(directoryPath.length() + 1);
                     MovieInfos infos = movieDataGetter.searchSerie(serieTitle);
+
+                    // Si aucune information n'a pus être retirée, on ajoute les informations basiques.
                     if(infos == null)
                     {
                         infos = new MovieInfos();
@@ -96,9 +111,23 @@ public class LibraryManager
                     {
                         MediaMeta metas = mediaPlayerFactory.getMediaMeta(path, true);
                         String movieTitle = metas.getTitle();
+
+                        // Si le titre du film est vide ou null, on lui donne le nom du fichier.
+                        if(movieTitle.isEmpty() || movieTitle == null)
+                        {
+                            movieTitle = path.substring(path.lastIndexOf(File.separatorChar));
+                            /*if(movieTitle.charAt(0) == File.separatorChar)
+                            {
+                                movieTitle = movieTitle.substring(1);
+                            }*/
+                        }
+
+                        // On retire l'extension du fichier s'il elle est présente.
                         if(movieTitle.contains("."))
                             { movieTitle = movieTitle.substring(0, movieTitle.lastIndexOf('.')); }
                         MovieInfos infos = movieDataGetter.searchFilm(movieTitle);
+
+                        // Si aucune informations n'a pu être obetnues à traver OMDb on cherche dans les meta-données.
                         if (infos == null)
                         {
                             infos = new MovieInfos();
@@ -131,6 +160,11 @@ public class LibraryManager
         {System.err.println("Error while scanning files for the library " + e.getClass().getName() + ": " + e.getMessage());}
     }
 
+    /**
+     * Vérifier qu'il s'agit d'un fichier audio valide (mp3, flac, ogg ou wav).
+     * @param file Le fichier à vérifier.
+     * @return true si le fichier est une musique valide, false sinon.
+     */
     public static boolean isMusic(String file)
     {
         if(file.contains(".mp3") || file.contains(".flac") || file.contains(".ogg") || file.contains(".wav"))
@@ -138,6 +172,11 @@ public class LibraryManager
         return false;
     }
 
+    /**
+     * Vérifier qu'il s'agit d'un fichier vidéo valide (mp4, mkv, ou avi).
+     * @param file Le fichier à vérifier.
+     * @return true si le fichier est une vidéo valide, false sinon.
+     */
     public static boolean isMovie(String file)
     {
         if(file.contains(".mp4") || file.contains(".mkv") || file.contains(".avi"))
@@ -145,6 +184,11 @@ public class LibraryManager
         return false;
     }
 
+    /**
+     * Méthode utilitaire qui converti un temps donnée en millisecondes en un temps donnée en minutes.
+     * @param msTime
+     * @return
+     */
     public static String convertToMinutes (long msTime)
     {
         return new Long(msTime / 60000).toString();
