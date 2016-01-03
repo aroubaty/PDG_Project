@@ -9,6 +9,7 @@ package ch.heigvd.flat5.api.sound;
  * Classe publique permettant l'accès aux informations d'un fichier audio si on peut les trouver.
  * Les champs n'ayant pas pu être trouvé sont initialisés à null.
  * title contient le nom du fichier dans le cas ou aucun tag n'a pas être complété.
+ * Le champ path contient le chemin du fichier associé aux informations.
  *
  * @author Anthony & Jérôme
  */
