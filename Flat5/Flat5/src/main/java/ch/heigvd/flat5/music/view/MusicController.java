@@ -1,13 +1,5 @@
 package ch.heigvd.flat5.music.view;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.music.model.Music;
@@ -18,27 +10,26 @@ import ch.heigvd.flat5.sqlite.ContactManager;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
 import ch.heigvd.flat5.sync.SyncHandler;
 import ch.heigvd.flat5.sync.SyncManager;
-import com.google.common.net.InetAddresses;
 import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import uk.co.caprica.vlcj.component.AudioMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Classe contrôleur FXML pour la vue Music.fxml

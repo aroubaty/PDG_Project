@@ -5,11 +5,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import ch.heigvd.flat5.film.player.sync.VideoSyncHandler;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
@@ -86,17 +91,29 @@ public class Player {
         //mediaPlayerComponent.getMediaPlayer().enableOverlay(true);
         mediaPlayerComponent.getMediaPlayer().playMedia(file);
         mediaPlayerComponent.getMediaPlayer().toggleFullScreen();
+        if (VideoSyncHandler.getInstance().isConnected()) {
+            VideoSyncHandler.getInstance().sendPlay(Paths.get(file).getFileName().toString());
+        }
     }
 
     public void next() {
         mediaPlayerComponent.getMediaPlayer().skip(2000);
+        if (VideoSyncHandler.getInstance().isConnected()) {
+            VideoSyncHandler.getInstance().sendSetTime(mediaPlayerComponent.getMediaPlayer().getTime());
+        }
     }
 
     public void previous() {
         mediaPlayerComponent.getMediaPlayer().skip(-2000);
+        if (VideoSyncHandler.getInstance().isConnected()) {
+            VideoSyncHandler.getInstance().sendSetTime(mediaPlayerComponent.getMediaPlayer().getTime());
+        }
     }
 
     public void pause() {
+        if (VideoSyncHandler.getInstance().isConnected()) {
+            VideoSyncHandler.getInstance().sendPause();
+        }
         mediaPlayerComponent.getMediaPlayer().pause();
     }
 
@@ -106,6 +123,9 @@ public class Player {
 
     public void setPosition(float percent) {
         mediaPlayerComponent.getMediaPlayer().setPosition(percent);
+        if (VideoSyncHandler.getInstance().isConnected()) {
+            VideoSyncHandler.getInstance().sendSetTime(mediaPlayerComponent.getMediaPlayer().getTime());
+        }
     }
 
     public long getCurrentTime() {
