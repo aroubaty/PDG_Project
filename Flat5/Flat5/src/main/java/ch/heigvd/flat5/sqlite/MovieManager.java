@@ -51,6 +51,7 @@ public class MovieManager
             {
                 return true;
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -77,6 +78,7 @@ public class MovieManager
             {
                 return true;
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -120,6 +122,7 @@ public class MovieManager
             {
                 return resultSet.getInt(1);
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -158,6 +161,7 @@ public class MovieManager
                         new Integer(result.getInt("id")).toString()
                         ));
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -196,6 +200,7 @@ public class MovieManager
                         new Integer(result.getInt("id")).toString()
                 ));
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -226,6 +231,7 @@ public class MovieManager
             statement.setString(4, season);
             statement.setString(5, episode);
             statement.executeUpdate();
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -250,11 +256,38 @@ public class MovieManager
                 episodes.add(new Episode(result.getString("title"), result.getString("episode"),
                         result.getString("season"), result.getString("path")));
             }
+            statement.close();
         }
         catch ( Exception e )
         {
             System.err.println("Error while getting movies " + e.getClass().getName() + ": " + e.getMessage());
         }
         return episodes;
+    }
+
+    /**
+     * Trouve l'id de la série se trouvant dans au chemin passé en paramètre.
+     * @param path : le chemin où se trouve la série.
+     * @return l'id de la série. En cas d'erreur, retourn -1.
+     */
+    public int findSerieId(String path)
+    {
+        int id = -1;
+        try
+        {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM movies WHERE type = 'series' AND " +
+                    "path = '" + path + "';");
+            while(result.next())
+            {
+                id = result.getInt("id");
+            }
+            statement.close();
+        }
+        catch ( Exception e )
+        {
+            System.err.println("Error while getting movies " + e.getClass().getName() + ": " + e.getMessage());
+        }
+        return id;
     }
 }

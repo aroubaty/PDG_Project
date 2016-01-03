@@ -39,6 +39,7 @@ public class TrackManager
             {
                 return true;
             }
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -68,6 +69,7 @@ public class TrackManager
             statement.setString(7, track.length);
             statement.setString(8, track.urlCover);
             statement.executeUpdate();
+            statement.close();
         }
         catch ( Exception e )
         {
@@ -96,6 +98,7 @@ public class TrackManager
                 tracks.add(track);
 
             }
+            statement.close();
         }
         catch ( Exception e )
         {
