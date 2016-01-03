@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import ch.heigvd.flat5.AppConfig;
+import ch.heigvd.flat5.MainApp2;
 import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.music.model.util.MusicBrowser;
-import ch.heigvd.flat5.music.sync.MusicSyncController;
 import ch.heigvd.flat5.music.sync.MusicSyncHandler;
 import ch.heigvd.flat5.sqlite.Contact;
 import ch.heigvd.flat5.sqlite.ContactManager;
@@ -112,6 +112,8 @@ public class MusicController implements Initializable {
     private Image pauseImage;
     private Image sync;
     private MusicBrowser musicBrowser;
+    private MainApp2 mainApp;
+    private String lastPath;
 
     // Partie synchronisation
     private SyncManager syncManager;
@@ -159,7 +161,7 @@ public class MusicController implements Initializable {
 
         // Récupérations des musiques
         musicBrowser = new MusicBrowser(AppConfig.EXTS_SUPPORT);
-        scanMusicFiles(AppConfig.MUSIC_DIRECTORY);
+        scanMusicFiles();
 
         contactNames = new ArrayList<>();
         for (Contact contact : contactManager.getContacts()) {
@@ -280,16 +282,26 @@ public class MusicController implements Initializable {
     }
 
     /**
-     * Récupération des musiques présentes dans le répertoire path
-     *
-     * @param path répertoire
+     * Récupération des musiques présentes dans la db
      */
-    public void scanMusicFiles(String path) {
-        musics = musicBrowser.getMusics();
+    public void scanMusicFiles() {
+        boolean scan = false;
+        if(mainApp != null) {
+            if(mainApp.getPath() != lastPath) {
+                lastPath = mainApp.getPath();
+                scan = true;
+            }
+        } else {
+            scan = true;
+        }
 
-        // Chargement des musiques dans la TableView
-        ObservableList<Music> test = FXCollections.observableArrayList(musics);
-        musicFiles.setItems(test);
+        if(scan) {
+            musics = musicBrowser.getMusics();
+
+            // Chargement des musiques dans la TableView
+            ObservableList<Music> test = FXCollections.observableArrayList(musics);
+            musicFiles.setItems(test);
+        }
     }
 
     /**
@@ -379,6 +391,15 @@ public class MusicController implements Initializable {
      */
     public SyncManager getSyncManager() {
         return syncManager;
+    }
+
+    /**
+     * Setter for property 'mainApp'.
+     *
+     * @param mainApp Value to set for property 'mainApp'.
+     */
+    public void setMainApp(MainApp2 mainApp) {
+        this.mainApp = mainApp;
     }
 
     /**
