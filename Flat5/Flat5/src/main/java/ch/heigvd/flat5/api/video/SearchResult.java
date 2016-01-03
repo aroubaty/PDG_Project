@@ -2,6 +2,13 @@ package ch.heigvd.flat5.api.video;
 
 import com.google.gson.JsonObject;
 
+/**
+ * Classe représentant le résultat d'une recherche sur OMdb.
+ * Une recherche s'effectue sur le titre d'un film et retourne un tableau contenant des informations basiques sur les
+ * films ou séries correspondant.
+ *
+ * @author Jan Purro
+ */
 public class SearchResult
 {
     private String title;
@@ -10,17 +17,11 @@ public class SearchResult
     private String type;
     private String poster;
 
-    public SearchResult() { }
-
-    public SearchResult (String title, String year, String imdbID, String type, String poster)
-    {
-        this.title = title;
-        this.year = year;
-        this.imdbID = imdbID;
-        this.type = type;
-        this.poster = poster;
-    }
-
+    /**
+     * Construit un nouvel objet à partir d'un objet JSON.
+     * Si certains champs sont absents de l'objet JSON, ils vaudront null.
+     * @param movieObject : L'objet JSON contenant les informations.
+     */
     public SearchResult (JsonObject movieObject)
     {
         title = movieObject.get("Title").getAsString();
@@ -29,6 +30,8 @@ public class SearchResult
         type = movieObject.get("Type").getAsString();
         poster = movieObject.get("Poster").getAsString();
     }
+
+    // Méthodes permettant d'obtenir ou modifier la valeur des champs de l'objet.
 
     public String getTitle ()
     {
@@ -78,11 +81,6 @@ public class SearchResult
     public void setPoster (String poster)
     {
         this.poster = poster;
-    }
-
-    public String toString()
-    {
-        return "Title : " + title + "\nYear : " + year + "\nType : " + type;
     }
 
 }

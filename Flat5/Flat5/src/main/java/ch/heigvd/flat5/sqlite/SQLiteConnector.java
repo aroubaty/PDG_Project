@@ -1,10 +1,18 @@
 package ch.heigvd.flat5.sqlite;
 import java.sql.*;
 
+/**
+ * Classe permettant de se connecter à la base de données de l'application.
+ *
+ * @author Jan Purro
+ */
 public class SQLiteConnector
 {
     private Connection connection = null;
 
+    /**
+     * Connection à la base de données de l'application. Si la base de données n'existe pas, elle est crée.
+     */
     public void connectToDB()
     {
         try
@@ -19,6 +27,10 @@ public class SQLiteConnector
         }
     }
 
+    /**
+     * Initialisation de la base de données.
+     * Les tables de la base de données seront crées si elle n'existe pas déjà.
+     */
     public void initDB()
     {
         try
@@ -76,6 +88,10 @@ public class SQLiteConnector
         }
     }
 
+    /**
+     * Retourne la connection à la base de données.
+     * @return
+     */
     public Connection getConnection()
     {
         return connection;

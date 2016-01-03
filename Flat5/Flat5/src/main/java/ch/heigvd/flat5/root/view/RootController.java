@@ -6,6 +6,8 @@ import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.view.FilmController;
 import ch.heigvd.flat5.film.view.FilmInfoController;
 import ch.heigvd.flat5.home.view.HomeController;
+import ch.heigvd.flat5.serie.view.SerieController;
+import ch.heigvd.flat5.serie.view.SerieInfoController;
 import ch.heigvd.flat5.settings.view.SettingsController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -138,6 +140,7 @@ public class RootController {
     @FXML
     public void handlerSerie() {
         rootLayout.setCenter(viewSerie);
+        ((SerieController)serie.getController()).setRootController(this);
         save(viewSerie);
     }
 
@@ -146,8 +149,9 @@ public class RootController {
      * fonction appelé quant nous choisissons une serie (version detailée)
      */
     @FXML
-    public void handlerSerieInfo() {
+    public void handlerSerieInfo(Movie serie) {
         rootLayout.setCenter(viewSerieInfo);
+        ((SerieInfoController)serieInfo.getController()).setSerie(serie);
         save(viewSerieInfo);
     }
 

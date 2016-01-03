@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.heigvd.flat5.music.view;
 
 import java.io.File;
@@ -46,9 +41,9 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 /**
- * FXML Controller class
+ * Classe contrôleur FXML pour la vue Music.fxml
  *
- * @author jermoret
+ * @author Jérôme
  */
 public class MusicController implements Initializable {
 
@@ -83,8 +78,6 @@ public class MusicController implements Initializable {
     @FXML
     ImageView coverDisplay;
     @FXML
-    Button syncButton;
-    @FXML
     ImageView syncImage;
 
     @FXML
@@ -93,10 +86,6 @@ public class MusicController implements Initializable {
     Button demandYes;
     @FXML
     Button demandNo;
-    @FXML
-    HBox connStatus;
-    @FXML
-    Button statusDisconnect;
     @FXML
     Label synchStatus;
     @FXML
@@ -122,16 +111,14 @@ public class MusicController implements Initializable {
     private Image playImage;
     private Image pauseImage;
     private Image sync;
-    private Image isSync;
     private MusicBrowser musicBrowser;
 
-    //Sync part
+    // Partie synchronisation
     private SyncManager syncManager;
     private SyncHandler handler;
     private boolean synch;
-    private boolean isSynch = false;
 
-    //SQLite
+    // Partie SQLite
     private ContactManager contactManager;
     private ArrayList<String> contactNames;
 
@@ -139,17 +126,18 @@ public class MusicController implements Initializable {
     private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
 
     /**
-     * Initializes the controller class.
+     * Initialisation de la classe contrôleur
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        // Connection à la base SQLite
         SQLiteConnector sqLiteConnector = new SQLiteConnector();
         sqLiteConnector.connectToDB();
         sqLiteConnector.initDB();
         contactManager = new ContactManager(sqLiteConnector);
 
-        //Sync part
+        // Configuration de la synchronisation
         handler = new MusicSyncHandler(this);
         syncManager = SyncManager.getInstance();
         syncManager.setHandler(handler);
@@ -160,7 +148,6 @@ public class MusicController implements Initializable {
         playImage = new Image(cl.getResourceAsStream("img/play.png"));
         pauseImage = new Image(cl.getResourceAsStream("img/pause.png"));
         sync = new Image(cl.getResourceAsStream("img/sync.png"));
-        isSync = new Image(cl.getResourceAsStream("img/isSync.png"));
 
         // Configuration du contenu des colonnes de la TableView
         title.setCellValueFactory(new PropertyValueFactory("title"));
@@ -199,8 +186,10 @@ public class MusicController implements Initializable {
         // Définition des actions sur l'interface lors des évènements du lecteur
         player.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
 
+            // Lecture d'une musique
             @Override
             public void playing(MediaPlayer mediaPlayer) {
+                // Affiche de la longueur de la musique
                 Platform.runLater(() -> {
                     playPauseImage.setImage(pauseImage);
                     DateFormat sdf = new SimpleDateFormat("m:ss");
@@ -209,6 +198,7 @@ public class MusicController implements Initializable {
                 });
             }
 
+            // Mise en pause d'une musique
             @Override
             public void paused(MediaPlayer mediaPlayer) {
                 Platform.runLater(() -> playPauseImage.setImage(playImage));
@@ -237,6 +227,12 @@ public class MusicController implements Initializable {
         });
     }
 
+    /**
+     * Récupère la musique souhaitée selon son chemin
+     *
+     * @param path
+     * @return la musique ou null
+     */
     public Music getMusicFromPath(String path) {
         for (Music music : musics) {
             if (music.getPath().equals(path))
@@ -245,15 +241,25 @@ public class MusicController implements Initializable {
         return null;
     }
 
+    /**
+     * Joue une musique à partir de son path
+     *
+     * @param path
+     * @param notify informe l'ami
+     */
     public void playMusic(String path, boolean notify) {
+
+        // Informe l'ami
         if (synch && notify) {
             String[] split = path.split("/");
             syncManager.begin(split[split.length - 1]);
         }
 
-        actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
-        Music toPlay = getMusicFromPath(path);
 
+        actualRowIndex = musicFiles.getSelectionModel().getFocusedIndex();
+
+        // Affichage des tags de la musique
+        Music toPlay = getMusicFromPath(path);
         Platform.runLater(() -> {
             titleDisplay.setText(toPlay.getTitle());
             artistDisplay.setText(toPlay.getArtist());
@@ -261,14 +267,23 @@ public class MusicController implements Initializable {
             coverDisplay.setImage(toPlay.getCover());
         });
 
+        // Lecture de la musique par le player vlcj
         player.playMedia(path);
         actualPlayMusicPath = path;
     }
 
+    /**
+     * Fermetture du lecteur vlcj
+     */
     public void exit() {
         playerComponent.release();
     }
 
+    /**
+     * Récupération des musiques présentes dans le répertoire path
+     *
+     * @param path répertoire
+     */
     public void scanMusicFiles(String path) {
         musics = musicBrowser.getMusics();
 
@@ -277,14 +292,98 @@ public class MusicController implements Initializable {
         musicFiles.setItems(test);
     }
 
+    /**
+     * Echec de l'attente d'un ami
+     */
+    private void failWaiting() {
+        btnAttente.setDisable(false);
+        progressIndicator.setVisible(false);
+    }
+
+    /**
+     * Termine une synchronisation
+     *
+     * @param notify infrome l'ami
+     */
+    public void unsyncThePlayer(boolean notify) {
+        if (notify) {
+            syncManager.bye();
+        }
+
+        syncManager.resetSyncManager();
+        synch = false;
+        Platform.runLater(() -> {
+            synchStatus.setText("Desactivée");
+            choiceContact.setDisable(false);
+            btnConnection.setDisable(false);
+            btnAttente.setDisable(false);
+            connDemand.setVisible(false);
+        });
+    }
+
+    /**
+     * Informe le système qu'on est synchronisé
+     */
+    public void syncThePlayer() {
+        synch = true;
+    }
+
+    /**
+     * Affiche un état, il peut être :
+     * - En attente de synchronisation, dans ce cas, on affiche la fenêtre d'autorisation/rejet d'une synchronisation
+     * - Connecté, dans ce cas, on affiche avec qui il est synchronisé ainsi que la possiblité d'y sortir
+     *
+     * @param address
+     * @param connected
+     */
+    public void displayStatus(String address, boolean connected) {
+        final String name;
+        Contact contact = contactManager.getContactFromAddress(address);
+        if (contact == null)
+            name = address;
+        else
+            name = contact.getName();
+
+        connDemand.setVisible(true);
+        if (connected) {
+            Platform.runLater(() -> {
+                demandNo.setVisible(false);
+                demandYes.setVisible(false);
+                status.setText("Connecté avec " + name + "...");
+                stopSynch.setVisible(true);
+            });
+        } else {
+
+            Platform.runLater(() -> {
+                status.setText(name + " désire synchroniser de la musique avec vous.");
+                demandNo.setVisible(true);
+                demandYes.setVisible(true);
+                stopSynch.setVisible(false);
+            });
+        }
+    }
+
+    /**
+     * Getter for property 'player'.
+     *
+     * @return Value for property 'player'.
+     */
     public MediaPlayer getPlayer() {
         return player;
     }
 
-    public void setPlayer(MediaPlayer player) {
-        this.player = player;
+    /**
+     * Getter for property 'syncManager'.
+     *
+     * @return Value for property 'syncManager'.
+     */
+    public SyncManager getSyncManager() {
+        return syncManager;
     }
 
+    /**
+     * Action du bouton Play/Pause
+     */
     @FXML
     public void handlePlayPauseMusic() {
         if (player.isPlaying()) {
@@ -300,6 +399,9 @@ public class MusicController implements Initializable {
         }
     }
 
+    /**
+     * Action du bouton Suivant
+     */
     @FXML
     public void handleNextSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
@@ -307,6 +409,9 @@ public class MusicController implements Initializable {
         playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 
+    /**
+     * Action du bouton Précédent
+     */
     @FXML
     public void handlePreviousSong() {
         musicFiles.getSelectionModel().select(actualRowIndex);
@@ -314,6 +419,9 @@ public class MusicController implements Initializable {
         playMusic(musicFiles.getSelectionModel().getSelectedItem().getPath(), true);
     }
 
+    /**
+     * Action du bouton Connection à un ami (éclair)
+     */
     @FXML
     private void handleConnectionToFriend() {
         if (choiceContact.getSelectionModel().getSelectedItem() == null) {
@@ -374,11 +482,9 @@ public class MusicController implements Initializable {
 
     }
 
-    private void failWaiting() {
-        btnAttente.setDisable(false);
-        progressIndicator.setVisible(false);
-    }
-
+    /**
+     * Action du bouton Attente d'un ami (sync)
+     */
     @FXML
     private void handleWaitForAFriend() {
         btnAttente.setDisable(true);
@@ -412,129 +518,34 @@ public class MusicController implements Initializable {
                 }, 30000);
     }
 
-    @FXML
-    public void handleSync() {
-        if (isSynch) {
-            unsyncThePlayer(true);
-            return;
-        }
-
-        // Music view
-        FXMLLoader loader = new FXMLLoader();
-
-        try {
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/music/sync/MusicSync.fxml").toURI().toURL());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        Stage syncStage = new Stage();
-        syncStage.setTitle("Gestion de la synchronisation");
-        syncStage.initModality(Modality.WINDOW_MODAL);
-        //syncStage.initOwner(primaryStage);
-
-        Parent syncPane = null;
-        try {
-            syncPane = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Scene scene = new Scene(syncPane);
-        syncStage.setScene(scene);
-
-        // Set the person into the controller.
-        MusicSyncController controller = loader.getController();
-        controller.setMusicController(this);
-        /*controller.setDialogStage(dialogStage);
-        controller.setPerson(person);*/
-
-        // Show the dialog and wait until the user closes it
-        syncStage.showAndWait();
-    }
-
-    public void unsyncThePlayer(boolean notify) {
-        if (notify) {
-            syncManager.bye();
-        }
-
-        syncManager.resetSyncManager();
-        synch = false;
-        Platform.runLater(() -> {
-            synchStatus.setText("Desactivée");
-            choiceContact.setDisable(false);
-            btnConnection.setDisable(false);
-            btnAttente.setDisable(false);
-            connDemand.setVisible(false);
-        });
-    }
-
-    public void syncThePlayer() {
-        synch = true;
-        isSynch = true;
-        syncImage.setImage(isSync);
-    }
-
     /**
-     * Getter for property 'syncManager'.
-     *
-     * @return Value for property 'syncManager'.
+     * Action du bouton Autorisation d'un ami
      */
-    public SyncManager getSyncManager() {
-        return syncManager;
-    }
-
-    /**
-     * Setter for property 'isSynch'.
-     *
-     * @param isSynch Value to set for property 'isSynch'.
-     */
-    public void setIsSynch(boolean isSynch) {
-        this.isSynch = isSynch;
-    }
-
-    public void displayStatus(String address, boolean connected) {
-        final String name;
-        Contact contact = contactManager.getContactFromAddress(address);
-        if (contact == null)
-            name = address;
-        else
-            name = contact.getName();
-
-        connDemand.setVisible(true);
-        if (connected) {
-            Platform.runLater(() -> {
-                demandNo.setVisible(false);
-                demandYes.setVisible(false);
-                status.setText("Connecté avec " + name + "...");
-                stopSynch.setVisible(true);
-            });
-        } else {
-
-            Platform.runLater(() -> {
-                status.setText(name + " désire synchroniser de la musique avec vous.");
-                demandNo.setVisible(true);
-                demandYes.setVisible(true);
-                stopSynch.setVisible(false);
-            });
-        }
-    }
-
     @FXML
     private void handleYesDemand() {
         syncManager.acceptInvitation();
     }
 
+    /**
+     * Action du bouton Rejet d'un ami
+     */
     @FXML
     private void handleNoDemand() {
         syncManager.denyInvitation();
     }
 
+    /**
+     * Action du bouton Fin d'une synchronisation
+     */
     @FXML
     private void handleStopSync() {
         unsyncThePlayer(true);
     }
 
+    /**
+     * Action d'une requête sur la boîte de choix d'un ami
+     * Permet de rafraichir la liste des amis si entre temps des amis aurait été ajoutés
+     */
     @FXML
     private void choiceBoxRequested() {
         contactNames = new ArrayList<>();

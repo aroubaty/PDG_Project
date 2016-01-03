@@ -28,9 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Author : Moret Jérôme
- * Date : 23.11.2015
- * Description :
+ * Classe facilitant la récupérations des musiques
+ * @author Jérôme
  */
 public class MusicBrowser {
 

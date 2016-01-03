@@ -6,7 +6,9 @@ import ch.heigvd.flat5.sync.SyncHandler;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 
 /**
- * Created by Anthony on 07.12.2015.
+ * Gestionnaire de synchronisation pour la musique
+ * C'est ici qu'on reçoit les actions que notre ami a effectué sur son lecteur
+ * @author Jérôme
  */
 public class MusicSyncHandler implements SyncHandler {
     private MusicController controller;

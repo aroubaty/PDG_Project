@@ -1,7 +1,6 @@
 package ch.heigvd.flat5;
 
 import ch.heigvd.flat5.sync.SyncManager;
-import ch.heigvd.flat5.utils.FileLister;
 
 import java.util.List;
 
