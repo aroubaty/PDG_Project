@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import javax.swing.*;
@@ -35,6 +36,9 @@ public class FilmInfoController implements Initializable {
     Button launchFilm;
     @FXML
     ImageView infoPoster;
+
+    @FXML
+    Text synop ;
 
     Movie currentMovie;
     private static final String LIBVLC_PATH = "src/main/resources/vlc";
@@ -63,9 +67,9 @@ public class FilmInfoController implements Initializable {
 
         String plot = movieToPlay.getInfos().getPlot();
         if (plot != "" && plot != null) {
-            infoPlot.setText(plot);
+            synop.setText(plot);
         } else {
-            infoPlot.setText("Indisponible");
+            synop.setText(plot);
         }
 
         String imageUrl = movieToPlay.getInfos().getPoster();

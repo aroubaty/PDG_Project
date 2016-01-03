@@ -21,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import javax.swing.*;
@@ -41,6 +42,7 @@ public class FilmController  implements Initializable
     TableColumn<Movie, String> movieDate;
     @FXML
     TableColumn<Movie, String> movieRuntime;
+
 
     @FXML
     ChoiceBox<String> choiceContact;
