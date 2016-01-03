@@ -8,6 +8,8 @@ import java.util.Vector;
 
 import ch.heigvd.flat5.home.view.HomeController;
 import ch.heigvd.flat5.root.view.RootController;
+import ch.heigvd.flat5.sqlite.SQLiteConnector;
+import ch.heigvd.flat5.utils.LibraryManager;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +39,7 @@ public class MainApp2 extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private FXMLLoader rootloader;
+    private String path;
 
 
     public static void main(String[] args) {
@@ -57,6 +60,8 @@ public class MainApp2 extends Application {
      * Initializes the root layout.
      */
     private void initRootLayout() {
+        // Init library
+        LibraryManager.addFileToDB("/home/oem/Téléchargements/movie");
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
@@ -83,6 +88,7 @@ public class MainApp2 extends Application {
      */
     private void loadRoot() {
         try {
+
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
@@ -104,7 +110,7 @@ public class MainApp2 extends Application {
             rootController = rootloader.getController();
             vecPrevView.add(homeOverview);
 
-            System.out.println("loader.getController(); " + rootloader.getController());
+            //System.out.println("loader.getController(); " + rootloader.getController());
             rootController.setMainApp(this);
             homeController.setMainApp(this);
             homeController.setRootLayout(rootLayout);
@@ -160,4 +166,11 @@ public class MainApp2 extends Application {
         return vecPrevView;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

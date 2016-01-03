@@ -2,15 +2,30 @@ package ch.heigvd.flat5.sqlite;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Classe permettant de gérer les contacts de l'application.
+ *
+ * @author Jan Purro
+ */
 public class ContactManager
 {
+    // Connection à la base de données de l'application.
     private Connection connection;
 
+    /**
+     * Construit un nouveau ContactManager.
+     * @param connector Un objet de type SQLiteConnector. Il doit lui-même être déjà connecté à la base de données.
+     */
     public ContactManager(SQLiteConnector connector)
     {
         connection = connector.getConnection();
     }
 
+    /**
+     * Ajoute un contact à la base de données.
+     * @param contact Le contact ajouté.
+     * @return L'id du contact ajouté, en cas d'échec retourn -1.
+     */
     public long addContact(Contact contact)
     {
         try
@@ -34,15 +49,27 @@ public class ContactManager
         return -1;
     }
 
-    public Contact getContactFromAddress(String address) {
-        for(Contact c : getContacts()) {
-            if(c.getAddress().equals(address)) {
-                return c;
+    /**
+     * Récupère le contact correspondant à une adresse IP.
+     * @param address L'adresse IP dont le contact est recherché.
+     * @return Le contact, s'il est trouvé, null sinon.
+     */
+    public Contact getContactFromAddress(String address)
+    {
+        for(Contact contact : getContacts())
+        {
+            if(contact.getAddress().equals(address))
+            {
+                return contact;
             }
         }
         return null;
     }
 
+    /**
+     * Retourne la liste des contacts actuels dans la base de données.
+     * @return La liste des contacts.
+     */
     public List<Contact> getContacts()
     {
         List<Contact> contacts = new LinkedList<>();
@@ -62,6 +89,10 @@ public class ContactManager
         return contacts;
     }
 
+    /**
+     * Met à jour les données d'un contact existant. L'id doit être le même.
+     * @param contact Les nouvelles informations.
+     */
     public void updateContact(Contact contact)
     {
         try
@@ -78,6 +109,10 @@ public class ContactManager
         }
     }
 
+    /**
+     * Retire un contact de la base de donnée.
+     * @param id L'id du contact à retirer.
+     */
     public void removeContact(long id)
     {
         try

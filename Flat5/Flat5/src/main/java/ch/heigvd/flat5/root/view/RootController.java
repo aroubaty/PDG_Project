@@ -2,7 +2,11 @@ package ch.heigvd.flat5.root.view;
 
 
 import ch.heigvd.flat5.MainApp2;
+import ch.heigvd.flat5.film.model.Movie;
+import ch.heigvd.flat5.film.view.FilmController;
+import ch.heigvd.flat5.film.view.FilmInfoController;
 import ch.heigvd.flat5.home.view.HomeController;
+import ch.heigvd.flat5.settings.view.SettingsController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -32,7 +36,7 @@ public class RootController {
     private static FXMLLoader filmInfo;
     private static FXMLLoader serie;
     private static FXMLLoader serieInfo;
-    private static FXMLLoader settings;
+    private static FXMLLoader settingsLoader;
 
     private static BorderPane viewMusic;
     private static BorderPane viewHome;
@@ -40,14 +44,19 @@ public class RootController {
     private static BorderPane viewFilmInfo;
     private static BorderPane viewSerie;
     private static BorderPane viewSerieInfo;
-    private static GridPane viewSettings;
+    private static BorderPane viewSettings;
 
     public RootController()
     {
         try {
+
             music = new FXMLLoader();
             music.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
             viewMusic = music.load();
+
+            settingsLoader = new FXMLLoader();
+            settingsLoader.setLocation(new File("src/main/java/ch/heigvd/flat5/settings/view/Settings.fxml").toURI().toURL());
+            viewSettings = settingsLoader.load();
 
             home = new FXMLLoader();
             home.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
@@ -65,13 +74,15 @@ public class RootController {
             serieInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/serie/view/Serieinfo.fxml").toURI().toURL());
             viewSerieInfo = serieInfo.load();
 
+
             filmInfo = new FXMLLoader();
             filmInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/FilmInfo.fxml").toURI().toURL());
             viewFilmInfo = filmInfo.load();
 
-            settings = new FXMLLoader();
-            settings.setLocation(new File("src/main/java/ch/heigvd/flat5/settings/view/Settings.fxml").toURI().toURL());
-            viewSettings = settings.load();
+
+
+            ((FilmController)film.getController()).setRootController(this);
+            System.out.println("loader du filmCrt" + this);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -106,17 +117,23 @@ public class RootController {
     @FXML
     public void handlerFilm() {
         rootLayout.setCenter(viewFilm);
+        ((FilmController)film.getController()).setRootController(this);
         save(viewFilm);
     }
+    /**
+     *
+     * fonction appelé quant nous choisisson un film (version detailée)
+     */
     @FXML
-    public void handlerFilmInfo() {
+    public void handlerFilmInfo(Movie movie) {
         rootLayout.setCenter(viewFilmInfo);
+        ((FilmInfoController)filmInfo.getController()).setMovie(movie);
         save(viewFilmInfo);
     }
 
     /**
      *
-     * fonction appelé quant nous cliquons sur le bouton "Film"
+     * fonction appelé quant nous cliquons sur le bouton "Serie"
      */
     @FXML
     public void handlerSerie() {
@@ -126,7 +143,7 @@ public class RootController {
 
     /**
      *
-     * fonction appelé quant nous cliquons sur le bouton "Film"
+     * fonction appelé quant nous choisissons une serie (version detailée)
      */
     @FXML
     public void handlerSerieInfo() {
@@ -137,6 +154,7 @@ public class RootController {
     @FXML
     public void handlerSettings() {
         rootLayout.setCenter(viewSettings);
+        ((SettingsController)settingsLoader.getController()).setMainApp(mainApp);
         save(viewSettings);
     }
 
@@ -179,8 +197,6 @@ public class RootController {
      */
     public void setMainApp(MainApp2 mainApp) {
         this.mainApp = mainApp;
-        System.out.println("yollloo");
-
         this.rootLayout = mainApp.getRootLayout();
         System.out.println(rootLayout);
     }

@@ -1,88 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-
-<GridPane alignment="CENTER" hgap="5.0" prefHeight="202.0" prefWidth="771.0" stylesheets="@../../../../../../resources/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.settings.view.SettingsController">
-   <children>
-      <Label text="Chemin des médias : " GridPane.halignment="RIGHT" />
-      <Label fx:id="mediaPath" text="C:\medias" GridPane.columnIndex="1" />
-      <Button id="rich-blue" fx:id="browse" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" GridPane.columnIndex="2">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.settings.view.SettingsController">
+<center>
+   <GridPane alignment="CENTER" hgap="5.0" prefHeight="202.0" prefWidth="771.0"
+             stylesheets="@../../../../../../resources/styles/Styles.css">
+      <columnConstraints>
+         <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="211.0" minWidth="-Infinity" prefWidth="211.0"/>
+         <ColumnConstraints hgrow="ALWAYS" maxWidth="448.0" minWidth="10.0" prefWidth="360.0"/>
+         <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="29.0"/>
+      </columnConstraints>
+      <padding>
+         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+      </padding>
+      <rowConstraints>
+         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER"/>
+         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER"/>
+         <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="ALWAYS"/>
+      </rowConstraints>
+      <Label text="Chemin des médias : " GridPane.halignment="RIGHT"/>
+      <Button id="rich-blue" fx:id="browse" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+              minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" GridPane.columnIndex="2">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../resources/img/folder.png" />
-               </image>
+               <Image url="@../../../../../../resources/img/folder.png"/>
             </ImageView>
          </graphic>
       </Button>
-      <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1" />
-      <Label alignment="TOP_LEFT" text="Amis : " GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
-         <children>
-            <TableView fx:id="contacts" editable="true" prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn fx:id="contName" prefWidth="75.0" text="Nom" />
-                <TableColumn fx:id="contIP" prefWidth="75.0" text="Adresse IP" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
-               <children>
-                  <Button id="rich-blue" fx:id="friendsManager" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAddContact" prefHeight="30.0" prefWidth="30.0">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/add.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <TextField fx:id="name" promptText="Nom" styleClass="text-field" visible="false" />
-                  <TextField fx:id="ipAddress" promptText="Adresse IP" styleClass="cb" visible="false" />
-                  <Button id="rich-blue" fx:id="validateContact" layoutX="10.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleValidateContact" prefHeight="30.0" prefWidth="30.0" visible="false">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/validate.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button id="rich-blue" layoutX="456.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDeleteContact" prefHeight="30.0" prefWidth="30.0">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/trash.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
+      <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1"/>
+      <Label alignment="TOP_LEFT" text="Amis : " GridPane.halignment="RIGHT" GridPane.rowIndex="2"
+             GridPane.valignment="TOP"/>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
+            GridPane.rowIndex="2">
+         <TableView fx:id="contacts" editable="true" prefHeight="200.0" prefWidth="200.0">
+            <columns>
+               <TableColumn fx:id="contName" prefWidth="75.0" text="Nom"/>
+               <TableColumn fx:id="contIP" prefWidth="75.0" text="Adresse IP"/>
+            </columns>
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+         </TableView>
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
+            <Button id="rich-blue" fx:id="friendsManager" maxHeight="-Infinity" maxWidth="-Infinity"
+                    minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#handleAddContact" prefHeight="30.0" prefWidth="30.0">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../../../../../../resources/img/add.png"/>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TextField fx:id="name" promptText="Nom" styleClass="text-field" visible="false"/>
+            <TextField fx:id="ipAddress" promptText="Adresse IP" styleClass="cb" visible="false"/>
+            <Button id="rich-blue" fx:id="validateContact" layoutX="10.0" layoutY="14.0" maxHeight="-Infinity"
+                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#handleValidateContact" prefHeight="30.0" prefWidth="30.0" visible="false">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../../../../../../resources/img/validate.png"/>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button id="rich-blue" layoutX="456.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                    minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#handleDeleteContact" prefHeight="30.0" prefWidth="30.0">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../../../../../../resources/img/trash.png"/>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
       </VBox>
-   </children>
-   <columnConstraints>
-      <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="211.0" minWidth="-Infinity" prefWidth="211.0" />
-      <ColumnConstraints hgrow="ALWAYS" maxWidth="448.0" minWidth="10.0" prefWidth="360.0" />
-      <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="29.0" />
-   </columnConstraints>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
-   <rowConstraints>
-      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
-      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
-      <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="ALWAYS" />
-   </rowConstraints>
-</GridPane>
+      <TextArea onKeyTyped="#setPathValue" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
+                fx:id="mediaPathValue"/>
+   </GridPane>
+   </center>
+</BorderPane>

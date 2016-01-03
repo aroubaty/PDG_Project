@@ -52,7 +52,6 @@ public class HomeController implements Initializable {
     public void setMainApp(MainApp2 mainApp) {
         this.mainApp = mainApp;
         this.rootLayout = mainApp.getRootLayout();
-        System.out.println("inthisshit "+  this.mainApp);
 
     }
     public void setRootLayout(BorderPane rootLayout)

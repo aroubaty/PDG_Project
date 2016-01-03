@@ -1,222 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../../../../../resources/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.music.view.MusicController">
    <center>
-    <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <TableView fx:id="musicFiles" layoutX="68.0" layoutY="14.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columns>
-                <TableColumn fx:id="title" editable="false" prefWidth="439.0" text="Titre" />
-                  <TableColumn fx:id="artist" prefWidth="75.0" text="Artiste" />
-                  <TableColumn fx:id="album" prefWidth="75.0" text="Album" />
-                  <TableColumn fx:id="genre" prefWidth="75.0" text="Genre" />
-                  <TableColumn fx:id="year" prefWidth="75.0" text="Année" />
-                  <TableColumn fx:id="length" prefWidth="75.0" text="Durée" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
-         </children>
+      <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <TableView fx:id="musicFiles" layoutX="68.0" layoutY="14.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+               <TableColumn fx:id="title" editable="false" prefWidth="439.0" text="Titre" />
+               <TableColumn fx:id="artist" prefWidth="75.0" text="Artiste" />
+               <TableColumn fx:id="album" prefWidth="75.0" text="Album" />
+               <TableColumn fx:id="genre" prefWidth="75.0" text="Genre" />
+               <TableColumn fx:id="year" prefWidth="75.0" text="Année" />
+               <TableColumn fx:id="length" prefWidth="75.0" text="Durée" />
+            </columns>
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+         </TableView>
       </AnchorPane>
    </center>
    <bottom>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <ImageView fx:id="coverDisplay" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                     <HBox.margin>
-                        <Insets left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                     <image>
-                        <Image url="@../../../../../../resources/img/no_cover.png" />
-                     </image>
+         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <ImageView fx:id="coverDisplay" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+               <Image url="@../../../../../../resources/img/no_cover.png" />
+            </ImageView>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="NEVER">
+               <Label id="artiste" fx:id="titleDisplay" styleClass="titre" stylesheets="@../../../../../../resources/styles/Styles.css">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+               <Label id="text" fx:id="artistDisplay" styleClass="text" stylesheets="@../../../../../../../../../../../../../Documents/3em/PDG_Project/Flat5/Flat5/src/main/resources/styles/Styles.css">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Label id="text" fx:id="albumDisplay" styleClass="text" stylesheets="@../../../../../../../../../../../../../Documents/3em/PDG_Project/Flat5/Flat5/src/main/resources/styles/Styles.css" textFill="WHITE">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+            </VBox>
+            <HBox fx:id="connDemand" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" visible="false" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <Label fx:id="status" text="Jérôme désire" />
+               <Button id="rich-blue" fx:id="stopSynch" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleStopSync" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                  <graphic>
+                     <ImageView fx:id="syncImage21" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../../../../../../resources/img/disconnect.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button id="rich-blue" fx:id="demandYes" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleYesDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                  <graphic>
+                     <ImageView fx:id="syncImage2" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../../../../../../resources/img/yes.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button id="rich-blue" fx:id="demandNo" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleNoDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                  <graphic>
+                     <ImageView fx:id="syncImage211" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../../../../../../resources/img/no.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+            <GridPane hgap="5.0" HBox.hgrow="NEVER">
+               <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="170.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="150.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <Label text="Synchronisation : " />
+               <Label fx:id="synchStatus" text="Desactivée" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+               <Label text="Connexion : " GridPane.rowIndex="1" />
+               <ChoiceBox fx:id="choiceContact" accessibleText="Amis" onMouseEntered="#choiceBoxRequested" prefWidth="145.0" styleClass="cb" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
+               <Label text="Attente : " GridPane.rowIndex="2" />
+               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button id="rich-blue" fx:id="btnAttente" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleWaitForAFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                     <graphic>
+                        <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@../../../../../../resources/img/sync.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <ProgressIndicator fx:id="progressIndicator" maxHeight="30.0" maxWidth="25.0" visible="false" />
+               </HBox>
+               <HBox alignment="CENTER_LEFT" layoutX="183.0" layoutY="114.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Button id="rich-blue" fx:id="btnConnection" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+                     <graphic>
+                        <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@../../../../../../resources/img/connection.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <ProgressIndicator fx:id="progressIndicator2" maxHeight="30.0" maxWidth="25.0" visible="false" />
+               </HBox>
+            </GridPane>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="100.0" spacing="5.0" VBox.vgrow="ALWAYS">
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <Button id="rich-blue" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handlePreviousSong" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../../../../../../resources/img/prev.png" />
                   </ImageView>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="NEVER">
-                     <children>
-                        <Label id="artiste" fx:id="titleDisplay" styleClass="titre" stylesheets="@../../../../../../resources/styles/Styles.css">
-                           <font>
-                              <Font name="System Bold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label id="text" fx:id="artistDisplay" styleClass="text" stylesheets="@../../../../../../../../../../../../../Documents/3em/PDG_Project/Flat5/Flat5/src/main/resources/styles/Styles.css">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label id="text" fx:id="albumDisplay" styleClass="text" stylesheets="@../../../../../../../../../../../../../Documents/3em/PDG_Project/Flat5/Flat5/src/main/resources/styles/Styles.css" textFill="WHITE">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <HBox fx:id="connDemand" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" visible="false" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label fx:id="status" text="Jérôme désire" />
-                        <Button id="rich-blue" fx:id="stopSynch" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleStopSync" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                           <graphic>
-                              <ImageView fx:id="syncImage21" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../resources/img/disconnect.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button id="rich-blue" fx:id="demandYes" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleYesDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                           <graphic>
-                              <ImageView fx:id="syncImage2" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../resources/img/yes.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button id="rich-blue" fx:id="demandNo" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleNoDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                           <graphic>
-                              <ImageView fx:id="syncImage211" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../resources/img/no.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                     <HBox.margin>
-                        <Insets right="5.0" />
-                     </HBox.margin>
-                  </HBox>
-                  <GridPane hgap="5.0" HBox.hgrow="NEVER">
-                    <columnConstraints>
-                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="170.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="150.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Synchronisation : " />
-                        <Label fx:id="synchStatus" text="Desactivée" GridPane.columnIndex="1" GridPane.columnSpan="2" />
-                        <Label text="Connexion : " GridPane.rowIndex="1" />
-                        <ChoiceBox fx:id="choiceContact" accessibleText="Amis" onMouseEntered="#choiceBoxRequested" prefWidth="145.0" styleClass="cb" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
-                        <Label text="Attente : " GridPane.rowIndex="2" />
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <children>
-                              <Button id="rich-blue" fx:id="btnAttente" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleWaitForAFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                                 <graphic>
-                                    <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../../../resources/img/sync.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <ProgressIndicator fx:id="progressIndicator" maxHeight="30.0" maxWidth="25.0" visible="false" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="183.0" layoutY="114.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                           <children>
-                              <Button id="rich-blue" fx:id="btnConnection" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                                 <graphic>
-                                    <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../../../resources/img/connection.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <ProgressIndicator fx:id="progressIndicator2" maxHeight="30.0" maxWidth="25.0" visible="false" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </GridPane>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="100.0" spacing="5.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Button id="rich-blue" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handlePreviousSong" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                     <graphic>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/prev.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button id="rich-blue" minHeight="42.0" minWidth="42.0" mnemonicParsing="false" onAction="#handlePlayPauseMusic" prefHeight="42.0" prefWidth="42.0" style="-fx-background-radius: 80 80 80 80;">
-                     <graphic>
-                        <ImageView fx:id="playPauseImage" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/play.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button id="rich-blue" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleNextSong" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
-                     <graphic>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../resources/img/next.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <GridPane HBox.hgrow="ALWAYS">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="2">
-                           <children>
-                              <Slider fx:id="positionBar" prefHeight="25.0" prefWidth="166.0" />
-                           </children>
-                        </StackPane>
-                        <Label fx:id="startTime" text="0:00" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                           <GridPane.margin>
-                              <Insets left="5.0" />
-                           </GridPane.margin>
-                        </Label>
-                        <Label fx:id="endTime" text="0:00" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                           <GridPane.margin>
-                              <Insets right="5.0" />
-                           </GridPane.margin>
-                        </Label>
-                     </children>
-                  </GridPane>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-         </children>
+               </graphic>
+            </Button>
+            <Button id="rich-blue" minHeight="42.0" minWidth="42.0" mnemonicParsing="false" onAction="#handlePlayPauseMusic" prefHeight="42.0" prefWidth="42.0" style="-fx-background-radius: 80 80 80 80;">
+               <graphic>
+                  <ImageView fx:id="playPauseImage" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../../../../../../resources/img/play.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button id="rich-blue" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleNextSong" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../../../../../../resources/img/next.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <GridPane HBox.hgrow="ALWAYS">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="2">
+                  <Slider fx:id="positionBar" prefHeight="25.0" prefWidth="166.0" />
+               </StackPane>
+               <Label fx:id="startTime" text="0:00" GridPane.rowIndex="1">
+                  <font>
+                     <Font size="11.0" />
+                  </font>
+                  <GridPane.margin>
+                     <Insets left="5.0" />
+                  </GridPane.margin>
+               </Label>
+               <Label fx:id="endTime" text="0:00" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                  <font>
+                     <Font size="11.0" />
+                  </font>
+                  <GridPane.margin>
+                     <Insets right="5.0" />
+                  </GridPane.margin>
+               </Label>
+            </GridPane>
+         </HBox>
       </VBox>
    </bottom>
 </BorderPane>

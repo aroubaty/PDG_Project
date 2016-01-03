@@ -1,21 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.film.view.FilmController">
-   <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn prefWidth="294.0" text="Titre" />
-          <TableColumn prefWidth="279.0" text="Genre" />
-            <TableColumn prefWidth="138.0" text="Année" />
-            <TableColumn prefWidth="87.0" text="Note" />
-        </columns>
-      </TableView>
-   </center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="400.0" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../../../../../resources/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.film.view.FilmController">
+    <center>
+      <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+              <TableView fx:id="movieFiles" layoutX="68.0" layoutY="-99.0" minHeight="200.0" minWidth="200.0" prefHeight="499.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <columns>
+                      <TableColumn fx:id="movieTitle" editable="false" prefWidth="335.0" text="Titre" />
+                      <TableColumn fx:id="movieGenre" editable="false" prefWidth="151.0" text="Genre" />
+                      <TableColumn fx:id="movieDate" editable="false" prefWidth="153.0" text="Date" />
+                      <TableColumn fx:id="movieRuntime" editable="false" prefWidth="156.0" text="Durée" />
+                  </columns>
+                  <columnResizePolicy>
+                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+              </TableView>
+         </children>
+      </AnchorPane>
+    </center>
+   <bottom>
+      <HBox prefHeight="149.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane prefHeight="100.0" prefWidth="638.0" HBox.hgrow="NEVER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Connexion" GridPane.rowIndex="1" />
+                  <ChoiceBox fx:id="choiceContact" prefWidth="150.0" styleClass="cb" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                   <Button id="rich-blue" fx:id="btnConnection" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                       <graphic>
+                           <ImageView fx:id="syncImage1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                               <Image url="@../../../../../../resources/img/connection.png" />
+                           </ImageView>
+                       </graphic>
+                   </Button>
+                  <Label text="Attente : " GridPane.rowIndex="2" />
+                  <Button id="rich-blue" fx:id="btnConnection1" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleConnectionToFriend" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <graphic>
+                        <ImageView fx:id="syncImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../resources/img/sync.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label text="Synchronisation : " />
+                  <Label text="Desactivée" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <HBox prefHeight="149.0" prefWidth="362.0" />
+         </children></HBox>
+   </bottom>
 </BorderPane>

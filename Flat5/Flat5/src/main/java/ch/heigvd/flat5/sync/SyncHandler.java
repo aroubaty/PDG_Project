@@ -1,31 +1,31 @@
 package ch.heigvd.flat5.sync;
 
 /**
- * Interface pour l'éxecution de commandes entrantes
+ * Interface pour l'Ã©xecution de commandes entrantes
  *
  * @author Anthony
  */
 public interface SyncHandler {
 
     /**
-     * Lorsque l'on reçoit le nom du média
+     * Lorsque l'on reÃ§oit le nom du mÃ©dia
      * @param mediaName
-     *          Nom du média
+     *          Nom du mÃ©dia
      */
     public void begin(String mediaName);
 
     /**
-     * Lorsque l'on reçoit "pause"
+     * Lorsque l'on reÃ§oit "pause"
      */
     public void pause();
 
     /**
-     * Lorsque l'on reçoit "play"
+     * Lorsque l'on reÃ§oit "play"
      */
     public void play();
 
     /**
-     * Lorsque l'on doit mettre le média à N secondes
+     * Lorsque l'on doit mettre le mÃ©dia Ã  N secondes
      * @param second
      *          Nombres de seconde
      */
