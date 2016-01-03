@@ -25,9 +25,9 @@
                                     <RowConstraints maxHeight="114.0" minHeight="14.0" prefHeight="14.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="14.0" vgrow="SOMETIMES" />
                                       <RowConstraints minHeight="14.0" prefHeight="14.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="14.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="91.0" minHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="49.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="63.0" minHeight="14.0" prefHeight="63.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="137.0" minHeight="10.0" prefHeight="124.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="49.0" minHeight="0.0" prefHeight="15.0" vgrow="SOMETIMES" />
                                       <RowConstraints maxHeight="59.0" minHeight="9.0" prefHeight="38.0" vgrow="SOMETIMES" />
                                   </rowConstraints>
                                    <children>
@@ -36,7 +36,6 @@
                                       <Label text="Genre" GridPane.rowIndex="1" />
                                       <Label fx:id="infoGenre" text="Indisponible" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                       <Label text="Date de sortie" GridPane.rowIndex="2" />
-                                      <Label fx:id="infoPlot" text="Indisponible" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                       <Label text="Synopsis" GridPane.rowIndex="5" />
                                        <Label fx:id="infoRelease" text="Indisponible" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                        <Label text="Note iMDB" GridPane.rowIndex="3" />
@@ -44,6 +43,15 @@
                                        <Label text="Meta Score" GridPane.rowIndex="4" />
                                         <Label fx:id="infoMetaScore" prefHeight="37.0" prefWidth="267.0" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                       <Button id="rich-blue" fx:id="launchFilm" mnemonicParsing="false" onAction="#launchFilm" stylesheets="@../../../../../../resources/styles/Styles.css" text="Lancer le film" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <ScrollPane styleClass="synop" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <content>
+                                    <TextFlow prefHeight="837.0" prefWidth="480.0">
+                                       <children>
+                                          <Text fx:id="synop" blendMode="SRC_ATOP" fill="#dad9d9" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="asdsadasd" />
+                                       </children>
+                                    </TextFlow>
+                                 </content>
+                              </ScrollPane>
                                    </children>
                                 </GridPane>
                              </children>
