@@ -3,6 +3,8 @@ package ch.heigvd.flat5.film.player.sync;
 
 import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.film.player.Player;
+import ch.heigvd.flat5.sqlite.MovieManager;
+import ch.heigvd.flat5.sqlite.SQLiteConnector;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,8 +17,13 @@ import java.net.Socket;
 public class VideoSyncHandler {
 
     private Socket communication;
+    private MovieManager movieManager;
 
-    private VideoSyncHandler() {}
+    private VideoSyncHandler() {
+        SQLiteConnector connector = new SQLiteConnector();
+        connector.connectToDB();
+        movieManager = new MovieManager(connector);
+    }
 
     private static class Holder {
         private static final VideoSyncHandler instance = new VideoSyncHandler();
@@ -96,7 +103,7 @@ public class VideoSyncHandler {
                         Player.getInstance().pause();
                     }
                     if (message.startsWith(("PLAY "))) {
-                        Player.getInstance().start("file:///" + message.replace("PLAY ", "").trim());
+                        Player.getInstance().start("file:///" + movieManager.findPathFromFile(message.replace("PLAY ", "").trim()));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
