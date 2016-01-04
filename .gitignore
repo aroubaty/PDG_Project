@@ -2,3 +2,6 @@
 Flat5/Flat5/.idea/
 Flat5/Flat5/Flat5.iml
 Flat5/Flat5/src/main/resources/vlc_library
+plugin.dat
+flat5.db
+mediaPath.conf
