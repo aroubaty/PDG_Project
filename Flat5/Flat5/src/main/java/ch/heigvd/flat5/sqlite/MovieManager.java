@@ -343,4 +343,38 @@ public class MovieManager
         }
         return id;
     }
+
+    /**
+     * Retourn un path correspondant à un fichier parmi les films et les épisodes.
+     * @param filename le nom du fichier recherché.
+     * @return Le path complet du fichier ou null, s'il n'a pas été trouvé.
+     */
+    public String findPathFromFile(String filename)
+    {
+            try
+            {
+                Statement statement = connection.createStatement();
+                ResultSet result = statement.executeQuery("SELECT * FROM movies WHERE path LIKE '%" +
+                        filename + "';");
+                while(result.next())
+                {
+                    return result.getString("path");
+                }
+
+                result = statement.executeQuery("SELECT * FROM episodes WHERE path LIKE '%" +
+                        filename + "';");
+                while(result.next())
+                {
+                    return result.getString("path");
+                }
+
+                    statement.close();
+            }
+
+            catch ( Exception e )
+            {
+                System.err.println("Error while getting movies " + e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+    }
 }
