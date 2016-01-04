@@ -70,11 +70,16 @@ public class VideoSyncHandler {
 
     public void waitForConnection() {
         try {
-            ServerSocket s = new ServerSocket(AppConfig.DEFAULT_PORT);
+            ServerSocket s = new ServerSocket(AppConfig.DEFAULT_PORT + 1);
             s.setSoTimeout(30000);
-            communication = s.accept();
-
-            startMessageThread();
+            new Thread(() -> {
+                try {
+                    communication = s.accept();
+                    startMessageThread();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
