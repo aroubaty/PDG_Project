@@ -2,12 +2,14 @@ package ch.heigvd.flat5.music.view;
 
 import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.MainApp2;
+import ch.heigvd.flat5.api.sound.TrackInfos;
 import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.music.model.util.MusicBrowser;
 import ch.heigvd.flat5.music.sync.MusicSyncHandler;
 import ch.heigvd.flat5.sqlite.Contact;
 import ch.heigvd.flat5.sqlite.ContactManager;
 import ch.heigvd.flat5.sqlite.SQLiteConnector;
+import ch.heigvd.flat5.sqlite.TrackManager;
 import ch.heigvd.flat5.sync.SyncHandler;
 import ch.heigvd.flat5.sync.SyncManager;
 import com.sun.jna.NativeLibrary;
@@ -26,6 +28,7 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
+import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -114,6 +117,7 @@ public class MusicController implements Initializable {
     // Partie SQLite
     private ContactManager contactManager;
     private ArrayList<String> contactNames;
+    private SQLiteConnector sqLiteConnector;
 
 
     private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
@@ -125,7 +129,7 @@ public class MusicController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         // Connection à la base SQLite
-        SQLiteConnector sqLiteConnector = new SQLiteConnector();
+        sqLiteConnector = new SQLiteConnector();
         sqLiteConnector.connectToDB();
         sqLiteConnector.initDB();
         contactManager = new ContactManager(sqLiteConnector);
@@ -245,7 +249,14 @@ public class MusicController implements Initializable {
         // Informe l'ami
         if (synch && notify) {
             String[] split = path.split("/");
-            syncManager.begin(split[split.length - 1]);
+            File file = new File(path);
+            System.out.println(file.getName());
+            syncManager.begin(file.getName());
+        }
+
+        if(!notify) {
+            TrackManager trackManager = new TrackManager(sqLiteConnector);
+            path = trackManager.findPathFromFile(path);
         }
 
 
