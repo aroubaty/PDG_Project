@@ -34,13 +34,16 @@ public class VideoSyncHandler {
     }
 
     public void connect(String ip) {
-        try {
-            if (communication == null) {
-                communication = new Socket();
-                communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT + 1), 10000);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (communication == null) {
+            communication = new Socket();
+            new Thread(() -> {
+                try {
+                    communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT + 1), 10000);
+                    startMessageThread();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }).start();
         }
     }
 
@@ -100,7 +103,7 @@ public class VideoSyncHandler {
             while(true) {
                 try {
                     String message = reader.readLine();
-
+                    System.out.println("received:" + message);
                     if (message.startsWith("SETTIME ")) {
                         Player.getInstance().setTime(Long.parseLong(message.replace("SETTIME ", "").trim()));
                     }
