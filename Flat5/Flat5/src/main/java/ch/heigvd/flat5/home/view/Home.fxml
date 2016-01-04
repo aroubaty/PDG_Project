@@ -13,7 +13,7 @@
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0"
                              BorderPane.alignment="CENTER">
                       <buttons>
-                          <Button id="rich-blue" mnemonicParsing="false" prefHeight="200.0" prefWidth="222.0" text="">
+                          <Button id="rich-blue" mnemonicParsing="false" prefHeight="200.0" prefWidth="222.0" text="" onAction="#handleSettings">
                               <graphic>
                                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                       <Image url="@../../../../../../resources/img/param.png"/>
