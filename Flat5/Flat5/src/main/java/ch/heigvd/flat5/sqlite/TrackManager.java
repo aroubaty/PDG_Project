@@ -129,4 +129,30 @@ public class TrackManager
         }
         return tracks;
     }
+
+    /**
+     * Retourn un path correspondant à un fichier parmi les films et les épisodes.
+     * @param filename le nom du fichier recherché.
+     * @return Le path complet du fichier ou null, s'il n'a pas été trouvé.
+     */
+    public String findPathFromFile(String filename)
+    {
+        try
+        {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM tracks WHERE path LIKE '%" +
+                    filename + "';");
+            while(result.next())
+            {
+                return result.getString("path");
+            }
+            statement.close();
+        }
+
+        catch ( Exception e )
+        {
+            System.err.println("Error while getting movies " + e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
 }
