@@ -120,7 +120,7 @@ public class MusicController implements Initializable {
     private SQLiteConnector sqLiteConnector;
 
 
-    private static final String NATIVE_LIBRARY_SEARCH_PATH = "src/main/resources/vlc_library";
+    private static final String NATIVE_LIBRARY_SEARCH_PATH = "./vlc";
 
     /**
      * Initialisation de la classe contrôleur

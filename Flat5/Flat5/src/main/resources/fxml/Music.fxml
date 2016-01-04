@@ -62,21 +62,21 @@
                <Button id="rich-blue" fx:id="stopSynch" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleStopSync" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
                   <graphic>
                      <ImageView fx:id="syncImage21" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../../../../../../resources/img/disconnect.png" />
+                        <Image url="@../img/disconnect.png" />
                      </ImageView>
                   </graphic>
                </Button>
                <Button id="rich-blue" fx:id="demandYes" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleYesDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
                   <graphic>
                      <ImageView fx:id="syncImage2" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../../../../../../resources/img/yes.png" />
+                        <Image url="@../img/yes.png" />
                      </ImageView>
                   </graphic>
                </Button>
                <Button id="rich-blue" fx:id="demandNo" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleNoDemand" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 80 80 80 80;">
                   <graphic>
                      <ImageView fx:id="syncImage211" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../../../../../../resources/img/no.png" />
+                        <Image url="@../img/no.png" />
                      </ImageView>
                   </graphic>
                </Button>

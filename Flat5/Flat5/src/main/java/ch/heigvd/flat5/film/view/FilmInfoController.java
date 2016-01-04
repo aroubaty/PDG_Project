@@ -41,7 +41,7 @@ public class FilmInfoController implements Initializable {
     Text synop ;
 
     Movie currentMovie;
-    private static final String LIBVLC_PATH = "src/main/resources/vlc";
+    private static final String LIBVLC_PATH = "./vlc";
 
     public void setMovie(Movie movieToPlay) {
 
