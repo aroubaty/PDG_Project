@@ -6,6 +6,7 @@ import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.player.Player;
 import ch.heigvd.flat5.film.player.sync.VideoSyncHandler;
+import ch.heigvd.flat5.music.model.Music;
 import ch.heigvd.flat5.root.view.RootController;
 import ch.heigvd.flat5.sqlite.Contact;
 import ch.heigvd.flat5.sqlite.ContactManager;
@@ -56,7 +57,8 @@ public class FilmController  implements Initializable
 
     private ContactManager contactManager;
     private ArrayList<String> contactNames;
-
+    private String lastPath;
+    private MovieManager manager;
 
 
     @Override
@@ -67,7 +69,7 @@ public class FilmController  implements Initializable
         sqLiteConnector.connectToDB();
         sqLiteConnector.initDB();
         contactManager = new ContactManager(sqLiteConnector);
-        MovieManager manager = new MovieManager(sqLiteConnector);
+        manager = new MovieManager(sqLiteConnector);
 
         // Configuration du contenu des colonnes de la TableView
         movieTitle.setCellValueFactory(new PropertyValueFactory("title"));
@@ -151,5 +153,35 @@ public class FilmController  implements Initializable
     private void acceptConnectionButtonClicked() {
         System.out.println("waiting for connection");
         VideoSyncHandler.getInstance().waitForConnection();
+    }
+
+    public void scanVideoFiles()
+    {
+        boolean scan = false;
+        if(mainApp != null)
+        {
+            if(lastPath == null || mainApp.getPath().equals(lastPath))
+            {
+                lastPath = mainApp.getPath();
+                scan = true;
+            }
+        }
+        else
+        {
+            scan = true;
+        }
+
+        if(scan)
+        {
+            movies.clear();
+            // Récupération des films
+            for(MovieInfos infos : manager.getMovies())
+            {
+                movies.add(new Movie(infos));
+            }
+            // Chargement des films dans la TableView
+            ObservableList<Movie> movieList = FXCollections.observableArrayList(movies);
+            movieFiles.setItems(movieList);
+        }
     }
 }

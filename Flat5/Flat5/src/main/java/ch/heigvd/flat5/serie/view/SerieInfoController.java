@@ -1,5 +1,6 @@
 package ch.heigvd.flat5.serie.view;
 
+import ch.heigvd.flat5.api.video.MovieInfos;
 import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.player.Player;
 import ch.heigvd.flat5.serie.model.Episode;

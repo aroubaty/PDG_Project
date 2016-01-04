@@ -50,6 +50,8 @@ public class SerieController implements Initializable
     private BorderPane rootLayout;
     private ContactManager contactManager;
     private ArrayList<String> contactNames;
+    private String lastPath;
+    private MovieManager manager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -59,7 +61,7 @@ public class SerieController implements Initializable
         sqLiteConnector.connectToDB();
         sqLiteConnector.initDB();
         contactManager = new ContactManager(sqLiteConnector);
-        MovieManager manager = new MovieManager(sqLiteConnector);
+        manager = new MovieManager(sqLiteConnector);
 
         contactNames = new ArrayList<>();
         for (Contact contact : contactManager.getContacts()) {
@@ -124,5 +126,35 @@ public class SerieController implements Initializable
             contactNames.add(contact.getName());
         }
         choiceContact.setItems(FXCollections.observableArrayList(contactNames));
+    }
+
+    public void scanSeries()
+    {
+        boolean scan = false;
+        if(mainApp != null)
+        {
+            if(lastPath == null || mainApp.getPath().equals(lastPath))
+            {
+                lastPath = mainApp.getPath();
+                scan = true;
+            }
+        }
+        else
+        {
+            scan = true;
+        }
+
+        if(scan)
+        {
+            series.clear();
+            // Récupération des séries
+            for(MovieInfos infos : manager.getSeries())
+            {
+                series.add(new Movie(infos));
+            }
+            // Chargement des films dans la TableView
+            ObservableList<Movie> movieList = FXCollections.observableArrayList(series);
+            serieFiles.setItems(movieList);
+        }
     }
 }
