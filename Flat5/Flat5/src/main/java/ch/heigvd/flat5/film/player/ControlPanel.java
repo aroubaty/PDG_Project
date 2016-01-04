@@ -50,7 +50,7 @@ public class ControlPanel extends JPanel {
                     play.setIcon(new ImageIcon("src/main/resources/img/VideoPlayer/pause.png"));
                 }
                 
-                Player.getInstance().pause();
+                Player.getInstance().pause(true);
             }
         });
 

@@ -108,7 +108,7 @@ public class VideoSyncHandler {
                         Player.getInstance().setTime(Long.parseLong(message.replace("SETTIME ", "").trim()));
                     }
                     if (message.startsWith("PAUSE")) {
-                        Player.getInstance().pause();
+                        Player.getInstance().pause(false);
                     }
                     if (message.startsWith(("PLAY "))) {
                         Player.getInstance().start("file:///" + movieManager.findPathFromFile(message.replace("PLAY ", "").trim()), false);

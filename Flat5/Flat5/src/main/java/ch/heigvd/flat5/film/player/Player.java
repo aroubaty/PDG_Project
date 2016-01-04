@@ -110,8 +110,8 @@ public class Player {
         }
     }
 
-    public void pause() {
-        if (VideoSyncHandler.getInstance().isConnected()) {
+    public void pause(boolean shouldSend) {
+        if (VideoSyncHandler.getInstance().isConnected() && shouldSend) {
             VideoSyncHandler.getInstance().sendPause();
         }
         mediaPlayerComponent.getMediaPlayer().pause();
