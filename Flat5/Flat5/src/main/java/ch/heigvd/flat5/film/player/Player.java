@@ -92,7 +92,7 @@ public class Player {
         mediaPlayerComponent.getMediaPlayer().playMedia(file);
         mediaPlayerComponent.getMediaPlayer().toggleFullScreen();
         if (VideoSyncHandler.getInstance().isConnected()) {
-            VideoSyncHandler.getInstance().sendPlay(Paths.get(file).getFileName().toString());
+            VideoSyncHandler.getInstance().sendPlay(Paths.get(file.replace("file:///", "")).getFileName().toString());
         }
     }
 
