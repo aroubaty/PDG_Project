@@ -336,6 +336,7 @@ public class SyncManager {
                 }
 
             } catch (IOException e) {
+                handler.bye();
                 e.printStackTrace();
             }
         }

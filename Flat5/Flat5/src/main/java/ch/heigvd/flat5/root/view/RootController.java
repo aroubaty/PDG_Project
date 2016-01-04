@@ -54,32 +54,32 @@ public class RootController {
         try {
 
             music = new FXMLLoader();
-            music.setLocation(new File("src/main/java/ch/heigvd/flat5/music/view/Music.fxml").toURI().toURL());
+            music.setLocation(getClass().getResource("/fxml/Music.fxml"));
             viewMusic = music.load();
 
             settingsLoader = new FXMLLoader();
-            settingsLoader.setLocation(new File("src/main/java/ch/heigvd/flat5/settings/view/Settings.fxml").toURI().toURL());
+            settingsLoader.setLocation(getClass().getResource("/fxml/Settings.fxml"));
             viewSettings = settingsLoader.load();
 
             home = new FXMLLoader();
-            home.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
+            home.setLocation(getClass().getResource("/fxml/Home.fxml"));
             viewHome = home.load();
 
             film = new FXMLLoader();
-            film.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/Film.fxml").toURI().toURL());
+            film.setLocation(getClass().getResource("/fxml/Film.fxml"));
             viewFilm = film.load();
 
             serie = new FXMLLoader();
-            serie.setLocation(new File("src/main/java/ch/heigvd/flat5/serie/view/Serie.fxml").toURI().toURL());
+            serie.setLocation(getClass().getResource("/fxml/Serie.fxml"));
             viewSerie = serie.load();
 
             serieInfo = new FXMLLoader();
-            serieInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/serie/view/Serieinfo.fxml").toURI().toURL());
+            serieInfo.setLocation(getClass().getResource("/fxml/Serieinfo.fxml"));
             viewSerieInfo = serieInfo.load();
 
 
             filmInfo = new FXMLLoader();
-            filmInfo.setLocation(new File("src/main/java/ch/heigvd/flat5/film/view/FilmInfo.fxml").toURI().toURL());
+            filmInfo.setLocation(getClass().getResource("/fxml/FilmInfo.fxml"));
             viewFilmInfo = filmInfo.load();
 
 
