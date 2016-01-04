@@ -123,6 +123,7 @@ public class RootController {
     public void handlerFilm() {
         rootLayout.setCenter(viewFilm);
         ((FilmController)film.getController()).setRootController(this);
+        ((FilmController)film.getController()).scanVideoFiles();
         save(viewFilm);
     }
     /**
@@ -144,6 +145,7 @@ public class RootController {
     public void handlerSerie() {
         rootLayout.setCenter(viewSerie);
         ((SerieController)serie.getController()).setRootController(this);
+        ((SerieController)serie.getController()).scanSeries();
         save(viewSerie);
     }
 

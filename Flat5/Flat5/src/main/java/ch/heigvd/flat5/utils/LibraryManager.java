@@ -118,11 +118,7 @@ public class LibraryManager
                         // Si le titre du film est vide ou null, on lui donne le nom du fichier.
                         if(movieTitle.isEmpty() || movieTitle == null)
                         {
-                            movieTitle = path.substring(path.lastIndexOf(File.separatorChar));
-                            /*if(movieTitle.charAt(0) == File.separatorChar)
-                            {
-                                movieTitle = movieTitle.substring(1);
-                            }*/
+                            movieTitle = file.getName();
                         }
 
                         // On retire l'extension du fichier s'il elle est présente.

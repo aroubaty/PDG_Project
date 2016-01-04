@@ -190,6 +190,9 @@ public class MainApp2 extends Application {
 
     public void setPath(String path) {
         this.path = path;
+        SQLiteConnector connector = new SQLiteConnector();
+        connector.connectToDB();
+        connector.dropCollection();
         LibraryManager.addFileToDB(path);
         try {
             PrintWriter pw =  new PrintWriter(new BufferedWriter(new FileWriter("mediaPath.conf", false)));
