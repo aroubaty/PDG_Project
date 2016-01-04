@@ -256,7 +256,7 @@ public class MusicController implements Initializable {
 
         if(!notify) {
             TrackManager trackManager = new TrackManager(sqLiteConnector);
-           //path = trackManager.
+            path = trackManager.findPathFromFile(path);
         }
 
 
