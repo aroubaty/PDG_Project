@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="/styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.heigvd.flat5.root.view.RootController">
+   <top>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <buttons>
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerSettings" text="">
+                      <graphic>
+                          <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/param.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerSerie" text="">
+                      <graphic>
+                          <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/screen.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerFilm" text="">
+                      <graphic>
+                          <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/film.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handleMusic" text="">
+                      <graphic>
+                          <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/note.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handleHome" text="">
+                      <graphic>
+                          <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/home.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+                  <Button id="rich-blue" mnemonicParsing="false" onAction="#handlerPrev" text="">
+                     <graphic>
+                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                             <Image url="@../img/success-previous-button.png" />
+                         </ImageView>
+                     </graphic>
+                  </Button>
+
+              </buttons>
+            </ButtonBar>
+         </top>
+         <left>
+            <Label fx:id="CurrentTitle" text="Home" BorderPane.alignment="CENTER" />
+         </left>
+      </BorderPane>
+   </top>
+</BorderPane>

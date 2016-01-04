@@ -83,7 +83,7 @@ public class MainApp2 extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/root/view/Root.fxml").toURI().toURL());
+            loader.setLocation(getClass().getResource("/fxml/Root.fxml"));
             rootloader = loader;
             rootLayout = loader.load();
 
@@ -109,7 +109,7 @@ public class MainApp2 extends Application {
 
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/ch/heigvd/flat5/home/view/Home.fxml").toURI().toURL());
+            loader.setLocation(getClass().getResource("/fxml/Home.fxml"));
             BorderPane homeOverview = loader.load();
 
             // Set person overview into the center of root layout.
