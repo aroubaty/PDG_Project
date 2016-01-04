@@ -2,6 +2,7 @@ package ch.heigvd.flat5.film.view;
 
 import ch.heigvd.flat5.film.model.Movie;
 import ch.heigvd.flat5.film.player.Player;
+import ch.heigvd.flat5.film.player.sync.VideoSyncHandler;
 import com.sun.jna.NativeLibrary;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import javax.swing.*;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 /**
@@ -107,6 +109,9 @@ public class FilmInfoController implements Initializable {
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         SwingUtilities.invokeLater(() -> {
             Player.getInstance().start("file:///" + currentMovie.getInfos().getPath());
+            if (VideoSyncHandler.getInstance().isConnected()) {
+                VideoSyncHandler.getInstance().sendPlay(Paths.get(currentMovie.getInfos().getPath()).getFileName().toString());
+            }
         });
     }
 }

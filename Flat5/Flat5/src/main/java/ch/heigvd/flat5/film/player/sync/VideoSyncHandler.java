@@ -3,6 +3,8 @@ package ch.heigvd.flat5.film.player.sync;
 
 import ch.heigvd.flat5.AppConfig;
 import ch.heigvd.flat5.film.player.Player;
+import ch.heigvd.flat5.sqlite.MovieManager;
+import ch.heigvd.flat5.sqlite.SQLiteConnector;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,8 +17,13 @@ import java.net.Socket;
 public class VideoSyncHandler {
 
     private Socket communication;
+    private MovieManager movieManager;
 
-    private VideoSyncHandler() {}
+    private VideoSyncHandler() {
+        SQLiteConnector connector = new SQLiteConnector();
+        connector.connectToDB();
+        movieManager = new MovieManager(connector);
+    }
 
     private static class Holder {
         private static final VideoSyncHandler instance = new VideoSyncHandler();
@@ -27,13 +34,16 @@ public class VideoSyncHandler {
     }
 
     public void connect(String ip) {
-        try {
-            if (communication == null) {
-                communication = new Socket();
-                communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT), 10000);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (communication == null) {
+            communication = new Socket();
+            new Thread(() -> {
+                try {
+                    communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT + 1), 10000);
+                    startMessageThread();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }).start();
         }
     }
 
@@ -63,11 +73,16 @@ public class VideoSyncHandler {
 
     public void waitForConnection() {
         try {
-            ServerSocket s = new ServerSocket(AppConfig.DEFAULT_PORT);
+            ServerSocket s = new ServerSocket(AppConfig.DEFAULT_PORT + 1);
             s.setSoTimeout(30000);
-            communication = s.accept();
-
-            startMessageThread();
+            new Thread(() -> {
+                try {
+                    communication = s.accept();
+                    startMessageThread();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +103,7 @@ public class VideoSyncHandler {
             while(true) {
                 try {
                     String message = reader.readLine();
-
+                    System.out.println("received:" + message);
                     if (message.startsWith("SETTIME ")) {
                         Player.getInstance().setTime(Long.parseLong(message.replace("SETTIME ", "").trim()));
                     }
@@ -96,7 +111,7 @@ public class VideoSyncHandler {
                         Player.getInstance().pause();
                     }
                     if (message.startsWith(("PLAY "))) {
-                        Player.getInstance().start(message.replace("PLAY ", "").trim());
+                        Player.getInstance().start("file:///" + movieManager.findPathFromFile(message.replace("PLAY ", "").trim()));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
