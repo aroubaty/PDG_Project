@@ -37,7 +37,7 @@ public class VideoSyncHandler {
         try {
             if (communication == null) {
                 communication = new Socket();
-                communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT), 10000);
+                communication.connect(new InetSocketAddress(ip, AppConfig.DEFAULT_PORT + 1), 10000);
             }
         } catch (IOException e) {
             e.printStackTrace();
