@@ -111,7 +111,7 @@ public class VideoSyncHandler {
                         Player.getInstance().pause();
                     }
                     if (message.startsWith(("PLAY "))) {
-                        Player.getInstance().start("file:///" + movieManager.findPathFromFile(message.replace("PLAY ", "").trim()));
+                        Player.getInstance().start("file:///" + movieManager.findPathFromFile(message.replace("PLAY ", "").trim()), false);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
