@@ -108,7 +108,7 @@ public class FilmInfoController implements Initializable {
     {
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         SwingUtilities.invokeLater(() -> {
-            Player.getInstance().start("file:///" + currentMovie.getInfos().getPath());
+            Player.getInstance().start("file:///" + currentMovie.getInfos().getPath(), true);
             if (VideoSyncHandler.getInstance().isConnected()) {
                 VideoSyncHandler.getInstance().sendPlay(Paths.get(currentMovie.getInfos().getPath()).getFileName().toString());
             }

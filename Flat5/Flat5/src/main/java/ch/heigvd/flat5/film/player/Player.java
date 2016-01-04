@@ -82,7 +82,7 @@ public class Player {
         return Holder.instance;
     }
 
-    public void start(String file) {
+    public void start(String file, boolean shouldSend) {
         controls = new ControlPanel();
         controls.setVisible(false);
         frame.getContentPane().add(controls, BorderLayout.SOUTH);
@@ -91,7 +91,7 @@ public class Player {
         //mediaPlayerComponent.getMediaPlayer().enableOverlay(true);
         mediaPlayerComponent.getMediaPlayer().playMedia(file);
         mediaPlayerComponent.getMediaPlayer().toggleFullScreen();
-        if (VideoSyncHandler.getInstance().isConnected()) {
+        if (VideoSyncHandler.getInstance().isConnected() && shouldSend) {
             VideoSyncHandler.getInstance().sendPlay(Paths.get(file.replace("file:///", "")).getFileName().toString());
         }
     }
@@ -110,8 +110,8 @@ public class Player {
         }
     }
 
-    public void pause() {
-        if (VideoSyncHandler.getInstance().isConnected()) {
+    public void pause(boolean shouldSend) {
+        if (VideoSyncHandler.getInstance().isConnected() && shouldSend) {
             VideoSyncHandler.getInstance().sendPause();
         }
         mediaPlayerComponent.getMediaPlayer().pause();

@@ -14,7 +14,7 @@ public class Program {
         System.out.println(LibVlc.INSTANCE.libvlc_get_version());
 
         SwingUtilities.invokeLater(() -> {
-            Player.getInstance().start("file:///C:/Users/léonard/Downloads/[Ms-FR]TeddyLoid feat. Debra Zeer (Panty & Stocking with Garterbelt) 1080p[1FEA7F86].mp4");
+            //Player.getInstance().start("file:///C:/Users/léonard/Downloads/[Ms-FR]TeddyLoid feat. Debra Zeer (Panty & Stocking with Garterbelt) 1080p[1FEA7F86].mp4");
         });
     }
 }

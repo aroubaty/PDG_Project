@@ -156,7 +156,7 @@ public class SerieInfoController implements Initializable {
     {
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), LIBVLC_PATH);
         SwingUtilities.invokeLater(() -> {
-            Player.getInstance().start("file:///" + currentEpisode.getPath());
+            Player.getInstance().start("file:///" + currentEpisode.getPath(), true);
         });
     }
 }
