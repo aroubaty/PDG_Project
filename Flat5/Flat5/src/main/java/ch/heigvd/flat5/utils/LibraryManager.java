@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class LibraryManager
 {
-    private static final String LIBVLC_PATH = "src/main/resources/vlc";
+    private static final String LIBVLC_PATH = "./vlc";
 
 
     /**
